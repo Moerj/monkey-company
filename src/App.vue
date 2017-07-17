@@ -1,3 +1,9 @@
+<style scoped>
+    #app{
+        height: 100%;
+        overflow: hidden;
+    }
+</style>
 <template>
     <div id="app">
         <router-view></router-view>
@@ -6,12 +12,7 @@
 
 <script>
 export default {
-    name: 'app'
+    name: 'app',
 }
 </script>
-<style scoped>
-    #app{
-        height: 100%;
-        overflow: hidden;
-    }
-</style>
+

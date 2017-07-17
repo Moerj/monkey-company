@@ -30,6 +30,20 @@ import ElementUI from 'element-ui'
 import '@/assets/element/index.css'
 Vue.use(ElementUI)
 
+// 自定义全局指令
+import directive from './config/directive';
+Vue.use(directive);
+
+// 自定义全局组件,请放到components/ 并以ui-开头命名
+import components from './config/components';
+Vue.use(components);
+
+
+// vue-awesome
+import 'vue-awesome/icons'; //css (总大小486kb)
+import Icon from 'vue-awesome/components/Icon';//核心组件
+Vue.component('icon', Icon);
+
 // 自定义全局样式
 import '@/scss/base.scss'; //基础布局样式
 import '@/scss/ui.scss'; //ui样式,必须以 "ui-" 开头,例如: ui-block, ui-color

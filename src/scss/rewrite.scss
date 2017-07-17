@@ -1,10 +1,7 @@
 @import './public.scss';
 // vue-awesome
-.fa-icon{
-    width:auto;
-    height:1em; //设置自动高度
-    &.text{ // 解决与文本混合
-        transform:translateY(0.1em); //垂直居中问题
-        margin-right:.2em;
-    }
-}
+// .fa-icon{
+//     &.text{ // 解决与文本混合
+//         margin-right:5px;
+//     }
+// }
