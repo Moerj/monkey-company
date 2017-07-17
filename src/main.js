@@ -10,7 +10,6 @@ import router from './config/router';
 import axios from './config/axios';
 Vue.use(axios,{
     // baseURL: "http://api.cjb789.com",
-    // baseURL: "http://test.cjb789.com",
     baseURL: "http://back.7178861.com",
     timeout: 10000,
     withCredentials: true,
@@ -24,6 +23,18 @@ Vue.use(eventHub);
 // 公共数据
 import globalMethods from './config/globalMethods';
 Vue.use(globalMethods);
+
+// el ui
+import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-default/index.css'
+import '@/assets/element/index.css'
+Vue.use(ElementUI)
+
+// 自定义全局样式
+import '@/scss/base.scss'; //基础布局样式
+import '@/scss/ui.scss'; //ui样式,必须以 "ui-" 开头,例如: ui-block, ui-color
+import '@/scss/rewrite.scss'; //重构的样式,对原本框架进行修改
+import '@/scss/vue-transition.scss'; //vue的过渡动画
 
 Vue.config.productionTip = false
 
