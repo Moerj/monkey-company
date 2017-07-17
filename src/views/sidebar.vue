@@ -35,3 +35,22 @@
         </el-menu-item>
     </el-menu>
 </template>
+
+<script>
+    export default {
+        data () {
+            return {
+                active: this.getActive
+            }
+        },
+        computed: {
+            getActive(){
+                let path =  this.$route.path
+                if (path==='/home') {
+                    return 1
+                }
+                return 0
+            }
+        }
+    }
+</script>

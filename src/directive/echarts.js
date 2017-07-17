@@ -15,15 +15,20 @@ export default {
         const echart = echarts.init(el);
         echart.setOption(binding.value)
 
-        // let timer
-        // window.addEventListener('resize', function () {
-        //     if (timer) {
-        //         return
-        //     }
-        //     timer = setTimeout(function () {
-        //         echart.resize()
-        //         timer = null
-        //     }, 500);
-        // })
+        let timer
+        vnode._echartResize = function () {
+            if (timer) {
+                return
+            }
+            timer = setTimeout(function () {
+                echart.resize()
+                timer = null
+            }, 500);
+        }
+
+        window.addEventListener('resize', vnode._echartResize)
+    },
+    unbind(el, binding, vnode){
+        window.removeEventListener('resize', vnode._echartResize)
     }
 }
