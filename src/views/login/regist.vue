@@ -1,5 +1,5 @@
 <template>
-    <div class="vh-100 p15 flex column">
+    <div class="h-100 p15 flex column">
         <login-header></login-header>
     
         <el-steps :space="200" :active="step" :center="true">
@@ -17,7 +17,7 @@
                     <br>
                     申请结果将邮件发送到您的注册邮箱
                 </span>
-                <el-button type="primary" class="pl50 pr50 m50">回到首页</el-button>
+                <el-button type="primary" class="pl50 pr50 m50" @click="$router.push('/home')">回到首页</el-button>
 
                 <p>
                     工作时间: 周一到周五  商务10点~下午8点 (国家法定节假日统一休息)

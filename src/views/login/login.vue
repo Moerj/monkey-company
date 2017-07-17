@@ -1,5 +1,5 @@
 <template>
-    <div class="vh-100 p15 flex column">
+    <div class="h-100 p15 flex column">
 
         <login-header></login-header>
     
