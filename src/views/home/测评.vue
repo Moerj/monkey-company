@@ -19,8 +19,7 @@
                     <span class="f-color-grey f12">菠菜指数</span>
                     <span class="f-color-orange f24">80.13</span>
                 </div>
-                <div style="width:200px;height:200px" v-echarts="echartPie">
-                </div>
+                <ui-echarts :option="echartPie"  style="width:200px;height:200px"></ui-echarts>
             </div>
             <!--标签  -->
             <div class="flex row-around">
@@ -37,8 +36,7 @@
 
         <el-col :span="8" class="h-100 flex row-center col-center">
             <!--雷达图  -->
-            <div style="width:300px;height:250px" class="mt20" v-echarts="echartRadar">
-            </div>
+            <ui-echarts :option="echartRadar" class="mt20" style="width:300px;height:250px"></ui-echarts>
         </el-col>
 
         <el-col :span="8" class="h-100 flex column column-row-center column-col-center">

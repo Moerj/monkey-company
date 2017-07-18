@@ -7,11 +7,10 @@
                 <el-button type="text" :class="{'f-color-grey': tab!=='mon'}" @click="tab='mon'" >月趋势</el-button>
             </div>
         </div>
-        <div style="width:100%;height:300px;" ref="echartDom"></div>
+        <ui-echarts :option="echartOpt" width="100%" height="300px"></ui-echarts>
     </div>
 </template>
 <script>
-import echarts from 'echarts/lib/echarts'; //core
 import 'echarts/lib/chart/line'; // 折线图
 import 'echarts/lib/component/tooltip'; // 提示框
 export default {
@@ -83,8 +82,6 @@ export default {
         }
     },
     mounted () {
-        let el = this.$refs['echartDom']
-        this.echart = echarts.init(el);
         this.refshEchart()
     },
     watch: {
@@ -97,11 +94,6 @@ export default {
             // 跟新配置
             this.echartOpt.xAxis.data = this.xData[this.tab]
             this.echartOpt.series[0].data = this.seriesData[this.tab]
-
-            // 更新echart
-            this.echart.setOption(this.echartOpt, {
-                notMerge: true,
-            })
         }
     }
 }
