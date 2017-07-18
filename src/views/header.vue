@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 .header {
-    padding: 25px 15px;
+    padding:  15px;
     width: 100%;
     box-shadow: 1px 0 3px rgba(black,.2);
     z-index: 1;

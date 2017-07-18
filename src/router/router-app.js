@@ -1,5 +1,5 @@
 import index from '@/views/index.vue'
-import indexChild from './router-index/router'
+import routerIndex from './router-index/router-index'
 
 export default [
     {
@@ -9,6 +9,6 @@ export default [
     {
         path: '/index',
         component: index,
-        children: indexChild
+        children: routerIndex
     },
 ]

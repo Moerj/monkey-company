@@ -39,8 +39,16 @@ $ui-border-radius: 4px;
     box-shadow: 0 1px 1px rgba($color: black, $alpha: .1);
 }
 
-@mixin box-shadow {
-    box-shadow:0 .0625rem .375rem rgba(0, 0, 0, .117647), 0 .0625rem .25rem rgba(0, 0, 0, .117647)
+@mixin box-shadow($hover:false) {
+    $shadow:0 .0625rem .375rem rgba(0, 0, 0, .117647), 0 .0625rem .25rem rgba(0, 0, 0, .117647);
+    @if($hover) {
+        &:hover {
+            box-shadow: $shadow;
+            transition: .3s all linear;
+        }
+    }@else{
+        box-shadow: $shadow;
+    }
 }
 
 @mixin flex-center {

@@ -4,7 +4,7 @@
 
         <div class="flex-1 flex">
             <sidebar></sidebar>
-            <router-view class="flex-1 p20"></router-view>
+            <router-view class="flex-1 p20 scroll-y"></router-view>
         </div>
     </div>
 </template>
