@@ -1,50 +1,60 @@
 <style lang="scss" scoped>
-.cepin {
-    height: 200px;
-    flex: 1;
-    display: inline-block;
+.center-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    position: relative;
-    .center-label {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate3d(-50%, -50%, 0);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
 }
 </style>
 
 <template>
     <div>
         <ui-title>测评</ui-title>
-        <div class="flex row-center col-center">
-            <div class="cepin">
-                <div style="height:200px;width:200px;" v-echarts="echart_1">
+        <el-row style="height:250px;">
+            <el-col :span="8" class="h-100">
+                <!--环形饼图  -->
+                <div class="relative flex row-center">
+                    <div class="center-label">
+                        <span class="f-color-grey f12">菠菜指数</span>
+                        <span class="f-color-orange f24">80.13</span>
+                    </div>
+                    <div style="width:200px;height:200px" v-echarts="echart_1">
+                    </div>
                 </div>
-                <div class="center-label">
-                    <span class="f-color-grey f12">菠菜指数</span>
-                    <span class="f-color-orange f24">80.13</span>
+                <!--标签  -->
+                <div class="flex row-around">
+                    <div class="flex column column-row-center">
+                        <span class="f-color-grey f10">行业排名</span>
+                        <span class="f14">第7位</span>
+                    </div>
+                    <div class="flex column column-row-center">
+                        <span class="f-color-grey f10">高于同行</span>
+                        <span class="f14">89.33%</span>
+                    </div>
                 </div>
-            </div>
-            <div class="cepin">
-                echar2
-            </div>
-            <div class="cepin">
-                buttons
-            </div>
-        </div>
+            </el-col>
+            <el-col :span="8" class="h-100 flex row-center col-center">
+                <div style="width:300px;height:250px" class="mt20" v-echarts="echart_2">
+                </div>
+            </el-col>
+            <el-col :span="8" class="h-100 flex column column-row-center column-col-center">
+                <el-button style="width:150px">完整测评报告</el-button>
+                <el-button style="width:150px" class="mt15 ml0">更新测评</el-button>
+            </el-col>
+        </el-row>
     
     </div>
 </template>
 
 <script>
+import 'echarts/lib/chart/pie'; // 饼图
+import 'echarts/lib/chart/radar'; // 雷达图
 export default {
     data() {
+        let orangeColor = '#ff8932'
         return {
             echart_1: {
                 series: [
@@ -61,7 +71,7 @@ export default {
                         itemStyle: {
                             normal: {
                                 color: function (params) {
-                                    var colorList = ['#ff8932', '#eee'];
+                                    var colorList = [orangeColor, '#eee'];
                                     return colorList[params.dataIndex];
                                 },
                             }
@@ -73,6 +83,40 @@ export default {
                         },
                     }
                 ]
+            },
+            echart_2: {
+                title: {
+                    text: '雷达图'
+                },
+                tooltip: {},
+                radar: {
+                    shape: 'circle',
+                    indicator: [
+                        { name: '运营', max: 100 },
+                        { name: '产品', max: 100 },
+                        { name: '硬件', max: 100 },
+                        { name: '客服', max: 100 },
+                    ],
+                    name: {
+                        textStyle: {
+                            color: '#777'
+                        }
+                    },
+                },
+                series: [{
+                    type: 'radar',
+                    areaStyle: {
+                        normal:{
+                            color:orangeColor
+                        }
+                    },
+                    data: [
+                        {
+                            value: [80, 50, 40.12, 76],
+                            name: '预算分配（Allocated Budget）'
+                        }
+                    ]
+                }]
             }
         }
     }
