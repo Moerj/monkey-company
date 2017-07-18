@@ -18,7 +18,7 @@
             <el-button type="text" :class="{'f-color-grey': youhuiTab!==2}" @click="youhuiTab=2">全部</el-button>
         </div>
         <div class="flex" style="width:800px">
-            <el-card class="flex-1 mr15">
+            <el-card class="flex-1 mr15 cursor-pointer">
                 <div class="flex row-between">
                     <span>发出彩金
                         <i class="f14 f-color-orange">1000个</i>
@@ -29,7 +29,7 @@
                     <i class="el-icon-arrow-right f-color-grey"></i>
                 </div>
             </el-card>
-            <el-card class="flex-1">
+            <el-card class="flex-1 cursor-pointer">
                 <div class="flex row-between">
                     <span>发出彩金
                         <i class="f14 f-color-orange">1000个</i>
@@ -75,12 +75,6 @@
 </template>
 
 <script>
-import 'echarts/lib/chart/pie'; // 饼图
-import 'echarts/lib/chart/radar'; // 雷达图
-import 'echarts/lib/chart/line'; // 折线图
-
-import 'echarts/lib/component/tooltip'; // 提示框
-
 // 子页面
 import pageQushi from './趋势'
 import pageCepin from './测评'

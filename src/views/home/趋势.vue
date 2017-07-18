@@ -2,21 +2,35 @@
     <div>
         <div class="flex row-between col-center">
             <div>
-                <el-button type="text" :class="{'f-color-grey': qushiTab!==1}" @click="qushiTab=1">日趋势</el-button>
+                <el-button type="text" :class="{'f-color-grey': tab!=='day'}" @click="tab='day'" >日趋势</el-button>
                 <i class="p15 f-color-grey">|</i>
-                <el-button type="text" :class="{'f-color-grey': qushiTab!==2}" @click="qushiTab=2">月趋势</el-button>
+                <el-button type="text" :class="{'f-color-grey': tab!=='mon'}" @click="tab='mon'" >月趋势</el-button>
             </div>
         </div>
-        <div style="width:100%;height:300px;" v-echarts="echart_qushi"></div>
+        <div style="width:100%;height:300px;" ref="echartDom"></div>
     </div>
 </template>
 <script>
+import echarts from 'echarts/lib/echarts'; //core
+import 'echarts/lib/chart/line'; // 折线图
+import 'echarts/lib/component/tooltip'; // 提示框
 export default {
     data() {
         return {
             // 趋势
-            qushiTab: 1,
-            echart_qushi: {
+            tab: 'day',
+
+            xData:{
+                day:['周一','周二','周三','周四','周五','周六','周日'],
+                mon:['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
+            },
+            seriesData:{
+                day:[1, 3, 9, 27, 81, 247, 400, 600, 888],
+                mon:[100, 333, 678, 894, 1359, 1500, 1764, 1800, 2131],
+            },
+
+
+            echartOpt: {
                 title: {
                     text: '对数轴示例',
                     left: 'center'
@@ -28,7 +42,7 @@ export default {
                 xAxis: {
                     type: 'category',
                     name: '时间',
-                    data: ['一', '二', '三', '四', '五', '六', '七', '八', '九']
+                    data: null
                 },
                 grid: {
                     left: '3%',
@@ -44,7 +58,7 @@ export default {
                 series: [{
                     name: '趋势',
                     type: 'line',
-                    data: [1, 3, 9, 27, 81, 247, 741, 1000, 1600],
+                    data: null,
                     itemStyle: {
                         normal: {
                             color: {
@@ -63,7 +77,31 @@ export default {
                         }
                     },
                 }]
-            }
+            },
+
+            echart: null
+        }
+    },
+    mounted () {
+        let el = this.$refs['echartDom']
+        this.echart = echarts.init(el);
+        this.refshEchart()
+    },
+    watch: {
+        tab(){
+            this.refshEchart()
+        }
+    },
+    methods: {
+        refshEchart(){
+            // 跟新配置
+            this.echartOpt.xAxis.data = this.xData[this.tab]
+            this.echartOpt.series[0].data = this.seriesData[this.tab]
+
+            // 更新echart
+            this.echart.setOption(this.echartOpt, {
+                notMerge: true,
+            })
         }
     }
 }

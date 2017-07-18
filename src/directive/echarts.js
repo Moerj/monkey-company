@@ -15,8 +15,11 @@ export default {
         const echart = echarts.init(el);
         echart.setOption(binding.value)
 
+        // 绑定实例
+        vnode.echart = echart
+
         let timer
-        vnode._echartResize = function () {
+        vnode.echartResize = function () {
             if (timer) {
                 return
             }
@@ -26,9 +29,9 @@ export default {
             }, 500);
         }
 
-        window.addEventListener('resize', vnode._echartResize)
+        window.addEventListener('resize', vnode.echartResize)
     },
     unbind(el, binding, vnode){
-        window.removeEventListener('resize', vnode._echartResize)
+        window.removeEventListener('resize', vnode.echartResize)
     }
 }

@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import 'echarts/lib/chart/pie'; // 饼图
+import 'echarts/lib/chart/radar'; // 雷达图
 export default {
     data() {
         let orangeColor = '#ff8932'
