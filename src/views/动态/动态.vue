@@ -1,22 +1,6 @@
 <template>
     <div>
-        <el-form>
-            <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
-            <el-select v-model="search.couponName" placeholder="请选择">
-                <el-option v-for="item in couponNameOpt" :key="item.id" :value="item.name">
-                </el-option>
-            </el-select>
-            <el-select v-model="search.status" placeholder="状态">
-                <el-option value="1" label="已发布">
-                </el-option>
-                <el-option value="-1" label="已失效">
-                </el-option>
-                <el-option value="0" label="待审核">
-                </el-option>
-            </el-select>
-            <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围">
-            </el-date-picker>
-        </el-form>
+        <searchbar :on-search="onSearch"></searchbar>
 
         <el-button icon="edit" type="primary" class="mb20 mt20" @click="$router.push({name:'发文章'})">发布新文章</el-button>
 
@@ -35,32 +19,20 @@
 </template>
 <script>
 import listItem from '@/views/动态/list-item'
+import searchbar from '@/views/searchbar'
 export default {
     components: {
-        listItem
+        listItem,
+        searchbar
     },
     data() {
         return {
-            search: {
-                keyword: '',
-                couponName: '',
-                status: '',
-                timeRange: [],
-                endTime: ''
-            },
-
-            couponNameOpt: [
-                {
-                    name: '优惠券a',
-                    id: '1'
-                },
-                {
-                    name: '优惠券b',
-                    id: '2'
-                }
-            ],
-
-            currentPage:1
+            currentPage:1,
+        }
+    },
+    methods: {
+        onSearch(params){
+            console.log('搜索参数:', params);
         }
     }
 }
