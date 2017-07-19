@@ -7,16 +7,18 @@
                 </el-option>
             </el-select>
             <el-select v-model="search.status" placeholder="状态">
-                <el-option value="1" label="通过">
+                <el-option value="1" label="已发布">
                 </el-option>
-                <el-option value="0" label="不通过">
+                <el-option value="-1" label="已失效">
+                </el-option>
+                <el-option value="0" label="待审核">
                 </el-option>
             </el-select>
             <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围">
             </el-date-picker>
         </el-form>
 
-        <el-button icon="edit" type="primary" class="mb20 mt20">发布新文章</el-button>
+        <el-button icon="edit" type="primary" class="mb20 mt20" @click="$router.push({name:'发文章'})">发布新文章</el-button>
 
         <list-item v-for="(item,index) in 6" :key="'list-item'+index"></list-item>
         <div class="text-center mt15">

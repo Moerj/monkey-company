@@ -49,6 +49,7 @@ import '@/scss/base.scss'; //基础布局样式
 import '@/scss/ui.scss'; //ui样式,必须以 "ui-" 开头,例如: ui-block, ui-color
 import '@/scss/rewrite.scss'; //重构的样式,对原本框架进行修改
 import '@/scss/vue-transition.scss'; //vue的过渡动画
+import '@/scss/scrollbar.scss';
 
 Vue.config.productionTip = false
 

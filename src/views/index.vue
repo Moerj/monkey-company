@@ -1,9 +1,9 @@
 <template>
-    <div class="flex column h-100">
+    <div class="flex column">
         <page-header></page-header>
 
         <div class="flex-1 flex">
-            <sidebar></sidebar>
+            <sidebar class="ui-scrollbar"></sidebar>
             <router-view class="flex-1 p20 scroll-y"></router-view>
         </div>
     </div>
