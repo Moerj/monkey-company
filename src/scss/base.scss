@@ -1,3 +1,4 @@
+@import './public.scss';
 html,
 body {
     // Muse UI 对初始化样式进行了处理,而mint UI却没有
@@ -394,4 +395,15 @@ input,textarea{
 // pc - 鼠标指针
 .cursor-pointer{
     cursor: pointer;
+}
+
+// 文本限制行数
+.clamp-1{
+    //单独写一个是为了编辑器能提示ui-clamp
+    @include text-clamp(1)
+}
+@for $i from 2 through 5 {
+    .clamp-#{$i}{
+        @include text-clamp($i);
+    }
 }

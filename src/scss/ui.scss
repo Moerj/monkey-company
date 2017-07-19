@@ -36,15 +36,6 @@
     margin: .5rem 0; // background-color:white;
 }
 
-//卡片样式
-.ui-card {
-    margin: .5rem;
-    padding: .5rem;
-    box-shadow: 0 .0625rem .375rem rgba(0, 0, 0, .06), 0 .0625rem .25rem rgba(0, 0, 0, .06);
-    background:#fff;
-    border-radius:3px;
-}
-
 
 // 撑满屏幕并居中的按钮
 .ui-button-large {
@@ -125,16 +116,7 @@
     }
 }
 
-// 文本限制行数
-.ui-clamp-1{
-    //单独写一个是为了编辑器能提示ui-clamp
-    @include text-clamp(1)
-}
-@for $i from 2 through 5 {
-    .ui-clamp-#{$i}{
-        @include text-clamp($i);
-    }
-}
+
 
 .ui-border{
     border: $ui-border;
