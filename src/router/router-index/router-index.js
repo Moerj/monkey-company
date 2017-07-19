@@ -7,6 +7,11 @@ export default [
     {
         path: '/cepin',
         name: '测评',
-        component: r => require(['@/views/cepin/cepin'], r),
+        component: r => require(['@/views/测评/测评'], r),
+    },
+    {
+        path: '/dongtai',
+        name: '动态',
+        component: r => require(['@/views/动态/动态'], r),
     },
 ]

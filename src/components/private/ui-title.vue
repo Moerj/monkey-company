@@ -3,6 +3,7 @@
     .ui-title{
         padding-bottom:15px;
         border-bottom: $ui-border;
+        margin-bottom: 15px;
     }
     .ui-title-span{
         padding-left:15px;
