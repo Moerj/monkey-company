@@ -130,30 +130,9 @@ input,textarea{
     white-space: warp !important;
 }
 
-// css滚动
-// .scroll-y {
-//     /* 使之可以滚动 */
-//     overflow-y: auto !important;
-//     /* 滚动弹性弹性、并且让整个body不会随滚动内容一起乱跑 */
-//     -webkit-overflow-scrolling: touch;
-//     height: 100%;
-// }
-// // 开启横向滚动
-// .scroll-x{
-//     overflow-x: auto !important;
-//     -webkit-overflow-scrolling: touch;
-//     width: 100%;
-// }
-
 // overflow
 .overflow-hide {
     overflow: hidden !important;
-}
-
-// 中间部分的内容容器
-.main-cont {
-    overflow: auto;
-    overflow-x: hidden;
 }
 
 // flex布局

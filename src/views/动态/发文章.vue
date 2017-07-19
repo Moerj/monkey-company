@@ -11,8 +11,8 @@
                     <el-option label="区域二" value="beijing"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item>
-                <vue-editor v-model="form.text"></vue-editor>
+            <el-form-item >
+                <vue-editor v-model="form.text" style="line-height: normal;"></vue-editor>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary">发表文章</el-button>
