@@ -48,28 +48,7 @@
 
 
         <ui-title class="mt50">动态</ui-title>
-        <div class="ui-border-bottom pb15" v-for="item in 4">
-            <span class="ui-clamp-2 pt15 pb15">这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,</span>
-            <div class="flex row-between f10 f-color-grey">
-                <div>
-                    2017-05-20 12:39:30
-                    <span class="pl10 f-color-text">公司信息</span>
-                </div>
-                <div class="flex col-center">
-                    <div class="mr15">
-                        <icon name="commenting-o"></icon>
-                        <span>评论: <i class="f-color-blue">156</i></span>
-                    </div>
-                    <div class="flex col-center">
-                        <icon name="star-o"></icon>
-                        <span class="pl5">收藏: <i class="f-color-blue">156</i></span>
-                    </div>
-                    <span class="pl10 pr10">|</span>
-                    <el-button size="mini" type="text">编辑</el-button>
-                    <el-button size="mini" type="text">删除</el-button>
-                </div>
-            </div>
-        </div>
+        <list-item v-for="(item,index) in 4" :key="'list-item'+index"></list-item>
 
     </div>
 </template>
@@ -78,11 +57,13 @@
 // 子页面
 import pageQushi from './趋势'
 import pageCepin from './测评'
+import listItem from '@/views/动态/list-item'
 
 export default {
     components: {
         pageQushi,
-        pageCepin
+        pageCepin,
+        listItem
     },
     data() {
         return {

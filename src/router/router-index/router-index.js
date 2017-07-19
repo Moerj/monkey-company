@@ -14,4 +14,9 @@ export default [
         name: '动态',
         component: r => require(['@/views/动态/动态'], r),
     },
+    {
+        path: '/fawen',
+        name: '发文章',
+        component: r => require(['@/views/动态/发文章'], r),
+    },
 ]

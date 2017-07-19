@@ -1,39 +1,65 @@
 <template>
     <div>
-        <ui-title>动态 - 发布文章</ui-title>
-        <el-form ref="form" :model="form" label-width="80px" style="max-width:900px">
-            <el-form-item label="文章标题">
-                <el-input v-model="form.title"></el-input>
-            </el-form-item>
-            <el-form-item label="所属栏目">
-                <el-select v-model="form.region" placeholder="请选择活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item>
-                <vue-editor v-model="form.text"></vue-editor>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary">发表文章</el-button>
-            </el-form-item>
+        <el-form>
+            <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
+            <el-select v-model="search.couponName" placeholder="请选择">
+                <el-option v-for="item in couponNameOpt" :key="item.id" :value="item.name">
+                </el-option>
+            </el-select>
+            <el-select v-model="search.status" placeholder="状态">
+                <el-option value="1" label="通过">
+                </el-option>
+                <el-option value="0" label="不通过">
+                </el-option>
+            </el-select>
+            <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围">
+            </el-date-picker>
         </el-form>
+
+        <el-button icon="edit" type="primary" class="mb20 mt20">发布新文章</el-button>
+
+        <list-item v-for="(item,index) in 6" :key="'list-item'+index"></list-item>
+        <div class="text-center mt15">
+            <el-pagination
+            @size-change=""
+            @current-change=""
+            :current-page.sync="currentPage"
+            :page-size="100"
+            layout="prev, pager, next, jumper"
+            :total="1000">
+            </el-pagination>
+        </div>
     </div>
 </template>
 <script>
-import { VueEditor } from 'vue2-editor'
+import listItem from '@/views/动态/list-item'
 export default {
     components: {
-        VueEditor
+        listItem
     },
     data() {
         return {
-            form: {
-                title: '',
-                region: '',
-                text: ''
-            }
+            search: {
+                keyword: '',
+                couponName: '',
+                status: '',
+                timeRange: [],
+                endTime: ''
+            },
+
+            couponNameOpt: [
+                {
+                    name: '优惠券a',
+                    id: '1'
+                },
+                {
+                    name: '优惠券b',
+                    id: '2'
+                }
+            ],
+
+            currentPage:1
         }
     }
 }
-</script>
+</script>   
