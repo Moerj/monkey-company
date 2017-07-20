@@ -5,3 +5,10 @@
 //         margin-right:5px;
 //     }
 // }
+
+
+.ui-form{
+    .el-select,.el-input,.el-input-number,.el-textarea{
+        width: 240px;
+    }
+}
