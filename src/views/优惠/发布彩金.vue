@@ -76,7 +76,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="领取要求" >
-                    <el-select placeholder="请选择" v-model="test" multiple>
+                    <el-select placeholder="可选多项" v-model="test2" multiple>
                         <el-option v-for="item in testOpt" :key="item.value" :label="item.value" :value="item.value"> </el-option>
                     </el-select>
                 </el-form-item>
@@ -110,6 +110,7 @@ export default {
                     value:'选项3'
                 }
             ],
+            test2:'',
 
             form: {
                 couponType: 1,

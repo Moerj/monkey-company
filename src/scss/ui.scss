@@ -140,7 +140,9 @@
     border-radius: 50%;
 }
 
-// 输入框大小
-.ui-input {
-    width: 194px;
+// el-form组件内容输入框尺寸
+.ui-form{
+    .el-select,.el-input,.el-input-number,.el-textarea{
+        width: 240px;
+    }
 }
