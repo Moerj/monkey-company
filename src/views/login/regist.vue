@@ -35,6 +35,7 @@
                         <el-input v-model="form.repass"></el-input>
                     </el-form-item>
                     <el-form-item class="flex row-between">
+                        <el-button @click="$router.go(-1)">返回登陆</el-button>
                         <el-button type="primary" @click="nextStep">下一步</el-button>
                     </el-form-item>
                 </div>
@@ -93,6 +94,7 @@
                         </el-switch>
                     </el-form-item>
                     <el-form-item>
+                        <el-button type="default" @click="preStep">上一步</el-button>
                         <el-button type="primary" @click="submit">提交入驻申请</el-button>
                     </el-form-item>
                 </div>

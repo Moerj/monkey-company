@@ -3,7 +3,8 @@
 
         <login-header></login-header>
     
-        <div class="flex-1 flex row-center col-center ui-border-top">
+        <div class="flex-1 flex column column-col-center column-row-center ui-border-top">
+            <p class="f-color-orange f20 mb30">Monkey tell</p>
             <el-form ref="form" :model="form" label-width="80px" >
                 <el-form-item label="公司账号">
                     <el-input v-model="form.name"></el-input>

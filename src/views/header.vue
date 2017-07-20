@@ -20,7 +20,7 @@
                 </div>
                 <div class="f-color-grey">
                     <span class="mr20">上次登录: 2017-31-11(北京市区)</span>
-                    <el-button type="text">退出</el-button>
+                    <el-button type="text" @click="logout">退出</el-button>
                 </div>
             </div>
         </div>
@@ -40,3 +40,12 @@
         </div>
     </div>
 </template>
+<script>
+    export default {
+        methods: {
+            logout(){
+                this.$router.push('/login')
+            }
+        }
+    }
+</script>

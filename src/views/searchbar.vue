@@ -1,5 +1,5 @@
 <template>
-    <div class="mb15">
+    <div class="mb15 ui-form">
         <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
         <el-select v-model="search.couponName" placeholder="请选择">
             <el-option v-for="item in couponNameOpt" :key="item.id" :value="item.name">

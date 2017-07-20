@@ -6,7 +6,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="彩金数量">
-                <span>50000</span>
+                <span class="pl5 f-color-orange">50000</span>
             </el-form-item>
             <el-form-item label="推送数量">
                 <el-input type="number"></el-input>

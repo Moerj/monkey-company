@@ -15,6 +15,7 @@
                 <vue-editor v-model="form.text" style="line-height: normal;"></vue-editor>
             </el-form-item>
             <el-form-item>
+                <el-button @click="$router.go(-1)">返回</el-button>
                 <el-button type="primary">发表文章</el-button>
             </el-form-item>
         </el-form>
