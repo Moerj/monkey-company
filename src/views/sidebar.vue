@@ -33,6 +33,9 @@
         <el-menu-item index="/shangwu">
             <icon name="briefcase"></icon>商务
         </el-menu-item>
+        <el-menu-item index="/user">
+            <icon name="user-o"></icon>账号
+        </el-menu-item>
     </el-menu>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="ui-border-bottom pb15">
+    <div class="ui-border-bottom pb15 ml20 mr20">
         <span class="clamp-2 pt15 pb15">这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,这里是文章内容,</span>
         <div class="flex row-between f10 f-color-grey">
             <div>

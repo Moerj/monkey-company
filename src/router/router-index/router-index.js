@@ -24,4 +24,14 @@ export default [
         name: '发文章',
         component: r => require(['@/views/动态/发文章'], r),
     },
+    {
+        path: '/user',
+        name: '账号',
+        component: r => require(['@/views/user/账号'], r),
+    },
+    {
+        path: '/shangwu',
+        name: '商务',
+        component: r => require(['@/views/商务/商务'], r),
+    },
 ]

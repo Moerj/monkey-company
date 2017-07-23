@@ -2,7 +2,7 @@
     <div>
         <searchbar :on-search="onSearch"></searchbar>
     
-        <div class="flex row-between ui-border-bottom pb10 pt10" v-for="item in 5">
+        <div class="flex row-between ui-border-bottom pb10 pt10 ml20 mr20" v-for="item in 5">
             <div class="flex col-center">
                 <ui-img url="http://tva3.sinaimg.cn/crop.536.63.373.373.180/8d65f675jw8f0c5pbbtg7j20u50k4jvi.jpg" class="ui-circle mr10" size="30px"></ui-img>
                 <span>Moer, 领取了xxx优惠券, 优惠码:efhwwoife</span>
