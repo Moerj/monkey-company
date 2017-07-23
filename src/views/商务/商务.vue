@@ -17,12 +17,14 @@
     }
     .banner{
         height: 180px;
-        background: rgb(28, 27, 32);
-        color:#fff;
         font-size: 40px;
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .bg-black{
+        background: rgb(28, 27, 32);
+        color: white;
     }
 </style>
 <template>
@@ -76,7 +78,7 @@
             </div>
         </el-tab-pane>
         <el-tab-pane label="品牌建设" name="2">
-            <div class="banner">
+            <div class="banner bg-black">
                 无品牌 无未来
             </div>
             <div class="flex row-around">
@@ -125,7 +127,23 @@
             </div>
             
         </el-tab-pane>
-        <el-tab-pane label="广告合作" name="3">角色管理</el-tab-pane>
+        <el-tab-pane label="广告合作" name="3">
+            <div class="flex flex-wrap">
+                <el-card v-for="(item,index) in 5" :key="index" class="m10">
+                    <div class="flex column column-col-center column-row-center">
+                        <span class="mb15">广告标题</span>
+                        <ui-img url="http://p3.pstatp.com/list/190x124/2ee00002a5277f829a38" style="width:200px;height:170px;"></ui-img>
+                        <el-button class="block mt15 auto-center">商务专员</el-button>
+                    </div>
+                </el-card>
+            </div>
+
+            <div class="p40 pl50 pr50 m10 bg-black">
+                <div class="mb15">溶解式广告</div>
+                <div class="f28 mb20">像糖溶解在水里，像雨落进河流</div>
+                <div>溶解式广告使您的广告与我们的产品无缝相容，完美结合。 <el-button type="text">联系商务专员</el-button></div>
+            </div>
+        </el-tab-pane>
     </el-tabs>
 </template>
 
