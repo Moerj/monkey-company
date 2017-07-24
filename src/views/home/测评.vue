@@ -36,7 +36,7 @@
 
         <el-col :span="8" class="h-100 flex row-center col-center">
             <!--雷达图  -->
-            <ui-echarts :option="echartRadar" class="mt20" style="width:300px;height:250px"></ui-echarts>
+            <ui-echarts :option="echartRadar" class="mt20" style="width:220px;height:220px"></ui-echarts>
         </el-col>
 
         <el-col :span="8" class="h-100 flex column column-row-center column-col-center">
@@ -89,6 +89,7 @@ export default {
                 },
                 tooltip: {},
                 radar: {
+                    startAngle: 45,
                     shape: 'circle',
                     indicator: [
                         { name: '运营', max: 100 },
