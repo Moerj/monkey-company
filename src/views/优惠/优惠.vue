@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-tabs v-model="tab">
+        <el-tabs v-model="tab" @tab-click="tabClick">
             <el-tab-pane label="彩金列表" name="1">
                 <tab1></tab1>
             </el-tab-pane>
@@ -30,18 +30,20 @@ export default {
     },
     data() {
         return {
-            tab: this.$route.query.tab || '1',
+            tab: '1',
         }
     },
-    watch: {
-        tab(v){
+    mounted () {
+        this.tabClick()  
+    },
+    methods: {
+        tabClick(){
             this.$router.push({
-                path: this.$route.path,
-                query: {
-                    tab: v
+                query:{
+                    tab:this.tab
                 }
             })
         }
-    },
+    }
 }
 </script>
