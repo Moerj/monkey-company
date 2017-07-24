@@ -15,7 +15,7 @@
         <div class="flex">
             <div class="flex-3 flex column column-col-around divide pr20">
                 <span class="f16 clamp-1 mb5">优惠券标题</span>
-                <div class="flex row-between f8 f-color-grey">
+                <div class="flex row-between f10 f-color-grey">
                     <span>100个</span>
                     <span>详情
                         <i class="el-icon-arrow-right"></i>
@@ -26,7 +26,7 @@
                 <span class="f16 mb5 f-color-green">已发布</span>
                 <!-- <span class="f16 mb5 f-color-orange">待审核</span> -->
                 <!-- <span class="f16 mb5 f-color-grey">已失效</span> -->
-                <span class="f8 f-color-grey">2017-05-12</span>
+                <span class="f10 f-color-grey">2017-05-12</span>
             </div>
         </div>
     </el-card>
