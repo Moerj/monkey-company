@@ -34,7 +34,7 @@ export default {
         }
     },
     mounted () {
-        this.tabClick()  
+        this.tab = this.$route.query.tab || this.tab
     },
     methods: {
         tabClick(){

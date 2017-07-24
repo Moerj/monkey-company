@@ -24,13 +24,13 @@
             }
         },
         mounted () {
-            this.tabClick()
+            this.tab = this.$route.query.tab || this.tab
         },
         methods: {
             tabClick(){
                 this.$router.push({
                     query:{
-                        tab:this.tab
+                        tab: this.tab
                     }
                 })
             }
