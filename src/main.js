@@ -1,3 +1,9 @@
+// promise 低版本浏览器适配
+import Promise from 'promise-polyfill'
+if (!window.Promise) {
+    window.Promise = Promise
+}
+
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
@@ -31,8 +37,8 @@ import '@/assets/element/index.css'
 Vue.use(ElementUI)
 
 // 自定义全局指令
-import directive from './config/directive';
-Vue.use(directive);
+// import directive from './config/directive';
+// Vue.use(directive);
 
 // 自定义全局组件,请放到components/ 并以ui-开头命名
 import components from './config/components';
