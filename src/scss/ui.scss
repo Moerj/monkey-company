@@ -15,7 +15,11 @@
 
 // bg color
 .ui-bg-gradient{
-    background: -webkit-linear-gradient(left, #ff7005, #ff8932);
+    background: -webkit-linear-gradient(right, #ff7005, #ff8932);
+    background: -moz-linear-gradient(right, #ff7005, #ff8932);
+    background: -o-linear-gradient(right, #ff7005, #ff8932);
+    background: linear-gradient(to left, #ff7005, #ff8932);
+    background: -ms-linear-gradient(right, #ff7005 0%,#ff8932 100%);// ie
     color: white;
 }
 .ui-bg-orange{
