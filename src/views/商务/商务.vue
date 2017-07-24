@@ -10,6 +10,9 @@
         justify-content: space-around;
         padding-top: 20px;
         margin-bottom: 20px;
+        >*{
+            display: block;
+        }
     }
     .large-btn{
         padding-left:50px;
