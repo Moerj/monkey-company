@@ -16,8 +16,8 @@
             <!--环形饼图  -->
             <div class="relative flex row-center">
                 <div class="center-label">
-                    <span class="f-color-grey f12">菠菜指数</span>
-                    <span class="f-color-orange f24">80.13</span>
+                    <div class="f-color-grey f12">菠菜指数</div>
+                    <div class="f-color-orange f24">80.13</div>
                 </div>
                 <ui-echarts :option="echartPie"  style="width:200px;height:200px"></ui-echarts>
             </div>

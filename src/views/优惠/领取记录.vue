@@ -8,7 +8,7 @@
                 <span>Moer, 领取了xxx优惠券, 优惠码:efhwwoife</span>
             </div>
             <div>
-                <span class="f8 f-color-grey mr10">2015-13-55</span>
+                <span class="f10 f-color-grey mr10">2015-13-55</span>
                 <el-tag type="success">已领取</el-tag>
             </div>
         </div>
