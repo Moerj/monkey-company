@@ -38,3 +38,15 @@
   opacity: 1;
 }
 
+// fold
+.fold-enter-active{
+  transition: .3s;
+}
+.fold-leave-active{
+  transition: .3s;
+}
+.fold-enter,.fold-leave-active{
+  transform: scale3d(1,0,1);
+  transform-origin: top center;
+}
+

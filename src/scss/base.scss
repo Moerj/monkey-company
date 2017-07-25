@@ -138,7 +138,7 @@ input,textarea{
 
 // flex布局
 .flex {
-    display: flex !important;
+    display: flex;
 
     &.inline{
         display: inline-flex;

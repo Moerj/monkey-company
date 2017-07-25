@@ -7,11 +7,11 @@
 
 <template>
     <div>
-        <ui-title>测评</ui-title>
+        <ui-title class="ui-border-bottom">测评</ui-title>
         <page-cepin></page-cepin>
     
 
-        <ui-title class="mt50">优惠</ui-title>
+        <ui-title class="mt50 ui-border-bottom">优惠</ui-title>
         <div class="flex">
             <el-button type="text" :class="{'f-color-grey': youhuiTab!==1}" @click="youhuiTab=1">今天</el-button>
             <i class="p15 f-color-grey">|</i>
@@ -43,11 +43,11 @@
         </div>
     
 
-        <ui-title class="mt50">趋势</ui-title>
+        <ui-title class="mt50 ui-border-bottom">趋势</ui-title>
         <page-qushi></page-qushi>
 
 
-        <ui-title class="mt50">动态</ui-title>
+        <ui-title class="mt50 ui-border-bottom">动态</ui-title>
         <list-item v-for="(item,index) in 4" :key="'list-item'+index"></list-item>
 
     </div>

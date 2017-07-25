@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ui-title>动态 - 发布文章</ui-title>
+        <ui-title class="ui-border-bottom">动态 - 发布文章</ui-title>
         <el-form ref="form" :model="form" label-width="80px" style="max-width:900px">
             <el-form-item label="文章标题">
                 <el-input v-model="form.title"></el-input>

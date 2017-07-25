@@ -2,7 +2,6 @@
     @import '~@/scss/public.scss';
     .ui-title{
         padding-bottom:15px;
-        border-bottom: $ui-border;
         margin-bottom: 15px;
     }
     .ui-title-span{
@@ -13,9 +12,9 @@
 </style>
 <template>
     <div class="ui-title">
-        <span class="ui-title-span">
+        <div class="ui-title-span">
             <slot></slot>
-        </span>
+        </div>
     </div>
 </template>
 <script>
