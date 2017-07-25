@@ -3,6 +3,8 @@
         <el-tabs v-model="tab">
             <el-tab-pane label="产品" name="1">
                 <list></list>
+                <list></list>
+                <list></list>
             </el-tab-pane>
             <el-tab-pane label="运营" name="2">配置管理</el-tab-pane>
             <el-tab-pane label="硬件" name="3">角色管理</el-tab-pane>

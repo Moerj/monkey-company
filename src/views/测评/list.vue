@@ -27,17 +27,24 @@
                 opacity: .7;
             }
         }
-    }    
+    }
+    .hover-color{
+        &:hover{
+            background-color: rgba(orange,.06);
+        }
+    }
 </style>
 <template>
-    <div class="p5 flex">
+    <div class="p5 flex mb15">
         <ui-img url="http://s3a.pstatp.com/toutiao/resource/ntoutiao_web/static/image/other/report_logo_15cc24e.png" size="50px" class="mr25"></ui-img>
         <div class="flex-1 ui-border-bottom">
-            <div class="flex row-between col-center mt15 mb15 cursor-pointer" @click="fold = !fold">
+            <div class="flex row-between col-center p15 pl0 cursor-pointer hover-color" @click="fold = !fold">
                 <span class="f16">视觉传达</span>
                 <div class="f20 f-color-orange">
-                    <i v-if="fold" class="el-icon-arrow-down"></i>
-                    <i v-else class="el-icon-arrow-up"></i>
+                    <transition name="fade" mode="out-in">
+                        <i v-if="fold" class="el-icon-arrow-down" key="fold"></i>
+                        <i v-if="!fold" class="el-icon-arrow-up" key="unfold"></i>
+                    </transition>
                 </div>
             </div>
 
