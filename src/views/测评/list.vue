@@ -63,13 +63,32 @@
                         一般
                     </div>
                     <div class="show-details">
-                        <el-button>查看详情</el-button>
+                        <el-button @click="showDetails">查看详情</el-button>
                     </div>
                 </el-card>
             </div>
             </transition> 
 
         </div>
+
+        <el-dialog title="视觉传达" :visible.sync="dialogVisible">
+            <div class="flex">
+                <ui-img url="http://s3a.pstatp.com/toutiao/resource/ntoutiao_web/static/image/other/report_logo_15cc24e.png" size="50px" class="mr25"></ui-img>
+                <div class="flex row-between col-center">
+                    <span class="mr20">色彩搭配</span>
+                    <div class="flex row-between col-center" style="width:200px">
+                        <el-progress :percentage="70" :show-text="false" class="flex-1 mr15"></el-progress>
+                        一般
+                    </div>
+                </div>
+            </div>
+            <div class="pt25 pb25">
+                这里是主要内容介绍,巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉拉巴拉巴拉巴
+            </div>
+            <div class="flex row-between">
+                <ui-img v-for="img in 2" :key="img" url="http://p9.pstatp.com/list/190x124/30f600000e4cbd77711c" style="width:48%;height:200px"></ui-img>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -78,7 +97,13 @@
         props: ['imgUrl'],
         data () {
             return {
-                fold: false
+                fold: false,
+                dialogVisible:false
+            }
+        },
+        methods: {
+            showDetails(){
+                this.dialogVisible=true
             }
         }
     }
