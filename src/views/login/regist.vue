@@ -8,7 +8,7 @@
             <el-step title="联系方式"></el-step>
         </el-steps>
     
-        <div class="flex-1 flex row-center col-center ui-border-top scroll-y">
+        <div class="flex-1 flex row-center ui-border-top scroll-y pt20">
             <div class="flex column column-row-center" v-if="submitSuccess">
                 <img src="~@/icons/check-circle-o.png" style="width:80px;">
                 <p class="f20 mt15">提交成功</p>
@@ -26,10 +26,10 @@
             <el-form ref="form" label-width="80px" v-else>
                 <div v-show="step===1">
                     <el-form-item label="公司账号">
-                        <el-input v-model="form.account"></el-input>
+                        <el-input v-model="form.company_id"></el-input>
                     </el-form-item>
                     <el-form-item label="密码">
-                        <el-input v-model="form.pass"></el-input>
+                        <el-input v-model="form.password"></el-input>
                     </el-form-item>
                     <el-form-item label="确认密码">
                         <el-input v-model="form.repass"></el-input>
@@ -41,25 +41,25 @@
                 </div>
                 <div v-show="step===2">
                     <el-form-item label="公司名称">
-                        <el-input v-model="form.name"></el-input>
+                        <el-input v-model="form.company_name"></el-input>
                     </el-form-item>
                     <el-form-item label="成立时间">
-                        <el-date-picker v-model="form.createTime" type="month" placeholder="选择成立时间"></el-date-picker>
+                        <el-date-picker v-model="form.setup_time" type="month" placeholder="选择成立时间"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="运营游戏">
-                        <el-select v-model="form.game" placeholder="游戏厂商">
+                        <el-select v-model="form.game_factorys" placeholder="游戏厂商">
                             <el-option v-for="item in gameOption" :key="item.id" :value="item.name">
                             </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="持有牌照">
-                        <el-select v-model="form.license" placeholder="游戏牌照">
+                        <el-select v-model="form.game_licenses" placeholder="游戏牌照">
                             <el-option v-for="item in gameLicenseOption" :key="item.id" :value="item.name">
                             </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="上传牌照">
-                        <el-upload drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+                        <el-upload drag :action="uploadUrl" multiple :on-success="onUploadChange" :with-credentials="true">
                             <i class="el-icon-upload"></i>
                             <div class="el-upload__text">将文件拖到此处，或
                                 <em>点击上传</em>
@@ -90,7 +90,7 @@
                         <el-input type="text"></el-input>
                     </el-form-item>
                     <el-form-item label="代理合作">
-                        <el-switch  on-text="" off-text="">
+                        <el-switch  on-text="" off-text="" v-model="form.is_proxy" :on-value="1" :off-value="0">
                         </el-switch>
                     </el-form-item>
                     <el-form-item>
@@ -115,22 +115,24 @@ export default {
     data() {
         return {
             form: {
-                account: '',//账号
-                name: '',
-                pass: '',
+                company_id: '',//账号
+                company_name: '',
+                password: '',
                 repass: '',
-                createTime: '',
-                game: '',
-                license: '',
-                img: '',
+                setup_time: '',
+                game_factorys: '',
+                game_licenses: '',
+                imgs: '',
                 url: '',
-                desc: ''
+                desc: '',
+                is_proxy: 0
             },
             gameOption: [{ name: '游戏厂商1', id: 1 }, { name: '游戏厂商2', id: 2 },],
             gameLicenseOption: [{ name: '游戏牌照1', id: 1 }, { name: '游戏牌照2', id: 2 },],
             step: 1,
             maxStep: 3,
-            submitSuccess:false
+            submitSuccess:false,
+            uploadUrl: this.$http.config.baseURL + '/index.php?g=asset&m=asset&a=plupload'
         }
     },
     methods: {
@@ -146,7 +148,19 @@ export default {
         },
         submit(){
             this.submitSuccess = true
+            this.$http.post('index.php?g=home&m=CompanyUser&a=apply_user',{
+                
+            })
+            .then(({data})=>{
+                console.log(data)
+            })
+        },
+        onUploadChange(file, fileList){
+            console.log('file:', file);
+            if (file) {
+                this.form.imgs += file.filepath + ','
+            }
         }
-    }
+    },
 }
 </script>

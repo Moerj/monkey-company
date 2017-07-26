@@ -18,8 +18,8 @@ exports.cssLoaders = function (options) {
       minimize: process.env.NODE_ENV === 'production',
       sourceMap: options.sourceMap
     }
-  },
-  postcssLoader = {
+  }
+  var postcssLoader = {
     loader: 'postcss-loader', //解决.js文件require/import autoprefixer问题
     options:{
       sourceMap: true

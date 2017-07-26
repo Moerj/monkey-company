@@ -221,7 +221,12 @@ input,textarea{
     }
     &.row-around {
         justify-content: space-around;
-    } //纵向对齐方式
+    } 
+    &.row-end{
+        justify-content: flex-end;
+    }
+    
+    //纵向对齐方式
     &.col-top {
         align-items: flex-start;
     }
@@ -336,7 +341,7 @@ input,textarea{
     background-color: transparent !important;
 }
 
-@for $i from 0 through 10 {
+@for $i from 0 through 20 {
     .m#{$i*5} {
         margin: #{$i*5}px;
     }
@@ -346,7 +351,7 @@ input,textarea{
 }
 
 
-@for $i from 0 through 10 {
+@for $i from 0 through 20 {
     .mt#{$i*5} {
         margin-top: #{$i*5}px !important;
     }

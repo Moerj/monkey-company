@@ -90,6 +90,8 @@ export default {
             return ajax(url, data, 'post')
         }
 
+        $http.config = config
+
         Object.defineProperty(Vue.prototype, '$http', {
             value: $http
         })
