@@ -18,16 +18,22 @@ exports.cssLoaders = function (options) {
       minimize: process.env.NODE_ENV === 'production',
       sourceMap: options.sourceMap
     }
+  },
+  postcssLoader = {
+    loader: 'postcss-loader', //解决.js文件require/import autoprefixer问题
+    options:{
+      sourceMap: true
+    }
   }
 
   // generate loader string to be used with extract text plugin
   function generateLoaders (loader, loaderOptions) {
-    var loaders = [cssLoader]
+    var loaders = [cssLoader, postcssLoader] //解决.js文件require/import autoprefixer问题
     if (loader) {
       loaders.push({
         loader: loader + '-loader',
         options: Object.assign({}, loaderOptions, {
-          sourceMap: options.sourceMap
+          sourceMap: options.sourceMap // build 的时候 postcss-loader会出现一些警告
         })
       })
     }
