@@ -194,11 +194,9 @@ export default {
         },
         checkURL(){
             // 验证公司url
-            this.$http.get('index.php?g=home&m=CompanyUser&a=check_url', {
-                params:{
-                    company_id: this.form.company_id,
-                    url:this.form.url
-                }
+            this.$http.post('index.php?g=home&m=CompanyUser&a=check_url', {
+                company_id: this.form.company_id,
+                url:this.form.url
             })
             .then(({data})=>{
                 console.log('验证公司url ', data)
