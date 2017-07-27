@@ -23,24 +23,28 @@
                     工作时间: 周一到周五  商务10点~下午8点 (国家法定节假日统一休息)
                 </p>
             </div>
-            <el-form ref="form" label-width="80px" v-else>
-                <div v-show="step===1">
-                    <el-form-item label="公司账号">
-                        <el-input v-model="form.company_id"></el-input>
+            <div v-else>
+                <el-form :model="form" ref="step1" label-width="80px" v-show="step===1">
+                    <el-form-item label="公司账号" prop="user_name" 
+                    :rules="[{validator:rulesUserName, trigger: 'blur'},{ min: 3, max: 16, message: '长度在 3 到 16 个字符',trigger:'blur' }]">
+                        <el-input v-model="form.user_name"></el-input>
                     </el-form-item>
-                    <el-form-item label="密码">
+                    <el-form-item label="密码" prop="password"
+                    :rules="[required,{ min: 3, max: 16, message: '长度在 3 到 16 个字符',trigger:'blur' }]">
                         <el-input v-model="form.password"></el-input>
                     </el-form-item>
-                    <el-form-item label="确认密码">
+                    <el-form-item label="确认密码" prop="repass"
+                    :rules="[required,{ validator: resPassVaild,trigger:'blur'}]">
                         <el-input v-model="form.repass"></el-input>
                     </el-form-item>
                     <el-form-item class="flex row-between">
                         <el-button @click="$router.go(-1)">返回登陆</el-button>
-                        <el-button type="primary" @click="nextStep">下一步</el-button>
+                        <el-button type="primary" @click="nextStep(1)">下一步</el-button>
                     </el-form-item>
-                </div>
-                <div v-show="step===2">
-                    <el-form-item label="公司名称">
+                </el-form>
+
+                <el-form :model="form" ref="step2" label-width="80px" v-show="step===2">
+                    <el-form-item label="公司名称" prop="company_name" :rules="required">
                         <el-input v-model="form.company_name"></el-input>
                     </el-form-item>
                     <el-form-item label="成立时间">
@@ -67,38 +71,40 @@
                             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
                         </el-upload>
                     </el-form-item>
-                    <el-form-item label="官网网址">
+                    <el-form-item label="官网网址" prop="url" :rules="required">
                         <el-input v-model="form.url" style="width:200px"></el-input>
-                        <el-button type="text" class="pl15">验证网址</el-button>
+                        <el-button type="text" class="pl15" @click="checkURL">验证网址</el-button>
                     </el-form-item>
-                    <el-form-item label="公司介绍">
+                    <el-form-item label="公司介绍" prop="desc" :rules="required">
                         <el-input type="textarea" v-model="form.desc" placeholder="请输入公司介绍"></el-input>
                     </el-form-item>
                     <el-form-item class="flex row-between">
                         <el-button type="default" @click="preStep">上一步</el-button>
-                        <el-button type="primary" @click="nextStep">下一步</el-button>
+                        <el-button type="primary" @click="nextStep(2)">下一步</el-button>
                     </el-form-item>
-                </div>
-                <div v-show="step===3">
-                    <el-form-item label="SKYPE">
-                        <el-input type="text"></el-input>
+                </el-form>
+
+                <el-form :model="form" ref="step3" label-width="80px" v-show="step===3">
+                    <el-form-item label="SKYPE" prop="skype" :rules="required">
+                        <el-input type="text" v-model="form.skype"></el-input>
                     </el-form-item>
-                    <el-form-item label="Email">
-                        <el-input type="email"></el-input>
+                    <el-form-item label="Email" prop="email" 
+                    :rules="[required,{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }]" >
+                        <el-input type="email" v-model="form.email"></el-input>
                     </el-form-item>
-                    <el-form-item label="微信/QQ">
-                        <el-input type="text"></el-input>
+                    <el-form-item label="微信/QQ" prop="qq_weixin" :rules="required">
+                        <el-input type="text" v-model="form.qq_weixin"></el-input>
                     </el-form-item>
-                    <el-form-item label="代理合作">
+                    <el-form-item label="代理合作" prop="is_proxy">
                         <el-switch  on-text="" off-text="" v-model="form.is_proxy" :on-value="1" :off-value="0">
                         </el-switch>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="default" @click="preStep">上一步</el-button>
-                        <el-button type="primary" @click="submit">提交入驻申请</el-button>
+                        <el-button type="primary" @click="nextStep(3)">提交入驻申请</el-button>
                     </el-form-item>
-                </div>
-            </el-form>
+                </el-form>
+            </div>
         </div>
         <login-footer></login-footer>
     </div>
@@ -115,7 +121,7 @@ export default {
     data() {
         return {
             form: {
-                company_id: '',//账号
+                user_name: '',//账号
                 company_name: '',
                 password: '',
                 repass: '',
@@ -125,21 +131,36 @@ export default {
                 imgs: '',
                 url: '',
                 desc: '',
-                is_proxy: 0
+                is_proxy: 0,
+                skype:'',
+                email:'',
+                qq_weixin:'',
             },
             gameOption: [{ name: '游戏厂商1', id: 1 }, { name: '游戏厂商2', id: 2 },],
             gameLicenseOption: [{ name: '游戏牌照1', id: 1 }, { name: '游戏牌照2', id: 2 },],
             step: 1,
             maxStep: 3,
             submitSuccess:false,
-            uploadUrl: this.$http.config.baseURL + '/index.php?g=asset&m=asset&a=plupload'
+            uploadUrl: this.$http.config.baseURL + '/index.php?g=asset&m=asset&a=plupload',
+
+            // 表单验证规则
+            required:{required:true,message:'必填'},
+            // userNameExisted: false
         }
     },
     methods: {
-        nextStep() {
-            if (this.step < this.maxStep) {
-                this.step++
-            }
+        nextStep(n) {
+            this.$refs['step'+n].validate((valid) => {
+                if (valid) {
+                    if (this.step < this.maxStep) {
+                        this.step++
+                    }else{
+                        this.submit()
+                    }
+                } else {
+                    return false;
+                }
+            });
         },
         preStep() {
             if (this.step > 0) {
@@ -148,17 +169,57 @@ export default {
         },
         submit(){
             this.submitSuccess = true
-            this.$http.post('index.php?g=home&m=CompanyUser&a=apply_user',{
-                
-            })
+            this.$http.post('index.php?g=home&m=CompanyUser&a=apply_user',this.form)
             .then(({data})=>{
-                console.log(data)
+                console.log('注册已提交:',data)
+                data.msg && this.$message(data.msg)
             })
         },
         onUploadChange(file, fileList){
             console.log('file:', file);
             if (file) {
                 this.form.imgs += file.filepath + ','
+            }
+        },
+        resPassVaild(rule, value, callback) {
+            if (value === '') {
+                callback(new Error('请再次输入密码'));
+            } else if (value !== this.form.password) {
+                callback(new Error('两次输入密码不一致!'));
+            } else {
+                callback();
+            }
+        },
+        checkURL(){
+            // 验证公司url
+            this.$http.get('index.php?g=home&m=CompanyUser&a=check_url', {
+                params:{
+                    company_id: this.form.company_id,
+                    url:this.form.url
+                }
+            })
+            .then(({data})=>{
+                console.log('验证公司url ', data)
+                data.msg && this.$message(data.msg)
+            })
+        },
+        rulesUserName(rule, value, callback){
+            if (value==='') {
+                callback(new Error('账号必填'));
+            }else{
+                this.$http.get('index.php?g=home&m=CompanyUser&a=check_user_name', {
+                    params:{
+                        user_name: this.form.user_name
+                    }
+                })
+                .then(({data})=>{
+                    console.log('检测账号:',data)
+                    if (data.code!==1) {
+                        callback(new Error('账号已存在'));
+                    }else{
+                        callback();
+                    }
+                })
             }
         }
     },

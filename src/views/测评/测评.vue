@@ -22,6 +22,6 @@
             return {
                 tab:'1'
             }
-        }
+        },
     }
 </script>
