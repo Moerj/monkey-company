@@ -26,7 +26,7 @@
             <div v-else>
                 <el-form :model="form" ref="step1" label-width="80px" v-show="step===1">
                     <el-form-item label="公司账号" prop="user_name" 
-                    :rules="[{validator:rulesUserName, trigger: 'blur'},{ min: 3, max: 16, message: '长度在 3 到 16 个字符',trigger:'blur' }]">
+                    :rules="[required,{validator:rulesUserName, trigger: 'blur'},{ min: 3, max: 16, message: '长度在 3 到 16 个字符',trigger:'blur' }]">
                         <el-input v-model="form.user_name"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password"
@@ -112,7 +112,7 @@
         <el-dialog title="官网网址验证" :visible.sync="txt.dialogVisible" >
             <span class="block">文件验证</span>
             <span class="block mb15">请将以下txt验证文件上传到网站根目录</span>
-            <a :href="txt.url" :download="txt.fileName" class="f-color-blue">
+            <a :href="txt.url" download class="f-color-blue">
                 <icon name="file"></icon>
                 {{txt.fileName}}
             </a>
@@ -191,16 +191,22 @@ export default {
             }
         },
         getTxt(){//生txt文件,让用户下载
-            // 生成网站检测文件
-            this.$http.get('index.php?g=home&m=CompanyUser&a=create_check_file')
-            .then(({data})=>{
-                console.log('生成网站检测文件',data)
-                if (data.code===1) {
-                    this.txt.url = data.data.url
-                    this.txt.fileName = data.data.name
-                    this.txt.dialogVisible = true
-                }
-            })
+            if (this.txt.url) {
+                // 已经获取过
+                this.txt.dialogVisible = true
+            }else{
+                // 生成网站检测文件
+                this.$http.get('index.php?g=home&m=CompanyUser&a=create_check_file')
+                .then(({data})=>{
+                    console.log('生成网站检测文件',data)
+                    if (data.code===1) {
+                        this.txt.url = data.data.url
+                        this.txt.fileName = data.data.name
+                        this.txt.dialogVisible = true
+                    }
+                })
+            }
+
         },
         submit(){
             // 校验公司网站
@@ -250,23 +256,19 @@ export default {
             })
         },
         rulesUserName(rule, value, callback){
-            if (value==='') {
-                callback(new Error('账号必填'));
-            }else{
-                this.$http.get('index.php?g=home&m=CompanyUser&a=check_user_name', {
-                    params:{
-                        user_name: this.form.user_name
-                    }
-                })
-                .then(({data})=>{
-                    console.log('检测账号:',data)
-                    if (data.code!==1) {
-                        callback(new Error('账号已存在'));
-                    }else{
-                        callback();
-                    }
-                })
-            }
+            this.$http.get('index.php?g=home&m=CompanyUser&a=check_user_name', {
+                params:{
+                    user_name: this.form.user_name
+                }
+            })
+            .then(({data})=>{
+                console.log('检测账号:',data)
+                if (data.code!==1) {
+                    callback(new Error('账号已存在'));
+                }else{
+                    callback();
+                }
+            })
         }
     },
 }
