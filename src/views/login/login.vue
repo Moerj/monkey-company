@@ -10,7 +10,7 @@
                     <el-input v-model="form.username" size="large"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password" :rules="required">
-                    <el-input v-model="form.password" size="large"></el-input>
+                    <el-input v-model="form.password" size="large" type="password"></el-input>
                 </el-form-item>
                 <el-form-item label="验证码" v-if="codeSrc">
                     <el-input v-model="form.verify" size="large" class="flex-1">

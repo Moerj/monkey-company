@@ -31,11 +31,11 @@
                     </el-form-item>
                     <el-form-item label="密码" prop="password"
                     :rules="[required,{ min: 6, max: 16, message: '长度在 6 到 16 个字符',trigger:'blur' }]">
-                        <el-input v-model="form.password"></el-input>
+                        <el-input v-model="form.password" type="password"></el-input>
                     </el-form-item>
                     <el-form-item label="确认密码" prop="repass"
                     :rules="[required,{ validator: resPassVaild,trigger:'blur'}]">
-                        <el-input v-model="form.repass"></el-input>
+                        <el-input v-model="form.repass" type="password"></el-input>
                     </el-form-item>
                     <el-form-item class="flex row-between">
                         <el-button @click="$router.go(-1)">返回登陆</el-button>
@@ -107,6 +107,19 @@
             </div>
         </div>
         <login-footer></login-footer>
+
+
+        <el-dialog title="官网网址验证" :visible.sync="txt.dialogVisible" >
+            <span class="block">文件验证</span>
+            <span class="block mb15">请将以下txt验证文件上传到网站根目录</span>
+            <a :href="txt.url" :download="txt.fileName" class="f-color-blue">
+                <icon name="file"></icon>
+                {{txt.fileName}}
+            </a>
+            <span slot="footer">
+                <el-button type="primary" @click="txt.dialogVisible=false;nextStep()">完成校验</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -139,41 +152,74 @@ export default {
             gameOption: [{ name: '游戏厂商1', id: 1 }, { name: '游戏厂商2', id: 2 },],
             gameLicenseOption: [{ name: '游戏牌照1', id: 1 }, { name: '游戏牌照2', id: 2 },],
             step: 1,
-            maxStep: 3,
             submitSuccess:false,
             uploadUrl: this.$http.config.baseURL + '/index.php?g=asset&m=asset&a=plupload',
 
             // 表单验证规则
             required:{required:true,message:'必填'},
-            // userNameExisted: false
+            
+            //用户下载txt去校验网站
+            txt:{
+                url:'',
+                fileName:'',
+                dialogVisible: false
+            }
         }
     },
     methods: {
         nextStep(n) {
-            this.$refs['step'+n].validate((valid) => {
-                if (valid) {
-                    if (this.step < this.maxStep) {
-                        this.step++
-                    }else{
-                        this.submit()
+            if (n) {
+                this.$refs['step'+n].validate((valid) => {
+                    if (valid) {
+                        if(n===3){
+                            this.submit()
+                        }
+                        else if (n===2) {
+                            this.getTxt()
+                        }else{
+                            this.step++
+                        }
                     }
-                } else {
-                    return false;
-                }
-            });
+                });
+            }else{
+                this.step ++
+            }
         },
         preStep() {
             if (this.step > 0) {
                 this.step--
             }
         },
-        submit(){
-            this.$http.post('index.php?g=home&m=CompanyUser&a=apply_user',this.form)
+        getTxt(){//生txt文件,让用户下载
+            // 生成网站检测文件
+            this.$http.get('index.php?g=home&m=CompanyUser&a=create_check_file')
             .then(({data})=>{
-                console.log('注册已提交:',data)
-                data.msg && this.$message(data.msg)
+                console.log('生成网站检测文件',data)
                 if (data.code===1) {
-                    this.submitSuccess = true
+                    this.txt.url = data.data.url
+                    this.txt.fileName = data.data.name
+                    this.txt.dialogVisible = true
+                }
+            })
+        },
+        submit(){
+            // 校验公司网站
+            this.$http.post('index.php?g=home&m=CompanyUser&a=check_website',{
+                url: this.form.url //用户输入的url
+            })
+            .then(({data})=>{
+                console.log('校验公司网站', data)
+                this.$message('公司网站' + data.msg)
+                if (data.code===1) {
+                    // 校验用户手动上传到公司域名下的txt文件,成功后提交注册
+                    this.$http.post('index.php?g=home&m=CompanyUser&a=apply_user',this.form)
+                    .then(({data})=>{
+                        console.log('注册已提交:',data)
+                        data.msg && this.$message(data.msg)
+                        if (data.code===1) {
+                            this.submitSuccess = true
+                        }
+                    })
                 }
             })
         },
