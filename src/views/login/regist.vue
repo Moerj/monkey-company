@@ -30,7 +30,7 @@
                         <el-input v-model="form.user_name"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password"
-                    :rules="[required,{ min: 3, max: 16, message: '长度在 3 到 16 个字符',trigger:'blur' }]">
+                    :rules="[required,{ min: 6, max: 16, message: '长度在 6 到 16 个字符',trigger:'blur' }]">
                         <el-input v-model="form.password"></el-input>
                     </el-form-item>
                     <el-form-item label="确认密码" prop="repass"
@@ -73,7 +73,7 @@
                     </el-form-item>
                     <el-form-item label="官网网址" prop="url" :rules="required">
                         <el-input v-model="form.url" style="width:200px"></el-input>
-                        <el-button type="text" class="pl15" @click="checkURL">验证网址</el-button>
+                        <el-button type="text" class="pl15" @click="checkURL" tabindex="-1">验证网址</el-button>
                     </el-form-item>
                     <el-form-item label="公司介绍" prop="desc" :rules="required">
                         <el-input type="textarea" v-model="form.desc" placeholder="请输入公司介绍"></el-input>
@@ -168,11 +168,13 @@ export default {
             }
         },
         submit(){
-            this.submitSuccess = true
             this.$http.post('index.php?g=home&m=CompanyUser&a=apply_user',this.form)
             .then(({data})=>{
                 console.log('注册已提交:',data)
                 data.msg && this.$message(data.msg)
+                if (data.code===1) {
+                    this.submitSuccess = true
+                }
             })
         },
         onUploadChange(file, fileList){
