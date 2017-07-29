@@ -71,9 +71,9 @@
                             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
                         </el-upload>
                     </el-form-item>
-                    <el-form-item label="官网网址" prop="url" :rules="required">
+                    <el-form-item label="官网网址" prop="url" :rules="[required,{validator:isWebVaild,trigger:'submit'}]">
                         <el-input v-model="form.url" style="width:200px"></el-input>
-                        <el-button type="text" class="pl15" @click="checkURL" tabindex="-1">验证网址</el-button>
+                        <el-button type="text" class="pl15" @click="openDialog" tabindex="-1">验证网址</el-button>
                     </el-form-item>
                     <el-form-item label="公司介绍" prop="desc" :rules="required">
                         <el-input type="textarea" v-model="form.desc" placeholder="请输入公司介绍"></el-input>
@@ -116,8 +116,22 @@
                 <icon name="file"></icon>
                 {{txt.fileName}}
             </a>
+            <div v-if="webVaild===true" class="flex col-center mt15 pt10 ui-border-top">
+                <img src="~@/icons/check-circle-o.png" style="height:50px">
+                <div class="pl15">
+                    <p class="f14">恭喜，官网网址已经成功验证通过。</p>
+                    <span class="f10 f-color-grey">为了安全起见，请尽快删除您上次的txt文件。</span>
+                </div>
+            </div>
+            <div v-if="webVaild===false" class="flex col-center mt15 pt10 ui-border-top">
+                <icon name="warning" scale="2.8" class="f-color-orange"></icon>
+                <div class="pl15">
+                    <p class="f14">官网网址功验证失败。</p>
+                    <span class="f10 f-color-grey">请确保您已经将txt上传到网站根目录。</span>
+                </div>
+            </div>
             <span slot="footer">
-                <el-button type="primary" @click="txt.dialogVisible=false;nextStep()">完成校验</el-button>
+                <el-button type="primary" @click="dialogCheckWeb">完成校验</el-button>
             </span>
         </el-dialog>
     </div>
@@ -151,7 +165,7 @@ export default {
             },
             gameOption: [{ name: '游戏厂商1', id: 1 }, { name: '游戏厂商2', id: 2 },],
             gameLicenseOption: [{ name: '游戏牌照1', id: 1 }, { name: '游戏牌照2', id: 2 },],
-            step: 1,
+            step: 2,
             submitSuccess:false,
             uploadUrl: this.$http.config.baseURL + '/index.php?g=asset&m=asset&a=plupload',
 
@@ -163,7 +177,10 @@ export default {
                 url:'',
                 fileName:'',
                 dialogVisible: false
-            }
+            },
+
+            // 网址校验通过
+            webVaild:null
         }
     },
     methods: {
@@ -174,9 +191,7 @@ export default {
                         if(n===3){
                             this.submit()
                         }
-                        else if (n===2) {
-                            this.getTxt()
-                        }else{
+                        else{
                             this.step++
                         }
                     }
@@ -189,6 +204,77 @@ export default {
             if (this.step > 0) {
                 this.step--
             }
+        },
+        submit(){
+            this.$http.post('index.php?g=home&m=CompanyUser&a=apply_user',this.form)
+            .then(({data})=>{
+                console.log('注册已提交:',data)
+                data.msg && this.$message(data.msg)
+                if (data.code===1) {
+                    this.submitSuccess = true
+                }
+            })
+        },
+        onUploadChange(file, fileList){
+            console.log('file:', file);
+            if (file) {
+                this.form.imgs += file.filepath + ','
+            }
+        },
+        resPassVaild(rule, value, callback) {
+            if (value === '') {
+                callback(new Error('请再次输入密码'));
+            } else if (value !== this.form.password) {
+                callback(new Error('两次输入密码不一致!'));
+            } else {
+                callback();
+            }
+        },
+        rulesUserName(rule, value, callback){
+            this.$http.get('index.php?g=home&m=CompanyUser&a=check_user_name', {
+                params:{
+                    user_name: this.form.user_name
+                }
+            })
+            .then(({data})=>{
+                console.log('检测账号:',data)
+                if (data.code!==1) {
+                    callback(new Error('账号已存在'));
+                }else{
+                    callback();
+                }
+            })
+        },
+
+        // 校验网站
+        openDialog(){
+            // 验证url 是否可用
+            this.$http.post('index.php?g=home&m=CompanyUser&a=check_url', {
+                company_id: this.form.company_id,
+                url:this.form.url
+            })
+            .then(({data})=>{
+                console.log('验证公司url ', data)
+                if (data.code===1) {
+                    this.getTxt()
+                }else{
+                    this.$message(data.msg)
+                }
+            })
+        },
+        dialogCheckWeb(){//弹出层按钮
+            this.$http.post('index.php?g=home&m=CompanyUser&a=check_website',{
+                url: this.form.url //用户输入的url
+            })
+            .then(({data})=>{
+                console.log('校验公司网站', data)
+                this.txt.dialogVisible = false
+                if (data.code===1) {
+                    this.webVaild = true
+                }else{
+                    this.webVaild = false
+                }
+            })
         },
         getTxt(){//生txt文件,让用户下载
             if (this.txt.url) {
@@ -208,67 +294,13 @@ export default {
             }
 
         },
-        submit(){
-            // 校验公司网站
-            this.$http.post('index.php?g=home&m=CompanyUser&a=check_website',{
-                url: this.form.url //用户输入的url
-            })
-            .then(({data})=>{
-                console.log('校验公司网站', data)
-                this.$message('公司网站' + data.msg)
-                if (data.code===1) {
-                    // 校验用户手动上传到公司域名下的txt文件,成功后提交注册
-                    this.$http.post('index.php?g=home&m=CompanyUser&a=apply_user',this.form)
-                    .then(({data})=>{
-                        console.log('注册已提交:',data)
-                        data.msg && this.$message(data.msg)
-                        if (data.code===1) {
-                            this.submitSuccess = true
-                        }
-                    })
-                }
-            })
-        },
-        onUploadChange(file, fileList){
-            console.log('file:', file);
-            if (file) {
-                this.form.imgs += file.filepath + ','
-            }
-        },
-        resPassVaild(rule, value, callback) {
-            if (value === '') {
-                callback(new Error('请再次输入密码'));
-            } else if (value !== this.form.password) {
-                callback(new Error('两次输入密码不一致!'));
-            } else {
+        isWebVaild(rule, value, callback){
+            if (this.webVaild) {
                 callback();
+            }else{
+                callback(new Error('还未验证网址'));
+                this.openDialog()
             }
-        },
-        checkURL(){
-            // 验证公司url
-            this.$http.post('index.php?g=home&m=CompanyUser&a=check_url', {
-                company_id: this.form.company_id,
-                url:this.form.url
-            })
-            .then(({data})=>{
-                console.log('验证公司url ', data)
-                data.msg && this.$message(data.msg)
-            })
-        },
-        rulesUserName(rule, value, callback){
-            this.$http.get('index.php?g=home&m=CompanyUser&a=check_user_name', {
-                params:{
-                    user_name: this.form.user_name
-                }
-            })
-            .then(({data})=>{
-                console.log('检测账号:',data)
-                if (data.code!==1) {
-                    callback(new Error('账号已存在'));
-                }else{
-                    callback();
-                }
-            })
         }
     },
 }
