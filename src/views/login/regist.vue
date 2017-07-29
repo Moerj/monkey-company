@@ -48,17 +48,17 @@
                         <el-input v-model="form.company_name" @blur="searchCompany"></el-input>
                     </el-form-item>
                     <el-form-item label="成立时间" prop="setup_time" :rules="required">
-                        <el-date-picker v-model="form.setup_time" type="month" placeholder="选择成立时间"></el-date-picker>
+                        <el-date-picker v-model="form.setup_time" format="yyyyMM" type="month" placeholder="选择成立时间"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="运营游戏" prop="game_factorys" :rules="required">
                         <el-select filterable v-model="form.game_factorys" placeholder="游戏厂商">
-                            <el-option v-for="item in gameOption" :key="item.id" :value="item.name">
+                            <el-option v-for="item in gameOption" :key="item.id" :value="item.id" :label="item.name">
                             </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="持有牌照" prop="game_licenses" :rules="required">
                         <el-select filterable v-model="form.game_licenses" placeholder="游戏牌照">
-                            <el-option v-for="item in gameLicenseOption" :key="item.id" :value="item.name">
+                            <el-option v-for="item in gameLicenseOption" :key="item.id" :value="item.id" :label="item.name">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -68,7 +68,7 @@
                          :before-upload="beforeUpload"
                          :on-success="uploadSuccess" 
                          :with-credentials="true"
-                         :data="imgPostData"
+                         :data="{app:'companyApply'}"
                          v-loading.body="uploading"
                          :on-change="uploadChange"
                          >
@@ -352,7 +352,7 @@ export default {
 
         // 图片上传
         beforeUpload(file) {
-            this.uploading = true
+            this.uploading = true//开启上传冷却
 
             const isJPG = file.type === 'image/jpeg';
             const isLt2M = file.size / 1024 / 1024 < 2;
@@ -368,18 +368,15 @@ export default {
         },
         uploadSuccess(res, file, fileList){
             console.log('图片上传完成:', res);
-            if (file && res.filepath) {
-                this.form.imgs += res.filepath + ','
+            if (res.code===1) {
+                this.form.imgs += res.data.filepath + ','
 
-                // 生成预览
-                // let FILE = fileList.raw
-                let url = URL.createObjectURL(file.raw)
-                this.preViewURL = url
-                console.log(url);
+                // 生成本地预览
+                this.preViewURL = URL.createObjectURL(file.raw)
             }
         },
         uploadChange(file, fileList){
-            this.uploading = false
+            this.uploading = false//关闭上传冷却
         }
     },
 }
