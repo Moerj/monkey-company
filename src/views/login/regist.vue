@@ -178,7 +178,7 @@ export default {
             },
             gameOption: [],
             gameLicenseOption: [],
-            step: 2,
+            step: 1,
             submitSuccess:false,
             uploadUrl: this.$http.config.baseURL + '/index.php?g=asset&m=asset&a=plupload',
 
