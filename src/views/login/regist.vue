@@ -45,35 +45,47 @@
 
                 <el-form :model="form" ref="step2" label-width="80px" v-show="step===2">
                     <el-form-item label="公司名称" prop="company_name" :rules="required">
-                        <el-input v-model="form.company_name"></el-input>
+                        <el-input v-model="form.company_name" @blur="searchCompany"></el-input>
                     </el-form-item>
-                    <el-form-item label="成立时间">
+                    <el-form-item label="成立时间" prop="setup_time" :rules="required">
                         <el-date-picker v-model="form.setup_time" type="month" placeholder="选择成立时间"></el-date-picker>
                     </el-form-item>
-                    <el-form-item label="运营游戏">
-                        <el-select v-model="form.game_factorys" placeholder="游戏厂商">
+                    <el-form-item label="运营游戏" prop="game_factorys" :rules="required">
+                        <el-select filterable v-model="form.game_factorys" placeholder="游戏厂商">
                             <el-option v-for="item in gameOption" :key="item.id" :value="item.name">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="持有牌照">
-                        <el-select v-model="form.game_licenses" placeholder="游戏牌照">
+                    <el-form-item label="持有牌照" prop="game_licenses" :rules="required">
+                        <el-select filterable v-model="form.game_licenses" placeholder="游戏牌照">
                             <el-option v-for="item in gameLicenseOption" :key="item.id" :value="item.name">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="上传牌照">
-                        <el-upload drag :action="uploadUrl" multiple :on-success="onUploadChange" :with-credentials="true">
-                            <i class="el-icon-upload"></i>
-                            <div class="el-upload__text">将文件拖到此处，或
-                                <em>点击上传</em>
+                    <el-form-item label="上传牌照" prop="imgs" :rules="required">
+                         <el-upload drag :action="uploadUrl" 
+                         :show-file-list="false"
+                         :before-upload="beforeUpload"
+                         :on-success="uploadSuccess" 
+                         :with-credentials="true"
+                         :data="imgPostData"
+                         v-loading.body="uploading"
+                         :on-change="uploadChange"
+                         >
+                            <ui-img v-if="preViewURL" :url="preViewURL" style="width:100%;height:100%"></ui-img>
+                            <div v-else>
+                                <i class="el-icon-upload"></i>
+                                <div class="el-upload__text">将文件拖到此处，或
+                                    <em>点击上传</em>
+                                </div>
+                                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件</div>
                             </div>
-                            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-                        </el-upload>
+                        </el-upload> 
                     </el-form-item>
                     <el-form-item label="官网网址" prop="url" :rules="[required,{validator:isWebVaild,trigger:'submit'}]">
                         <el-input v-model="form.url" style="width:200px"></el-input>
-                        <el-button type="text" class="pl15" @click="openDialog" tabindex="-1">验证网址</el-button>
+                        <el-button v-if="webVaild" type="text" class="pl15 f-color-green" tabindex="-1" >验证通过</el-button>
+                        <el-button v-else type="text" class="pl15" @click="openDialog" tabindex="-1">验证网址</el-button>
                     </el-form-item>
                     <el-form-item label="公司介绍" prop="desc" :rules="required">
                         <el-input type="textarea" v-model="form.desc" placeholder="请输入公司介绍"></el-input>
@@ -116,7 +128,7 @@
                 <icon name="file"></icon>
                 {{txt.fileName}}
             </a>
-            <div v-if="webVaild===true" class="flex col-center mt15 pt10 ui-border-top">
+            <div v-if="webVaild" class="flex col-center mt15 pt10 ui-border-top">
                 <img src="~@/icons/check-circle-o.png" style="height:50px">
                 <div class="pl15">
                     <p class="f14">恭喜，官网网址已经成功验证通过。</p>
@@ -150,6 +162,7 @@ export default {
             form: {
                 user_name: '',//账号
                 company_name: '',
+                company_id: '',//已存在的公司,获取id
                 password: '',
                 repass: '',
                 setup_time: '',
@@ -163,8 +176,8 @@ export default {
                 email:'',
                 qq_weixin:'',
             },
-            gameOption: [{ name: '游戏厂商1', id: 1 }, { name: '游戏厂商2', id: 2 },],
-            gameLicenseOption: [{ name: '游戏牌照1', id: 1 }, { name: '游戏牌照2', id: 2 },],
+            gameOption: [],
+            gameLicenseOption: [],
             step: 2,
             submitSuccess:false,
             uploadUrl: this.$http.config.baseURL + '/index.php?g=asset&m=asset&a=plupload',
@@ -180,7 +193,12 @@ export default {
             },
 
             // 网址校验通过
-            webVaild:null
+            webVaild:null,
+
+            //上传图片
+            imgPostData:{},//额外参数
+            preViewURL:'',//本地预览
+            uploading:false
         }
     },
     methods: {
@@ -215,12 +233,6 @@ export default {
                 }
             })
         },
-        onUploadChange(file, fileList){
-            console.log('file:', file);
-            if (file) {
-                this.form.imgs += file.filepath + ','
-            }
-        },
         resPassVaild(rule, value, callback) {
             if (value === '') {
                 callback(new Error('请再次输入密码'));
@@ -242,6 +254,41 @@ export default {
                     callback(new Error('账号已存在'));
                 }else{
                     callback();
+                }
+            })
+        },
+        searchCompany(){
+            this.$http.get('index.php?g=home&m=GameCompany&a=company_list', {
+                params:{
+                    name: this.form.company_name
+                }
+            })
+            .then(({data})=>{
+                console.log('查询公司:',data)
+                if (data.code===1 && data.data[0]) {
+                    this.form.company_id = data.data[0].id
+                }
+                this.loadSelectList()
+            })
+        },
+        loadSelectList(){//读取厂商列表和牌照列表
+            // 厂商列表
+            this.$http.get('index.php?g=home&m=GameFactory&a=factory_list')
+            .then(({data})=>{
+                if (data.code===1) {
+                    this.gameOption = data.data
+                }
+            })
+
+            // 牌照列表
+            this.$http.get('index.php?g=home&m=GameLicense&a=license_list',{
+                params:{
+                    company_id:this.form.company_id
+                }
+            })
+            .then(({data})=>{
+                if (data.code===1) {
+                    this.gameLicenseOption = data.data
                 }
             })
         },
@@ -268,8 +315,8 @@ export default {
             })
             .then(({data})=>{
                 console.log('校验公司网站', data)
-                this.txt.dialogVisible = false
                 if (data.code===1) {
+                    this.txt.dialogVisible = false
                     this.webVaild = true
                 }else{
                     this.webVaild = false
@@ -301,6 +348,38 @@ export default {
                 callback(new Error('还未验证网址'));
                 this.openDialog()
             }
+        },
+
+        // 图片上传
+        beforeUpload(file) {
+            this.uploading = true
+
+            const isJPG = file.type === 'image/jpeg';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG 格式!');
+            }
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+
+            return isJPG && isLt2M;
+        },
+        uploadSuccess(res, file, fileList){
+            console.log('图片上传完成:', res);
+            if (file && res.filepath) {
+                this.form.imgs += res.filepath + ','
+
+                // 生成预览
+                // let FILE = fileList.raw
+                let url = URL.createObjectURL(file.raw)
+                this.preViewURL = url
+                console.log(url);
+            }
+        },
+        uploadChange(file, fileList){
+            this.uploading = false
         }
     },
 }
