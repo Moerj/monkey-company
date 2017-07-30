@@ -87,8 +87,13 @@
                             </div>
                         </el-upload> 
                     </el-form-item>
-                    <el-form-item label="官网网址" prop="url" :rules="[required,{validator:isWebVaild,trigger:'submit'}]">
-                        <el-input v-model="form.url" style="width:200px"></el-input>
+                    <el-form-item label="官网网址" prop="url_simple" :rules="[required,{validator:isWebVaild,trigger:'submit'}]">
+                        <el-input v-model="form.url_simple" style="width:290px">
+                            <el-select v-model="httpType" slot="prepend" placeholder="选择前缀" style="width:90px">
+                                <el-option label="http" value="http"></el-option>
+                                <el-option label="https" value="https"></el-option>
+                            </el-select>
+                        </el-input>
                         <el-button v-if="webVaild" type="text" class="pl15 f-color-green" tabindex="-1" >验证通过</el-button>
                         <el-button v-else type="text" class="pl15" @click="openDialog" tabindex="-1">验证网址</el-button>
                     </el-form-item>
@@ -177,6 +182,7 @@ export default {
                 game_licenses: '',
                 imgs: '',
                 url: '',
+                url_simple:'',
                 desc: '',
                 is_proxy: 0,
                 skype:'',
@@ -186,7 +192,7 @@ export default {
             companyCreatedTime:'',
             gameOption: [],
             gameLicenseOption: [],
-            step: 1,
+            step: 2,
             submitSuccess:false,
             uploadUrl: this.$http.config.baseURL + '/index.php?g=asset&m=asset&a=plupload',
 
@@ -206,7 +212,9 @@ export default {
             //上传图片
             imgPostData:{},//额外参数
             preViewURL:'',//本地预览
-            uploading:false
+            uploading:false,
+
+            httpType:'http',
         }
     },
     methods: {
@@ -403,5 +411,13 @@ export default {
             this.form.game_factorys = this.form.game_factorys.replace(/\,$/,'')
         },
     },
+    watch: {
+        httpType(){
+            this.form.url = this.httpType + '://' + this.form.url_simple
+        },
+        'form.url_simple'(){
+            this.form.url = this.httpType + '://' + this.form.url_simple
+        }
+    }
 }
 </script>
