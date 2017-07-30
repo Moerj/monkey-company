@@ -47,8 +47,8 @@
                     <el-form-item label="公司名称" prop="company_name" :rules="required">
                         <el-input v-model="form.company_name" @blur="searchCompany"></el-input>
                     </el-form-item>
-                    <el-form-item label="成立时间" prop="setup_time" :rules="required">
-                        <el-date-picker v-model="form.setup_time" format="yyyyMM" type="month" placeholder="选择成立时间"></el-date-picker>
+                    <el-form-item label="成立时间" prop="setup_timestamp" :rules="required">
+                        <el-date-picker v-model="form.setup_timestamp" format="yyyyMM" type="month" placeholder="选择成立时间" @change="setupTimeChange"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="运营游戏" prop="game_factorys" :rules="required">
                         <el-select filterable v-model="form.game_factorys" placeholder="游戏厂商">
@@ -166,6 +166,7 @@ export default {
                 password: '',
                 repass: '',
                 setup_time: '',
+                setup_timestamp:'',
                 game_factorys: '',
                 game_licenses: '',
                 imgs: '',
@@ -176,6 +177,7 @@ export default {
                 email:'',
                 qq_weixin:'',
             },
+            companyCreatedTime:'',
             gameOption: [],
             gameLicenseOption: [],
             step: 1,
@@ -291,6 +293,9 @@ export default {
                     this.gameLicenseOption = data.data
                 }
             })
+        },
+        setupTimeChange(time){//日期选择
+            this.form.setup_time = time
         },
 
         // 校验网站
