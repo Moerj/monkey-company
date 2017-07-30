@@ -1,3 +1,8 @@
+<style lang="scss" scoped>
+    .inputW{
+        width: 360px;
+    }
+</style>
 <template>
     <div class="h-100 p15 flex column">
         <login-header></login-header>
@@ -50,14 +55,14 @@
                     <el-form-item label="成立时间" prop="setup_timestamp" :rules="required">
                         <el-date-picker v-model="form.setup_timestamp" format="yyyyMM" type="month" placeholder="选择成立时间" @change="setupTimeChange"></el-date-picker>
                     </el-form-item>
-                    <el-form-item label="运营游戏" prop="game_factorys" :rules="required">
-                        <el-select filterable v-model="form.game_factorys" placeholder="游戏厂商">
+                    <el-form-item label="运营游戏" prop="game_factorys_array" :rules="required">
+                        <el-select multiple filterable v-model="form.game_factorys_array" placeholder="游戏厂商" @change="gameFactoryChange" class="inputW">
                             <el-option v-for="item in gameOption" :key="item.id" :value="item.id" :label="item.name">
                             </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="持有牌照" prop="game_licenses" :rules="required">
-                        <el-select filterable v-model="form.game_licenses" placeholder="游戏牌照">
+                        <el-select filterable v-model="form.game_licenses" placeholder="游戏牌照" class="inputW">
                             <el-option v-for="item in gameLicenseOption" :key="item.id" :value="item.id" :label="item.name">
                             </el-option>
                         </el-select>
@@ -168,6 +173,7 @@ export default {
                 setup_time: '',
                 setup_timestamp:'',
                 game_factorys: '',
+                game_factorys_array: [],
                 game_licenses: '',
                 imgs: '',
                 url: '',
@@ -275,7 +281,11 @@ export default {
         },
         loadSelectList(){//读取厂商列表和牌照列表
             // 厂商列表
-            this.$http.get('index.php?g=home&m=GameFactory&a=factory_list')
+            this.$http.get('index.php?g=home&m=GameFactory&a=factory_list',{
+                params:{
+                    company_id: this.form.company_id
+                }
+            })
             .then(({data})=>{
                 if (data.code===1) {
                     this.gameOption = data.data
@@ -382,7 +392,16 @@ export default {
         },
         uploadChange(file, fileList){
             this.uploading = false//关闭上传冷却
-        }
+        },
+
+        gameFactoryChange(arr){
+            // 根据多选的数组,设置运营游戏参数 - 多字符串逗号分隔
+            this.form.game_factorys = ''
+            arr.forEach((item)=>{
+                this.form.game_factorys += item+','
+            })
+            this.form.game_factorys = this.form.game_factorys.replace(/\,$/,'')
+        },
     },
 }
 </script>
