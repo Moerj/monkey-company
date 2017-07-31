@@ -43,7 +43,7 @@
                         <el-input v-model="form.repass" type="password"></el-input>
                     </el-form-item>
                     <el-form-item class="flex row-between">
-                        <el-button @click="$router.go(-1)">返回登陆</el-button>
+                        <el-button @click="$router.push('/login')">返回登陆</el-button>
                         <el-button type="primary" @click="nextStep(1)">下一步</el-button>
                     </el-form-item>
                 </el-form>
@@ -56,13 +56,13 @@
                         <el-date-picker v-model="form.setup_timestamp" format="yyyyMM" type="month" placeholder="选择成立时间" @change="setupTimeChange"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="运营游戏" prop="game_factorys_array" :rules="required">
-                        <el-select multiple filterable v-model="form.game_factorys_array" placeholder="游戏厂商" @change="gameFactoryChange" class="inputW">
+                        <el-select multiple filterable v-model="form.game_factorys_array" placeholder="游戏厂商" @change="arrayToString('game_factorys_array','game_factorys')" class="inputW">
                             <el-option v-for="item in gameOption" :key="item.id" :value="item.id" :label="item.name">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="持有牌照" prop="game_licenses" :rules="required">
-                        <el-select filterable v-model="form.game_licenses" placeholder="游戏牌照" class="inputW">
+                    <el-form-item label="持有牌照" prop="game_licenses_array" :rules="required">
+                        <el-select multiple filterable v-model="form.game_licenses_array" placeholder="游戏牌照" @change="arrayToString('game_licenses_array','game_licenses')" class="inputW">
                             <el-option v-for="item in gameLicenseOption" :key="item.id" :value="item.id" :label="item.name">
                             </el-option>
                         </el-select>
@@ -90,8 +90,8 @@
                     <el-form-item label="官网网址" prop="url_simple" :rules="[required,{validator:isWebVaild,trigger:'submit'}]">
                         <el-input v-model="form.url_simple" style="width:290px">
                             <el-select v-model="httpType" slot="prepend" placeholder="选择前缀" style="width:90px">
-                                <el-option label="http" value="http"></el-option>
-                                <el-option label="https" value="https"></el-option>
+                                <el-option label="http://" value="http"></el-option>
+                                <el-option label="https://" value="https"></el-option>
                             </el-select>
                         </el-input>
                         <el-button v-if="webVaild" type="text" class="pl15 f-color-green" tabindex="-1" >验证通过</el-button>
@@ -180,6 +180,7 @@ export default {
                 game_factorys: '',
                 game_factorys_array: [],
                 game_licenses: '',
+                game_licenses_array: [],
                 imgs: '',
                 url: '',
                 url_simple:'',
@@ -192,7 +193,7 @@ export default {
             companyCreatedTime:'',
             gameOption: [],
             gameLicenseOption: [],
-            step: 2,
+            step: 1,
             submitSuccess:false,
             uploadUrl: this.$http.config.baseURL + '/index.php?g=asset&m=asset&a=plupload',
 
@@ -402,13 +403,18 @@ export default {
             this.uploading = false//关闭上传冷却
         },
 
-        gameFactoryChange(arr){
-            // 根据多选的数组,设置运营游戏参数 - 多字符串逗号分隔
-            this.form.game_factorys = ''
-            arr.forEach((item)=>{
-                this.form.game_factorys += item+','
-            })
-            this.form.game_factorys = this.form.game_factorys.replace(/\,$/,'')
+        arrayToString(arrKey,strKey){//多选数组转字符串参数 ['a','b','c'] to 'a,b,c'
+            let arr = this.form[arrKey]
+            if (typeof arr==='object' && arr.length>0) {
+                let str = ''
+                arr.forEach((item)=>{
+                    str += item+','
+                })
+                str = str.replace(/\,$/,'')
+                this.form[strKey] = str
+            }else{
+                this.form[strKey] = ''
+            }
         },
     },
     watch: {

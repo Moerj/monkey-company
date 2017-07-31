@@ -70,7 +70,11 @@ export default {
             youhuiTab: 1,
         }
     },
-    methods: {
+    created () {
+        this.$http.get('index.php?g=home&m=CompanyUser&a=company_info')
+        .then(({data})=>{
+            console.log('概览信息:',data)
+        })
     }
 }
 </script>
