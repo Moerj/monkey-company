@@ -1,8 +1,8 @@
 <template>
     <div class="mb15 ui-form">
         <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
-        <el-select v-model="search.couponName" placeholder="请选择">
-            <el-option v-for="item in couponNameOpt" :key="item.id" :value="item.name">
+        <el-select v-model="search.coupon_id" placeholder="请选择">
+            <el-option v-for="item in couponNameOpt" :key="item.id" :value="item.id" :label="item.name">
             </el-option>
         </el-select>
         <el-select v-model="search.status" placeholder="状态">
@@ -13,7 +13,7 @@
             <el-option value="0" label="待审核">
             </el-option>
         </el-select>
-        <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围">
+        <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围" @change="timeDataChange">
         </el-date-picker>
         <el-button type="primary" @click="submit" :disabled="disableSubmit">查询</el-button>
     </div>
@@ -30,9 +30,11 @@ export default {
         return {
             search: {
                 keyword: '',
-                couponName: '',
+                coupon_id: '',
                 status: '',
                 timeRange: [],
+                begin_date:'',
+                end_date:''
             },
             couponNameOpt: [
                 {
@@ -49,15 +51,20 @@ export default {
     methods: {
         submit() {
             this.onSearch && this.onSearch(this.search)
+        },
+        timeDataChange(v){
+            let data = v.split(' - ')
+            this.search.begin_date = data[0]
+            this.search.end_date = data[1]
         }
     },
     computed: {
-        disableSubmit() {
+        disableSubmit() {//查询按钮状态控制
             let data = this.search
             if (data.keyword) {
                 return false
             }
-            if (data.couponName) {
+            if (data.coupon_id) {
                 return false
             }
             if (data.status) {
@@ -68,7 +75,6 @@ export default {
             }
             return true
         }
-    }
-
+    },
 }
 </script>

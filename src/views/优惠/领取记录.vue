@@ -24,7 +24,8 @@
 import searchbar from '@/views/searchbar'
 export default {
     components: {
-        searchbar
+        searchbar,
+        params:{}
     },
     data () {
         return {
@@ -33,8 +34,20 @@ export default {
     },
     methods: {
         onSearch(params) {
-            console.log('搜索参数:', params);
+            // console.log('搜索参数:', params);
+            this.$http.get('index.php?g=home&m=CompanyUser&a=company_exchanges', {
+                params:params
+            })
+            .then(({data})=>{
+                console.log('查询领取记录:',data)
+                if (data.code===1) {
+                    
+                }
+            })
         }
+    },
+    mounted () {
+        
     }
 }
 </script>

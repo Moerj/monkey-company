@@ -68,13 +68,11 @@ export default {
     data() {
         return {
             youhuiTab: 1,
+            data:null
         }
     },
     created () {
-        this.$http.get('index.php?g=home&m=CompanyUser&a=company_info')
-        .then(({data})=>{
-            console.log('概览信息:',data)
-        })
+        
     }
 }
 </script>
