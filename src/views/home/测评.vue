@@ -17,9 +17,9 @@
             <div class="relative flex row-center">
                 <div class="center-label">
                     <div class="f-color-grey f12">菠菜指数</div>
-                    <div class="f-color-orange f24">80.13</div>
+                    <div class="f-color-orange f24">{{pieValue}}</div>
                 </div>
-                <ui-echarts :option="echartPie"  style="width:200px;height:200px"></ui-echarts>
+                <ui-echarts v-if="pieValue" :option="echartPie"  style="width:200px;height:200px"></ui-echarts>
             </div>
             <!--标签  -->
             <div class="flex row-around">
@@ -36,7 +36,7 @@
 
         <el-col :span="8" class="h-100 flex row-center col-center">
             <!--雷达图  -->
-            <ui-echarts :option="echartRadar" class="mt20" style="width:220px;height:220px"></ui-echarts>
+            <ui-echarts v-if="redarValue.length>0" :option="echartRadar" class="mt20" style="width:300px;height:220px"></ui-echarts>
         </el-col>
 
         <el-col :span="8" class="h-100 flex column column-row-center column-col-center">
@@ -50,16 +50,64 @@
 <script>
 import 'echarts/lib/chart/pie'; // 饼图
 import 'echarts/lib/chart/radar'; // 雷达图
+let orangeColor = '#ff8932'
+
 export default {
     data() {
-        let orangeColor = '#ff8932'
         return {
-            echartPie: {
+            redarIndicator:[],
+            redarValue:[],
+
+            pieValue:null
+        }
+    },
+    computed: {
+        echartRadar(){
+            return {
+                title: {
+                    text: '雷达图'
+                },
+                tooltip: {},
+                radar: {
+                    startAngle: 45,
+                    shape: 'circle',
+                    indicator: this.redarIndicator,
+                    // indicator: [
+                    //     { name: '运营', max: 100 },
+                    //     { name: '产品', max: 100 },
+                    //     { name: '硬件', max: 100 },
+                    //     { name: '客服', max: 100 },
+                    // ],
+                    name: {
+                        textStyle: {
+                            color: '#777'
+                        }
+                    },
+                },
+                series: [{
+                    type: 'radar',
+                    areaStyle: {
+                        normal: {
+                            color: orangeColor
+                        }
+                    },
+                    data: [
+                        {
+                            // value: [80, 50, 40.12, 76],
+                            value: this.redarValue,
+                            name: '预算分配（Allocated Budget）'
+                        }
+                    ]
+                }]
+            }
+        },
+        echartPie(){
+            return {
                 series: [
                     {
                         data: [
-                            { value: 80, name: '' },
-                            { value: 20, name: '' },
+                            { value: this.pieValue, name: '' },
+                            { value: 100-this.pieValue, name: '' },
                         ],
                         // name: '菠菜指数',
                         type: 'pie',
@@ -81,44 +129,29 @@ export default {
                         },
                     }
                 ]
-            },
-
-            echartRadar: {
-                title: {
-                    text: '雷达图'
-                },
-                tooltip: {},
-                radar: {
-                    startAngle: 45,
-                    shape: 'circle',
-                    indicator: [
-                        { name: '运营', max: 100 },
-                        { name: '产品', max: 100 },
-                        { name: '硬件', max: 100 },
-                        { name: '客服', max: 100 },
-                    ],
-                    name: {
-                        textStyle: {
-                            color: '#777'
-                        }
-                    },
-                },
-                series: [{
-                    type: 'radar',
-                    areaStyle: {
-                        normal: {
-                            color: orangeColor
-                        }
-                    },
-                    data: [
-                        {
-                            value: [80, 50, 40.12, 76],
-                            name: '预算分配（Allocated Budget）'
-                        }
-                    ]
-                }]
-            },
+            }
         }
+    },
+    created () {
+        this.$http.get('index.php?g=home&m=CompanyUser&a=company_info')
+        .then(({data})=>{
+            console.log('概览信息:',data)
+            if (data.code===1) {
+
+                // 获取雷达图数据
+                let redarData = data.data.paper.node_info
+                for (let key in redarData) {
+                    let d = redarData[key]
+                    if (d && d.node_name!=='概述') {
+                        this.redarIndicator.push({name:d.node_name, max:100})
+                        this.redarValue.push(d.totalScore)
+                    }
+                }
+
+                // 获取饼图数据
+                this.pieValue = data.data.paper.score
+            }
+        })
     }
 }
 </script>
