@@ -387,9 +387,13 @@ export default {
                 this.$message.error('图片大小不能超过 2MB!');
             }
 
-            this.uploading = true//开启上传冷却
+            let vaild = typeVaild && isLt2M
 
-            return typeVaild && isLt2M;
+            if (vaild) {
+                this.uploading = true//开启上传冷却
+            }
+
+            return vaild
         },
         uploadSuccess(res, file, fileList){
             console.log('图片上传完成:', res);
