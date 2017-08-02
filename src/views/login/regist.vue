@@ -376,19 +376,20 @@ export default {
 
         // 图片上传
         beforeUpload(file) {
-            this.uploading = true//开启上传冷却
 
-            const isJPG = file.type === 'image/jpeg';
+            const typeVaild = file.type === 'image/jpeg' || file.type === 'image/png';
             const isLt2M = file.size / 1024 / 1024 < 2;
 
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
+            if (!typeVaild) {
+                this.$message.error('图片只能是 JPG 或 PNG 格式!');
             }
             if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
+                this.$message.error('图片大小不能超过 2MB!');
             }
 
-            return isJPG && isLt2M;
+            this.uploading = true//开启上传冷却
+
+            return typeVaild && isLt2M;
         },
         uploadSuccess(res, file, fileList){
             console.log('图片上传完成:', res);

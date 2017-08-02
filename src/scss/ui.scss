@@ -148,3 +148,10 @@
         width: 240px;
     }
 }
+
+// 隐藏上传组件的上传按钮
+.ui-no-upload{
+    .el-upload{
+        display: none;
+    }
+}

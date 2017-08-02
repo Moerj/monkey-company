@@ -7,30 +7,27 @@
             <el-form-item label="公司账号">
                 SUnxiaohou
             </el-form-item>
-            <el-form-item label="入职时间">
+            <el-form-item label="入驻时间">
                 2018-18-33
             </el-form-item>
-            <el-form-item label="持有拍照">
+            <el-form-item label="持有牌照">
                 <el-upload
                   action="https://jsonplaceholder.typicode.com/posts/"
                   list-type="picture-card"
                   :on-preview="picturePreview"
                   :on-remove="pictureRemove"
                   :multiple="true"
+                  :file-list="fileListPaizhao"
+                  :disabled="true"
+                  class="ui-no-upload"
                   >
                   <i class="el-icon-plus"></i>
                 </el-upload>
             </el-form-item>
             <el-form-item label="运营游戏">
-                <el-upload
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  list-type="picture-card"
-                  :on-preview="picturePreview"
-                  :on-remove="pictureRemove"
-                  :multiple="true"
-                  >
-                  <i class="el-icon-plus"></i>
-                </el-upload>
+                <el-tag type="primary">标签三</el-tag>
+                <el-tag type="primary">标签三</el-tag>
+                <el-tag type="primary">标签三</el-tag>
             </el-form-item>
             <el-form-item label="公司LOGO">
                 <el-upload
@@ -78,6 +75,9 @@
             <el-form-item label="mobile">
                 <edit-input v-model="mobile"></edit-input>
             </el-form-item>
+            <el-form-item label="公司简介">
+                <edit-input v-model="desc" type="textarea"></edit-input>
+            </el-form-item>
         </el-form>
 
         <!--图片阅览  -->
@@ -101,6 +101,11 @@ export default {
               url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
               status: 'finished'
             }],
+            fileListPaizhao:[{
+                name: 'xxx',
+                url:'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg',
+
+            }],
 
             // 备用网址
             altUrl:['www.aaa.com','www.bbb.com'],
@@ -113,7 +118,8 @@ export default {
             qq:'',
             weixin:'',
             email:'',
-            mobile:''
+            mobile:'',
+            desc:''
 
         };
     },

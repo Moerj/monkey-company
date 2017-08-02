@@ -1,7 +1,7 @@
 <template>
     <div>
         <span v-if="!inputVisible" class="mr15">{{val}}</span>
-        <el-input v-if="inputVisible" v-model="val" @blur="save" @keyup.enter.native="save" size="small" style="width:200px"></el-input>
+        <el-input v-if="inputVisible" v-model="val" :type="type" @blur="save" @keyup.enter.native="save" size="small" style="width:200px"></el-input>
         <el-button v-else size="small" @click="inputVisible=true" type="text">
             <span v-if="val">修改</span>
             <span v-else>新增</span>
@@ -12,6 +12,9 @@
     export default {
         props: {
             value:{
+                type:String
+            },
+            type:{
                 type:String
             }
         },
