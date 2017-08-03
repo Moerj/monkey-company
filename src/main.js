@@ -9,8 +9,7 @@ if (!window.Promise) {
 import Vue from 'vue'
 import App from './App'
 
-import Vuex from 'vuex'
-Vue.use(Vuex)
+import store from './store'
 
 // 路由集合
 import router from './config/router';
@@ -66,6 +65,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

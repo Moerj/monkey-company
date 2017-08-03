@@ -29,10 +29,16 @@
             .then(({data})=>{
                 console.log('公司基础数据:',data)
                 loading.close()
-                if (data.code!==1) {
+                if (data.code===1) {
+                    this.$store.commit({
+                        type: 'fetch', //mutaitions 操作数据类型
+                        data: data.data,//要保存的数据
+                        modules: 'user' //保存到哪个模块
+                    })
+                }else{
                     this.$router.push('/login')
                 }
             })
-        }
+        },
     }
 </script>
