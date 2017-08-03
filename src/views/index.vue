@@ -31,7 +31,7 @@
                 loading.close()
                 if (data.code===1) {
                     this.$store.commit({
-                        type: 'fetch', //mutaitions 操作数据类型
+                        type: 'update', //mutaitions 操作数据类型
                         data: data.data,//要保存的数据
                         modules: 'user' //保存到哪个模块
                     })
