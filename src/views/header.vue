@@ -50,6 +50,10 @@
         methods: {
             logout(){
                 this.$router.push('/login')
+                this.$http.get('index.php?g=home&m=CompanyUser&a=logout')
+                .then(({data})=>{
+                    console.log('登出',data)
+                })
             }
         }
     }

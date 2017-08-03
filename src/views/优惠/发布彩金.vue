@@ -13,8 +13,8 @@
             </el-form-item>
     
             <div v-if="form.type==1">
-                <el-form-item label="金额">
-                    <el-input type="number"></el-input>
+                <el-form-item label="金额" prop="amount">
+                    <el-input type="number" v-model="form.amount" min="0"></el-input>
                 </el-form-item>
             </div>
     
@@ -55,10 +55,10 @@
                 <el-input-number :min="1" :max="10" v-model="form.num"></el-input-number>
             </el-form-item>
             <el-form-item label="每日总限量" prop="day_num">
-                <el-input type="number" v-model="form.day_num"></el-input>
+                <el-input type="number" v-model="form.day_num" min="0"></el-input>
             </el-form-item>
             <el-form-item label="会员日限量" prop="user_day_num">
-                <el-input type="number" v-model="form.user_day_num"></el-input>
+                <el-input type="number" v-model="form.user_day_num" min="0"></el-input>
             </el-form-item>
     
             <el-form-item label="领取网址" prop="url">
@@ -107,16 +107,17 @@ export default {
             test2: '',
 
             form: {
+                amount:'',//金额
                 code_type: 1,//生成代码方式	number	1生成 2导入 默认1
                 coupon_request:'',	//领取要求	string	多个的话，用|分割
-                day_num:0,	//日限量		
-                max:0,	//最高赠送		
-                multiple:0,	//流水倍数		
+                day_num:'',	//日限量		
+                max:'',	//最高赠送		
+                multiple:'',	//流水倍数		
                 name:'',	//菠菜名称		
-                num:0,	//优惠数量		
+                num:'',	//优惠数量		
                 type: 1,	//类型		
                 url:'',	//地址 string	
-                user_day_num:0 //会员日限量
+                user_day_num:'' //会员日限量
             }
         }
     },

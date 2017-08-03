@@ -16,6 +16,24 @@
         components: {
             pageHeader,
             sidebar
+        },
+        data () {
+            return {
+                fullscreenLoading: true
+            }
+        },
+        beforeCreate () {
+            let loading = this.$loading({ fullscreen: true, text:'小猴说事' })
+
+            // 检测登录状态
+            this.$http.get('index.php?g=home&m=login&a=company_index')
+            .then(({data})=>{
+                // console.log('登录状态',data)
+                loading.close()
+                if (data.code!==1) {
+                    this.$router.push('/login')
+                }
+            })
         }
     }
 </script>
