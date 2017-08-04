@@ -54,7 +54,7 @@
                 <span v-else>100</span>
             </el-form-item>
             <el-form-item label="详细列表">
-                <el-button type="text">查看</el-button>
+                <el-button type="text" @click="$router.push({path:'/youhui',query:{tab:'2'}})">查看</el-button>
             </el-form-item>
             <el-form-item label="活动规则">
                 <el-input type="textarea" v-if="isEdit"></el-input>

@@ -15,8 +15,7 @@
             </el-tab-pane>
         </el-tabs>
 
-        <!-- <ui-router></ui-router> -->
-        <router-view></router-view>
+        <ui-router></ui-router> 
     </div>
 </template>
 <script>
@@ -37,7 +36,7 @@ export default {
         }
     },
     mounted () {
-        this.tab = this.$route.query.tab || this.tab
+        this.activeQueryTab()
     },
     methods: {
         tabClick(){
@@ -46,6 +45,14 @@ export default {
                     tab:this.tab
                 }
             })
+        },
+        activeQueryTab(){
+            this.tab = this.$route.query.tab || this.tab
+        }
+    },
+    watch: {
+        $route(){
+            this.activeQueryTab()
         }
     }
 }
