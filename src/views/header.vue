@@ -13,7 +13,7 @@
                 小猴说事
             </div>
             <div class="flex pl15 pt15 pb15">
-                <ui-img url="http://tva3.sinaimg.cn/crop.536.63.373.373.180/8d65f675jw8f0c5pbbtg7j20u50k4jvi.jpg" size="3" class="ui-circle mr15"></ui-img>
+                <ui-img :url="user.avatar" size="3" class="ui-circle mr15"></ui-img>
                 <div>
                     <div class="flex row-between">
                         <span class="mr20">欢迎,{{user.company_name}}</span>
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="f-color-grey">
-                        <span class="mr20">上次登录: {{user.last_login_time}} (北京市区)</span>
+                        <span class="mr20">上次登录: {{user.last_login_time}} <span v-if="user.last_login_area">(user.last_login_area)</span></span>
                         <el-button type="text" @click="logout">退出</el-button>
                     </div>
                 </div>

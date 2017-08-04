@@ -17,7 +17,7 @@
         <mt-header :title="title" ref="header">
             <mt-button icon="back" slot="left" @click="active=false" class="ui-button"></mt-button>
         </mt-header>
-        <div class="flex-1 scroll-y">
+        <div class="flex-1 scroll">
             <slot></slot>
         </div>
     </mt-popup>

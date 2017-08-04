@@ -1,10 +1,7 @@
 <template>
     <div class="mb15 ui-form">
+        <el-input v-if="username" v-model="search.username" placeholder="用户名" class="ui-input"></el-input>
         <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
-        <el-select v-model="search.coupon_id" placeholder="请选择">
-            <el-option v-for="item in couponNameOpt" :key="item.id" :value="item.id" :label="item.name">
-            </el-option>
-        </el-select>
         <el-select v-model="search.status" placeholder="状态">
             <el-option value="1" label="正常">
             </el-option>
@@ -26,28 +23,21 @@ export default {
     props: {
         onSearch: {
             type: Function
+        },
+        username:{
+            type:Boolean
         }
     },
     data() {
         return {
             search: {
+                username:'',
                 keyword: '',
-                coupon_id: '',
                 status: '',
                 timeRange: [],
                 begin_date:'',
                 end_date:''
             },
-            couponNameOpt: [
-                {
-                    name: '优惠券a',
-                    id: '1'
-                },
-                {
-                    name: '优惠券b',
-                    id: '2'
-                }
-            ],
         }
     },
     methods: {
@@ -63,10 +53,10 @@ export default {
     computed: {
         disableSubmit() {//查询按钮状态控制
             let data = this.search
-            if (data.keyword) {
+            if (data.username) {
                 return false
             }
-            if (data.coupon_id) {
+            if (data.keyword) {
                 return false
             }
             if (data.status) {

@@ -37,6 +37,8 @@
                   :on-change="logoChange"
                   :multiple="false"
                   :file-list="fileListLogo"
+                  :disabled="true"
+                  class="ui-no-upload"
                   >
                   <i class="el-icon-upload2"></i>
                 </el-upload>

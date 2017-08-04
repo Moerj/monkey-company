@@ -32,13 +32,9 @@ $scroll-color-cyan:rgba(54, 198, 211, .7);
 }
 
 // 局部作用
-.scroll-y,.scroll-x {
+.scroll {
     /*--------默认样式--------*/
     overflow: auto;
-    overflow-x: hidden;
-    &.scroll-x {
-        overflow-x: auto;
-    }
     &::-webkit-scrollbar {
         width: 3px;
         height: 4px;
@@ -52,7 +48,6 @@ $scroll-color-cyan:rgba(54, 198, 211, .7);
         border-radius: 10px;
     }
     /*--------自定义属性--------*/
-    overflow-x: hidden;
     //去掉滚动条圆角
     &.scroll-no-radius {
         &::-webkit-scrollbar-track {

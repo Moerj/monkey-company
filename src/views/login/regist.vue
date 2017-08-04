@@ -13,7 +13,7 @@
             <el-step title="联系方式"></el-step>
         </el-steps>
     
-        <div class="flex-1 flex row-center ui-border-top scroll-y pt20">
+        <div class="flex-1 flex row-center ui-border-top scroll pt20">
             <div class="flex column column-row-center" v-if="submitSuccess">
                 <img src="~@/icons/check-circle-o.png" style="width:80px;">
                 <p class="f20 mt15">提交成功</p>

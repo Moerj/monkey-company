@@ -36,7 +36,6 @@
     export default {
         methods: {
             showDetails(){
-                console.log('test');
                 let id = 'test'
                 this.$router.push({name:'彩金详情',query:{id:id}})
             }

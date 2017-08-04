@@ -27,7 +27,7 @@
 
             <span class="pl20 f16">{{title}}</span>
         </div>
-        <div class="flex-1 scroll-y">
+        <div class="flex-1 scroll">
             <slot></slot>
         </div>
     </div>

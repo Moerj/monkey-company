@@ -1,6 +1,6 @@
 <template>
     <div>
-        <searchbar :on-search="onSearch"></searchbar>
+        <searchbar :on-search="onSearch" username></searchbar>
     
         <div class="flex row-between ui-border-bottom pb10 pt10 ml20 mr20" v-for="item in 5">
             <div class="flex col-center">

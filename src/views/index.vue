@@ -4,7 +4,7 @@
 
         <div class="flex-1 flex">
             <sidebar class="ui-scrollbar"></sidebar>
-            <router-view class="flex-1 p20 scroll-y relative"></router-view>
+            <router-view class="flex-1 p20 scroll relative" id="main"></router-view>
         </div>
     </div>
 </template>
