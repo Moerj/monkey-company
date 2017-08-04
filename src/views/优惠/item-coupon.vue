@@ -11,7 +11,7 @@
     }
 </style>
 <template>
-    <el-card class="coupon">
+    <el-card class="coupon" @click.native="showDetails">
         <div class="flex">
             <div class="flex-3 flex column column-col-around divide pr20">
                 <span class="f16 clamp-1 mb5">优惠券标题</span>
@@ -31,3 +31,15 @@
         </div>
     </el-card>
 </template>
+
+<script>
+    export default {
+        methods: {
+            showDetails(){
+                console.log('test');
+                let id = 'test'
+                this.$router.push({name:'彩金详情',query:{id:id}})
+            }
+        }
+    }
+</script>

@@ -14,6 +14,9 @@
                 <tab4></tab4>
             </el-tab-pane>
         </el-tabs>
+
+        <!-- <ui-router></ui-router> -->
+        <router-view></router-view>
     </div>
 </template>
 <script>

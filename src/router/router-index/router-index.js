@@ -13,6 +13,13 @@ export default [
         path: '/youhui',
         name: '优惠',
         component: r => require(['@/views/优惠/优惠'], r),
+        children:[
+            {
+                path: '/couponDetails',
+                name: '彩金详情',
+                component: r => require(['@/views/优惠/彩金详情'], r),
+            },
+        ]
     },
     {
         path: '/dongtai',

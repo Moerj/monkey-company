@@ -10,6 +10,7 @@
             <el-pagination @size-change="" @current-change="" :current-page.sync="currentPage" :page-size="100" layout="prev, pager, next, jumper" :total="1000">
             </el-pagination>
         </div>
+
     </div>
 </template>
 <script>

@@ -2,7 +2,7 @@
 .header {
     width: 100%;
     box-shadow: 1px 0 3px rgba(black,.2);
-    z-index: 1;
+    z-index: 2;
 }
 </style>
 <template>

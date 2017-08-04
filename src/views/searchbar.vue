@@ -6,11 +6,13 @@
             </el-option>
         </el-select>
         <el-select v-model="search.status" placeholder="状态">
-            <el-option value="1" label="已发布">
+            <el-option value="1" label="正常">
             </el-option>
-            <el-option value="-1" label="已失效">
+            <el-option value="2" label="待审核">
             </el-option>
-            <el-option value="0" label="待审核">
+            <el-option value="3" label="新建">
+            </el-option>
+            <el-option value="4" label="审核驳回">
             </el-option>
         </el-select>
         <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围" @change="timeDataChange">
