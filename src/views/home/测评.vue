@@ -10,7 +10,7 @@
 }
 </style>
 <template>
-    <el-row style="height:250px;">
+    <el-row v-if="data" style="height:250px;">
 
         <el-col :span="8" class="h-100">
             <!--环形饼图  -->
@@ -25,11 +25,11 @@
             <div class="flex row-around">
                 <div class="flex column column-row-center">
                     <span class="f-color-grey f10">行业排名</span>
-                    <span class="f14">第7位</span>
+                    <span class="f14">第{{score_rank}}位</span>
                 </div>
                 <div class="flex column column-row-center">
                     <span class="f-color-grey f10">高于同行</span>
-                    <span class="f14">89.33%</span>
+                    <span class="f14">{{good_percent}}%</span>
                 </div>
             </div>
         </el-col>
@@ -53,12 +53,16 @@ import 'echarts/lib/chart/radar'; // 雷达图
 let orangeColor = '#ff8932'
 
 export default {
+    props: ['data'],
     data() {
         return {
             redarIndicator:[],
             redarValue:[],
 
-            pieValue:null
+            pieValue:null,
+
+            good_percent:'',//高于同行
+            score_rank:'',//行业排名
         }
     },
     computed: {
@@ -133,25 +137,34 @@ export default {
         }
     },
     created () {
-        this.$http.get('index.php?g=home&m=CompanyUser&a=company_info')
-        .then(({data})=>{
-            console.log('概览信息:',data)
-            if (data.code===1) {
-
-                // 获取雷达图数据
-                let redarData = data.data.paper.node_info
-                for (let key in redarData) {
-                    let d = redarData[key]
-                    if (d && d.node_name!=='概述') {
-                        this.redarIndicator.push({name:d.node_name, max:100})
-                        this.redarValue.push(d.totalScore)
-                    }
-                }
-
-                // 获取饼图数据
-                this.pieValue = data.data.paper.score
+        this.$http.get('index.php?g=home&m=PaperRecord&a=company_detail', {
+            params:{
+                company_id: this.$store.state.user.company_id
             }
         })
+        .then(({data})=>{
+            console.log('公司测评详情',data)
+            if (data.code==1) {
+                this.good_percent = parseFloat(data.data.good_percent).toFixed(2)
+                this.score_rank = data.data.score_rank
+            }
+        })
+    },
+    watch: {
+        data(v){
+            // 获取雷达图数据
+            let redarData = v.paper.node_info
+            for (let key in redarData) {
+                let d = redarData[key]
+                if (d && d.node_name!=='概述') {
+                    this.redarIndicator.push({name:d.node_name, max:100})
+                    this.redarValue.push(d.totalScore)
+                }
+            }
+
+            // 获取饼图数据
+            this.pieValue = v.paper.score
+        }
     }
 }
 </script>

@@ -8,7 +8,7 @@
 <template>
     <div>
         <ui-title class="ui-border-bottom">测评</ui-title>
-        <page-cepin></page-cepin>
+        <page-cepin :data="data"></page-cepin>
     
 
         <ui-title class="mt50 ui-border-bottom">优惠</ui-title>
@@ -20,28 +20,32 @@
         <div class="flex" style="width:800px">
             <el-card class="flex-1 mr15 cursor-pointer">
                 <div class="flex row-between">
-                    <span>发出彩金
-                        <i class="f14 f-color-orange">1000个</i>
+                    <span>兑换金额
+                        <i class="f14 f-color-orange" v-if="youhuiTab==1">{{coupon.today_exchange_amount}}</i>
+                        <i class="f14 f-color-orange" v-else>{{coupon.total_exchange_amount}}</i>
                     </span>
-                    <span>共
-                        <i class="f14 f-color-orange">1000个</i>
+                    <span>兑换数量
+                        <i class="f14 f-color-orange" v-if="youhuiTab==1">{{coupon.today_exchange_count}}</i>
+                        <i class="f14 f-color-orange" v-else>{{coupon.total_exchange_count}}</i>
                     </span>
                     <i class="el-icon-arrow-right f-color-grey"></i>
                 </div>
             </el-card>
-            <el-card class="flex-1 cursor-pointer">
-                <div class="flex row-between">
-                    <span>发出彩金
-                        <i class="f14 f-color-orange">1000个</i>
-                    </span>
-                    <span>共
-                        <i class="f14 f-color-orange">1000个</i>
-                    </span>
-                    <i class="el-icon-arrow-right f-color-grey"></i>
-                </div>
+            <el-card class="flex-1 mr15 cursor-pointer">
+               <div class="flex row-between">
+                   <span>发布金额
+                       <i class="f14 f-color-orange" v-if="youhuiTab==1">{{coupon.today_publish_amount}}</i>
+                       <i class="f14 f-color-orange" v-else>{{coupon.total_publish_amount}}</i>
+                   </span>
+                   <span>发布数量
+                       <i class="f14 f-color-orange" v-if="youhuiTab==1">{{coupon.today_publish_count}}</i>
+                       <i class="f14 f-color-orange" v-else>{{coupon.total_publish_count}}</i>
+                   </span>
+                   <i class="el-icon-arrow-right f-color-grey"></i>
+               </div>
             </el-card>
         </div>
-    
+
 
         <ui-title class="mt50 ui-border-bottom">趋势</ui-title>
         <page-qushi></page-qushi>
@@ -68,11 +72,18 @@ export default {
     data() {
         return {
             youhuiTab: 1,
-            data:null
+            data:null,
+            coupon: {}
         }
     },
     created () {
-        
+        this.$http.get('index.php?g=home&m=CompanyUser&a=company_info')
+        .then(({data})=>{
+            if (data.code==1) {
+                this.data = data.data
+                this.coupon = data.data.coupon
+            }
+        })
     }
 }
 </script>

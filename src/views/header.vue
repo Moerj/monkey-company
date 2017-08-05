@@ -17,7 +17,7 @@
 </style>
 <template>
     <div class="relative">
-        <div class="header flex row-between" :style="{ height: isFold?'0':'' }">
+        <div class="header flex row-between" :style="{ height: isFold?'0px':'' }">
             <div class="flex">
                 <div class="flex row-center col-center ui-bg-gradient" style="width:150px">
                     <img src="~@/icons/logo.png" style="width:30px;margin-right:5px">
@@ -71,12 +71,7 @@
     export default {
         data () {
             return {
-                isFold:false,
-            }
-        },
-        sessionStorage:{
-            isFold:{
-                scope: 'headerFold' //指定存储作用域
+                isFold: false,
             }
         },
         methods: {
@@ -91,7 +86,7 @@
         computed: {
             user(){
                 return this.$store.state.user
-            }
+            },
         },
     }
 </script>

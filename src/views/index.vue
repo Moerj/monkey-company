@@ -1,5 +1,5 @@
 <template>
-    <div class="flex column">
+    <div class="flex column" v-if="ready">
         <page-header></page-header>
 
         <div class="flex-1 flex">
@@ -19,7 +19,7 @@
         },
         data () {
             return {
-                fullscreenLoading: true
+                ready: false
             }
         },
         beforeCreate () {
@@ -29,6 +29,7 @@
             .then(({data})=>{
                 console.log('公司基础数据:',data)
                 loading.close()
+                this.ready = true
                 if (data.code===1) {
                     this.$store.commit({
                         type: 'update', //mutaitions 操作数据类型
