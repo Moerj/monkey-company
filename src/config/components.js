@@ -14,6 +14,9 @@ export default {
             // regist components on Vue
             if (components[i].name) {
                 Vue.component(components[i].name, components[i])
+            }else if(components[i].install){
+                // 没有 name 则是 js 组件
+                Vue.use(components[i])
             }
         }
     }

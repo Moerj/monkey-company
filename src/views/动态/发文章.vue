@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <ui-title class="ui-border-bottom">动态 - 发布文章</ui-title>
+    <ui-main title="动态 - 发布文章">
         <el-form ref="form" :model="form" label-width="80px" style="max-width:900px">
             <el-form-item label="文章标题">
                 <el-input v-model="form.title"></el-input>
@@ -12,14 +11,13 @@
                 </el-select>
             </el-form-item>
             <el-form-item >
-                <vue-editor v-model="form.text" style="line-height: normal;"></vue-editor>
+                <vue-editor v-model="form.content" style="line-height: normal;"></vue-editor>
             </el-form-item>
             <el-form-item>
-                <el-button @click="$router.go(-1)">返回</el-button>
                 <el-button type="primary">发表文章</el-button>
             </el-form-item>
         </el-form>
-    </div>
+    </ui-main>
 </template>
 <script>
 import { VueEditor } from 'vue2-editor'
@@ -32,9 +30,35 @@ export default {
             form: {
                 title: '',
                 region: '',
-                text: ''
+                content: ''
             }
         }
+    },
+    created () {
+        // 获取需要修改的文章
+        this.$http.get('index.php?g=home&m=content&a=get_post', {
+            params:{
+                id: this.$route.query.id
+            }
+        })
+        .then(({data})=>{
+            console.log('修改的文章',data)
+            if (data.code===1 && data.data) {
+                let d = data.data
+                this.form.title = d.post_title
+                this.form.content = d.post_content
+            }
+        })
+
+        // 所属栏目
+        this.$http.get('index.php?g=home&m=content&a=get_breadcrumb', {
+            params:{
+                term_id: this.$route.query.id
+            }
+        })
+        .then(({data})=>{
+            console.log('所属栏目',data)
+        })
     }
 }
 </script>

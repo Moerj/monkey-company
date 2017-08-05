@@ -25,12 +25,15 @@ export default [
         path: '/dongtai',
         name: '动态',
         component: r => require(['@/views/动态/动态'], r),
+        children:[
+            {
+                path: '/fawen',
+                name: '发文章',
+                component: r => require(['@/views/动态/发文章'], r),
+            },
+        ]
     },
-    {
-        path: '/fawen',
-        name: '发文章',
-        component: r => require(['@/views/动态/发文章'], r),
-    },
+    
     {
         path: '/user',
         name: '账号',

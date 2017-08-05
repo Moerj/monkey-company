@@ -28,13 +28,13 @@
             </div>
     
             <div v-if="form.type==3">
-                <el-form-item label="存送比例">
-                    <el-input type="number" placeholder="输入百分比" min="0">
+                <el-form-item label="存送比例" prop="scale">
+                    <el-input type="number" placeholder="输入百分比" min="0" v-model="form.scale">
                         <template slot="append">%</template>
                     </el-input>
                 </el-form-item>
-                <el-form-item label="最低存款">
-                    <el-input type="number" placeholder="输入金额">
+                <el-form-item label="最低存款" prop="min">
+                    <el-input type="number" placeholder="输入金额" v-model="form.min">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="最高赠送" prop="max">
@@ -50,7 +50,7 @@
                 <el-input v-model="form.r_limit"></el-input>
             </el-form-item>
             <el-form-item label="优惠数量" prop="num">
-                <el-input-number :min="1" :max="10" v-model="form.num"></el-input-number>
+                <el-input-number :min="0" :max="10" v-model="form.num"></el-input-number>
             </el-form-item>
             <el-form-item label="每日总限量" prop="day_num">
                 <el-input type="number" v-model="form.day_num" min="0"></el-input>
@@ -74,10 +74,10 @@
                     <el-option v-for="item in couponRequestOpt" :key="item.id" :label="item.short_name" :value="item.id"> </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="活动规则">
-                <el-input type="textarea"></el-input>
+            <el-form-item label="活动规则" prop="desc">
+                <el-input type="textarea" v-model="form.desc"></el-input>
             </el-form-item>
-            <el-form-item label="代码选择" prop="code_type">
+            <el-form-item label="代码选择" prop="code_type" v-if="form.num>0">
                 <el-radio v-model="form.code_type" :label="1">生成代码</el-radio>
                 <el-radio v-model="form.code_type" :label="2">导入代码</el-radio>
             </el-form-item>
@@ -117,10 +117,12 @@ export default {
                 day_num:'',	//日限量		
                 draw_type:'',//领取方式
                 max:'',	//最高赠送		
+                min:'',//最低存款
                 multiple:'',	//流水倍数		
                 name:'',	//菠菜名称		
                 num:'',	//优惠数量		
                 r_limit:'', //兑换上限
+                scale:'',//存送比例
                 type: 1,	//类型	
                 url_simple:'',//不带前缀,用于展示
                 url:'',	//地址 string
@@ -166,6 +168,6 @@ export default {
                 this.couponRequestOpt = data.data
             }
         })
-    }
+    },
 }
 </script>
