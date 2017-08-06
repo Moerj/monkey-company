@@ -31,11 +31,9 @@
 </template>
 <script>
 import listItem from '@/views/动态/list-item'
-import searchbar from '@/views/searchbar'
 export default {
     components: {
         listItem,
-        searchbar
     },
     data() {
         return {

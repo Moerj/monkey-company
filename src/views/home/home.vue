@@ -77,8 +77,10 @@ export default {
         }
     },
     created () {
+        // 概览信息
         this.$http.get('index.php?g=home&m=CompanyUser&a=company_info')
         .then(({data})=>{
+            console.log('概览信息', data);
             if (data.code==1) {
                 this.data = data.data
                 this.coupon = data.data.coupon

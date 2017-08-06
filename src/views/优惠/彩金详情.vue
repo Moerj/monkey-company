@@ -18,7 +18,7 @@
                     <i v-if="data.type==3">比例存送</i>
                 </span>
             </el-form-item>
-            <el-form-item label="存款金额">
+            <el-form-item :label="amountName">
                 <el-input v-if="isEdit" v-model="form.amount"></el-input>
                 <span v-else>{{data.amount}}</span>
             </el-form-item>
@@ -55,7 +55,7 @@
                     <el-option v-for="item in couponRequestOpt" :key="item.id" :value="item.id" :label="item.name"></el-option>
                 </el-select>
                 <div v-else>
-                    <el-tag v-for="item in data.couponRequest" :key="item.id" type="primary">{{item.name}}</el-tag>
+                    <el-tag v-for="item in data.couponRequest" :key="item.id" type="primary" class="mr5">{{item.name}}</el-tag>
                 </div>
             </el-form-item>
             <el-form-item label="领取方式">
@@ -67,9 +67,7 @@
             </el-form-item>
             <el-form-item label="活动规则">
                 <el-input type="textarea" v-if="isEdit"></el-input>
-                <div v-else>
-                    {{data.desc}}
-                </div>
+                <div v-else v-html="data.desc"></div>
             </el-form-item>
             <el-form-item>
                 <div class="ml50">
@@ -128,6 +126,18 @@
                     this.couponRequestOpt = data.data
                 }
             })
+        },
+        computed: {
+            amountName(){
+                if (this.data.type==1) {
+                    return '金额'
+                }else if(this.data.type==2){
+                    return '存款金额'
+                }else if(this.data.type==3){
+                    return '最低存款'
+                }
+                return '金额'
+            }
         }
     }
 </script>

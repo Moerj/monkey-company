@@ -2,15 +2,15 @@
     <div>
         <el-form label-width="100px" class="ui-form">
             <el-form-item label="彩金名称">
-                <el-select filterable placeholder="从已有的彩金选择一个" v-model="form.coupon_id">
-                    <el-option v-for="item in couponIdOpt" :key="item.id" :value="item.id" :label="item.name"></el-option>
+                <el-select filterable placeholder="从已有的彩金选择一个" v-model="selectedItem" value-key="id">
+                    <el-option v-for="item in couponIdOpt" :key="item.id" :value="item" :label="item.name"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="彩金数量">
-                <span class="pl5 f-color-orange">50000</span>
+                <span class="pl5 f-color-orange">{{selectedItem.num}}</span>
             </el-form-item>
             <el-form-item label="推送数量">
-                <el-input type="number" v-model="form.num"></el-input>
+                <el-input-number v-model="form.num" :min="1" :max="parseInt(selectedItem.num)"></el-input-number>
             </el-form-item>
             <el-form-item label="目标群体">
                 <el-select v-model="form.user_group_id">
@@ -33,7 +33,8 @@
                     user_group_id:''
                 },
                 couponIdOpt:[],
-                userGroupIdOpt:[]
+                userGroupIdOpt:[],
+                selectedItem:{},
             }
         },
         created () {
@@ -50,12 +51,9 @@
                 }
             })
 
+
             // 彩金名称
-            this.$http.get('index.php?g=home&m=GameCoupon&a=coupon_list', {
-                params:{
-                    is_push: this.$store.state.user.company_id
-                }
-            })
+            this.$http.get('index.php?g=home&m=GameCoupon&a=coupon_list')
             .then(({data})=>{
                 console.log('推送彩金-彩金名称',data)
                 if (data.code===1) {
@@ -72,6 +70,11 @@
                     console.log('公司用户_推送优惠券',data)
                     this.$message(data.msg)
                 })
+            },
+        },
+        watch: {
+            selectedItem(item){
+                this.form.coupon_id = item.id
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
     <div class="mb15 ui-form">
-        <el-input v-if="username" v-model="search.username" placeholder="用户名" class="ui-input"></el-input>
+        <el-input v-if="username" v-model="search.user_name" placeholder="用户名" class="ui-input"></el-input>
         <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
         <el-select v-model="search.status" placeholder="状态">
             <el-option value="1" label="正常">
@@ -31,7 +31,7 @@ export default {
     data() {
         return {
             search: {
-                username:'',
+                user_name:'',
                 keyword: '',
                 status: '',
                 timeRange: [],
@@ -53,7 +53,7 @@ export default {
     computed: {
         disableSubmit() {//查询按钮状态控制
             let data = this.search
-            if (data.username) {
+            if (data.user_name) {
                 return false
             }
             if (data.keyword) {

@@ -137,13 +137,14 @@ export default {
         }
     },
     created () {
+        // 读取行业排名
         this.$http.get('index.php?g=home&m=PaperRecord&a=company_detail', {
             params:{
                 company_id: this.$store.state.user.company_id
             }
         })
         .then(({data})=>{
-            console.log('公司测评详情',data)
+            // console.log('公司测评详情',data)
             if (data.code==1) {
                 this.good_percent = parseFloat(data.data.good_percent).toFixed(2)
                 this.score_rank = data.data.score_rank

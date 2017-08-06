@@ -1,5 +1,5 @@
 <template>
-    <div v-if="data" v-loading="loading" class="ui-border-bottom pb15 ml20 mr20">
+    <div v-if="data && !deleted" v-loading="loading" class="ui-border-bottom pb15 ml20 mr20">
         <span class="clamp-2 pt15 pb15">{{data.post_title}}</span>
         <div class="flex row-between f10 f-color-grey">
             <div>
@@ -16,8 +16,8 @@
                     <span class="pl5">收藏: <i class="f-color-blue">{{data.favorite_num}}</i></span>
                 </div>
                 <span class="pl10 pr10">|</span>
-                <el-button size="mini" type="text" @click="goEdit(data.id)">编辑</el-button>
-                <el-button size="mini" type="text" @click="deleteArticle(data.id)">删除</el-button>
+                <el-button size="mini" type="text" @click="goEdit">编辑</el-button>
+                <el-button size="mini" type="text" @click="deleteArticle">删除</el-button>
             </div>
         </div>
     </div>
@@ -28,30 +28,15 @@
         data () {
             return {
                 loading:false,
-                userId: this.$store.state.user.user_id
+                userId: this.$store.state.user.user_id,
+                deleted:false
             }
         },
         methods: {
-            checkId(id){
-                if (this.userId != id) {
-                    this.$alert('你没有权限编辑或删除别人的文章', {
-                        confirmButtonText: '知道了',
-                        closeOnClickModal: true,
-                        callback:() => {
-                            
-                        }
-                    })
-                    return false
-                }
-                return true
-            },
-            goEdit(id){
+            goEdit(){
+                let id = this.data.id
                 if (!id) {
                     console.warn('没有文章id,无法进行编辑');
-                    return
-                }
-
-                if (!this.checkId()) {
                     return
                 }
 
@@ -62,10 +47,8 @@
                     }
                 })
             },
-            deleteArticle(id){
-                if (!this.checkId()) {
-                    return
-                }
+            deleteArticle(){
+                let id = this.data.id
 
                 this.loading  = true
                 this.$http.post('index.php?g=home&m=content&a=delete_post',{
@@ -75,8 +58,11 @@
                     console.log('删除文章', data)
                     data.msg && this.$message(data.msg)
                     this.loading = false
+
+                    // 删除界面数据
+                    this.deleted = true
                 })
             }
-        }
+        },
     }
 </script>
