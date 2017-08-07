@@ -7,13 +7,13 @@
             <p class="f-color-orange f20 mb30 mt100">Monkey tell</p>
             <el-form ref="form" :model="form" label-width="80px" style="width:300px">
                 <el-form-item label="公司账号" prop="username" :rules="required">
-                    <el-input v-model="form.username" size="large"></el-input>
+                    <el-input v-model.trim="form.username" size="large"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password" :rules="required">
-                    <el-input v-model="form.password" size="large" type="password" @keyup.enter.native="login"></el-input>
+                    <el-input v-model.trim="form.password" size="large" type="password" @keyup.enter.native="login"></el-input>
                 </el-form-item>
                 <el-form-item label="验证码" v-if="codeSrc">
-                    <el-input v-model="form.verify" size="large" class="flex-1">
+                    <el-input v-model.trim="form.verify" size="large" class="flex-1">
                         <template slot="append">
                             <img :src="codeSrc" @click="getCodeUrl" alt="验证码" style="width:90px;height:35px;border:none">
                         </template>

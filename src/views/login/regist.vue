@@ -32,11 +32,11 @@
                 <el-form :model="form" ref="step1" label-width="80px" v-show="step===1">
                     <el-form-item label="公司账号" prop="user_name" 
                     :rules="[required,{validator:rulesUserName, trigger: 'blur'},{ min: 3, max: 16, message: '长度在 3 到 16 个字符',trigger:'blur' }]">
-                        <el-input v-model="form.user_name"></el-input>
+                        <el-input v-model.trim="form.user_name"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password"
                     :rules="[required,{ min: 6, max: 16, message: '长度在 6 到 16 个字符',trigger:'blur' }]">
-                        <el-input v-model="form.password" type="password"></el-input>
+                        <el-input v-model.trim="form.password" type="password"></el-input>
                     </el-form-item>
                     <el-form-item label="确认密码" prop="repass"
                     :rules="[required,{ validator: resPassVaild,trigger:'blur'}]">
