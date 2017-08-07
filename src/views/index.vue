@@ -27,7 +27,7 @@
 
             this.$http.get('index.php?g=home&m=CompanyUser&a=common')
             .then(({data})=>{
-                console.log('公司基础数据:',data)
+                // console.log('公司基础数据:',data)
                 loading.close()
                 this.ready = true
                 if (data.code===1) {

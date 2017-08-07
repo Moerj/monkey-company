@@ -3,24 +3,22 @@
         <div class="mb15 ui-form">
             <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
             <el-select v-model="search.coupon_status" placeholder="查询状态">
-                <el-option value="-1" label="全部">
+                <el-option :value="-1" label="全部">
                 </el-option>
-                <el-option value="1" label="正常">
+                <el-option :value="1" label="正常">
                 </el-option>
-                <el-option value="2" label="待审核">
+                <el-option :value="2" label="待审核">
                 </el-option>
-                <el-option value="3" label="新建">
+                <el-option :value="3" label="新建">
                 </el-option>
-                <el-option value="4" label="审核驳回">
+                <el-option :value="4" label="审核驳回">
                 </el-option>
             </el-select>
-            <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围">
+            <el-date-picker v-model="timeRange" type="datetimerange" placeholder="选择时间范围" @change="onSearchTime">
             </el-date-picker>
             <el-button type="primary" @click="doSearch">查询</el-button>
         </div>
 
-
-        </searchbar>
         <!--优惠券列表  -->
         <div class="flex flex-wrap">
             <item-coupon v-for="item in couponList" :key="item.id" :data="item"></item-coupon>
@@ -50,20 +48,22 @@ export default {
             timeRange:[],
             search:{
                 keyword:'',
-                coupon_status:'',
-            }
+                coupon_status:-1,
+                coupon_begin_time:'',
+                coupon_end_time:'',
+            },
         }
     },
     methods: {
-        doSearch(params) {
-            params && console.log('搜索参数:', params);
+        doSearch() {
+            let params = 
 
-            params = Object.assign({},params,{
+            params = Object.assign({},{
                 page_no:this.currentPage,
                 page_size:this.pageSize,
                 search_field:'name',
                 search_value:this.search.keyword
-            })
+            },this.search)
 
             this.$http.get('index.php?g=home&m=GameCoupon&a=coupon_list', {
                 params:params
@@ -75,10 +75,17 @@ export default {
                     this.total = data.total
                 }
             })
+        },
+        onSearchTime(v){
+            let timeRangeString = v.split(' - ')
+            this.search.coupon_begin_time = timeRangeString[0]
+            this.search.coupon_end_time = timeRangeString[1]
         }
     },
     created () {
         this.doSearch()
+    },
+    watch: {
     }
 }
 </script>

@@ -1,6 +1,22 @@
 <template>
     <div v-loading="loading">
-        <searchbar :on-search="doSearch" username></searchbar>
+        <div class="mb15 ui-form">
+            <el-input v-model="search.user_name" placeholder="用户名" class="ui-input"></el-input>
+            <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
+            <el-select v-model="search.status" placeholder="状态">
+                <el-option value="1" label="正常">
+                </el-option>
+                <el-option value="2" label="待审核">
+                </el-option>
+                <el-option value="3" label="新建">
+                </el-option>
+                <el-option value="4" label="审核驳回">
+                </el-option>
+            </el-select>
+            <el-date-picker v-model="dateRange" type="datetimerange" placeholder="选择时间范围" @change="syncDate">
+            </el-date-picker>
+            <el-button type="primary" @click="doSearch">查询</el-button>
+        </div>
     
         <div v-for="item in listData" class="flex row-between ui-border-bottom pb10 pt10 ml20 mr20" >
             <div class="flex col-center">
@@ -41,18 +57,22 @@ export default {
             currentPage:1,
             pageSize:10,
             total:0,
-            listData:[]
+            listData:[],
+            dateRange:[],
+            search:{
+                user_name:'',
+                keyword:'',
+                status:'',
+                begin_date:'',
+                end_date:''
+            }
         }
     },
     methods: {
-        doSearch(params) {
-            if (params) {
-                console.log('搜索参数:', params);
-            }
-
+        doSearch() {
             this.loading = true
             this.$http.get('index.php?g=home&m=CompanyUser&a=company_exchanges', {
-                params:params
+                params:this.search
             })
             .then(({data})=>{
                 console.log('查询领取记录:',data)
@@ -62,10 +82,15 @@ export default {
                     this.total = Number(data.total)
                 }
             })
+        },
+        syncDate(v){
+            let arry = v.split(' - ')
+            this.search.begin_date = arry[0]
+            this.search.end_date = arry[1]
         }
     },
     mounted () {
         this.doSearch()
-    }
+    },
 }
 </script>

@@ -12,16 +12,17 @@
                 <i v-if="data.type==3">比例存送</i>
             </el-form-item>
             <el-form-item :label="amountName">
-                <span>{{data.amount}}</span>
+                <span v-if="data.type==2">{{data.min}}</span>
+                <span v-else>{{data.amount}}</span>
             </el-form-item>
-            <el-form-item label="赠送金额">
-                <span>无字段</span>
-            </el-form-item>
-            <el-form-item label="存送比例">
-                <span>{{data.scale}}%</span>
-            </el-form-item>
-            <el-form-item label="最高赠送">
+            <el-form-item label="赠送金额" v-if="data.type!=1 && data.type!=3">
                 <span>{{data.max}}</span>
+            </el-form-item>
+            <el-form-item label="最高赠送" v-if="data.type!=1 && data.type!=2">
+                <span>{{data.max}}</span>
+            </el-form-item>
+            <el-form-item label="存送比例" v-if="data.type!=1 && data.type!=2">
+                <span>{{data.scale}}%</span>
             </el-form-item>
             <el-form-item label="提款上限">
                 <span>{{data.r_limit}}</span>
@@ -36,10 +37,11 @@
                 <span>{{data.day_num}}</span>
             </el-form-item>
             <el-form-item label="领取要求">
-                <el-tag v-for="item in data.couponRequest" :key="item.id" type="primary" class="mr5">{{item.name}}</el-tag>
+                 <el-tag v-for="item in data.couponRequest" :key="item.id" type="primary" class="f-color-blue mr5">{{item.name}}</el-tag> 
             </el-form-item>
             <el-form-item label="领取方式">
-                <el-tag type="primary" class="mr5">{{data.drawType.name}}</el-tag>
+                  <el-tag v-if="data.drawType" type="primary" class="f-color-blue mr5">{{data.drawType.name}}</el-tag>  
+                  <span v-else>无</span>
             </el-form-item>
             <el-form-item label="详细列表">
                 <el-button type="text" @click="$router.push({path:'/youhui',query:{tab:'2'}})">查看</el-button>

@@ -83,7 +83,54 @@ export default {
         }
     },
     mounted () {
-        this.refshEchart()
+        // 日趋势
+        this.$http.get('index.php?g=home&m=CompanyUser&a=trend', {
+            params:{
+                group_by:'day'
+            }
+        })
+        .then(({data})=>{
+            console.log('日趋势数据', data)
+            if (data.code===1) {
+                let d = data.data
+
+                let xData = []
+                let seeriesData = []
+
+                for (let key in d) {
+                    seeriesData.push(d[key].amount)
+                    xData.push(key)
+                }
+
+                this.xData.day = xData
+                this.seriesData.day = seeriesData
+
+                this.refshEchart()
+            }
+        })
+        // 月趋势
+        this.$http.get('index.php?g=home&m=CompanyUser&a=trend', {
+            params:{
+                group_by:'month'
+            }
+        })
+        .then(({data})=>{
+            console.log('月趋势数据', data)
+            if (data.code===1) {
+                let d = data.data
+
+                let xData = []
+                let seeriesData = []
+
+                for (let key in d) {
+                    seeriesData.push(d[key].amount)
+                    xData.push(key)
+                }
+
+                this.xData.mon = xData
+                this.seriesData.mon = seeriesData
+            }
+        })
     },
     watch: {
         tab(){

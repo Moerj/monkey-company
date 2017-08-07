@@ -47,16 +47,16 @@
                 <el-input-number v-model="form.multiple" :min="0"></el-input-number>
             </el-form-item>
             <el-form-item label="兑换上限" prop="r_limit">
-                <el-input v-model="form.r_limit"></el-input>
+                <el-input v-model="form.r_limit" placeholder="0表示无上限"></el-input>
             </el-form-item>
             <el-form-item label="优惠数量" prop="num">
-                <el-input-number :min="0" :max="10" v-model="form.num"></el-input-number>
+                <el-input-number :min="0" v-model="form.num"></el-input-number>
             </el-form-item>
             <el-form-item label="每日总限量" prop="day_num">
-                <el-input type="number" v-model="form.day_num" min="0"></el-input>
+                <el-input type="number" v-model="form.day_num" min="0" placeholder="0表示无上限"></el-input>
             </el-form-item>
             <el-form-item label="会员日限量" prop="user_day_num">
-                <el-input type="number" v-model="form.user_day_num" min="0"></el-input>
+                <el-input type="number" v-model="form.user_day_num" min="0" placeholder="0表示无上限"></el-input>
             </el-form-item>
     
             <el-form-item label="领取网址" prop="url_simple">

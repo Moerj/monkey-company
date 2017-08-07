@@ -39,8 +39,8 @@ import '@/assets/element/index.css'
 Vue.use(ElementUI)
 
 // 自定义全局指令
-// import directive from './config/directive';
-// Vue.use(directive);
+import directive from './config/directive';
+Vue.use(directive);
 
 // 自定义全局组件,请放到components/ 并以ui-开头命名
 import components from './config/components';
