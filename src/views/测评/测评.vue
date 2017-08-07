@@ -23,5 +23,24 @@
                 tab:'1'
             }
         },
+        mounted () {
+            this.$http.get('index.php?g=home&m=PaperRecord&a=company_detail', {
+                params:{
+                    company_id: this.$store.state.user.company_id
+                }
+            })
+            .then(({data})=>{
+                console.log('公司评测详情',data)
+            })
+
+            this.$http.get('index.php?g=home&m=PaperRecord&a=first_node_detail', {
+                params:{
+                    company_id: this.$store.state.user.company_id
+                }
+            })
+            .then(({data})=>{
+                console.log('一级节点评测详情',data)
+            })
+        }
     }
 </script>
