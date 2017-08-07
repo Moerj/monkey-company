@@ -19,11 +19,11 @@
             </div>
     
             <div v-if="form.type==2">
-                <el-form-item label="存款金额">
-                    <el-input type="number"></el-input>
+                <el-form-item label="存款金额" prop="min">
+                    <el-input type="number" v-model="form.min"></el-input>
                 </el-form-item>
-                <el-form-item label="赠送金额">
-                    <el-input type="number"></el-input>
+                <el-form-item label="赠送金额" prop="max">
+                    <el-input type="number" v-model="form.max"></el-input>
                 </el-form-item>
             </div>
     

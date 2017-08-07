@@ -1,6 +1,25 @@
 <template>
     <div>
-        <searchbar :on-search="onSearch">
+        <div class="mb15 ui-form">
+            <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
+            <el-select v-model="search.coupon_status" placeholder="查询状态">
+                <el-option value="-1" label="全部">
+                </el-option>
+                <el-option value="1" label="正常">
+                </el-option>
+                <el-option value="2" label="待审核">
+                </el-option>
+                <el-option value="3" label="新建">
+                </el-option>
+                <el-option value="4" label="审核驳回">
+                </el-option>
+            </el-select>
+            <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围">
+            </el-date-picker>
+            <el-button type="primary" @click="doSearch">查询</el-button>
+        </div>
+
+
         </searchbar>
         <!--优惠券列表  -->
         <div class="flex flex-wrap">
@@ -27,28 +46,39 @@ export default {
             currentPage:1,
             total:0,
             pageSize:18,
-            couponList:[]
+            couponList:[],
+            timeRange:[],
+            search:{
+                keyword:'',
+                coupon_status:'',
+            }
         }
     },
     methods: {
-        onSearch(params) {
-            console.log('搜索参数:', params);
+        doSearch(params) {
+            params && console.log('搜索参数:', params);
+
+            params = Object.assign({},params,{
+                page_no:this.currentPage,
+                page_size:this.pageSize,
+                search_field:'name',
+                search_value:this.search.keyword
+            })
+
+            this.$http.get('index.php?g=home&m=GameCoupon&a=coupon_list', {
+                params:params
+            })
+            .then(({data})=>{
+                console.log('彩金列表',data)
+                if (data.code===1) {
+                    this.couponList = data.data
+                    this.total = data.total
+                }
+            })
         }
     },
     created () {
-        this.$http.get('index.php?g=home&m=GameCoupon&a=coupon_list', {
-            params:{
-                page_no:this.currentPage,
-                page_size:this.pageSize
-            }
-        })
-        .then(({data})=>{
-            console.log('彩金列表',data)
-            if (data.code===1) {
-                this.couponList = data.data
-                this.total = data.total
-            }
-        })
+        this.doSearch()
     }
 }
 </script>

@@ -2,9 +2,14 @@
     <div v-loading="loading" class="flex column">
         <div class="mb15 ui-form">
             <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
+            <el-select v-model="search.post_status">
+                <el-option label="全部" value="0"></el-option>
+                <el-option label="已审核" value="1"></el-option>
+                <el-option label="待审核" value="2"></el-option>
+            </el-select>
             <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围" @change="timeDataChange">
             </el-date-picker>
-            <el-button type="primary" @click="doSearch" :disabled="searchDisabled">查询</el-button>
+            <el-button type="primary" @click="doSearch">查询</el-button>
             <el-button icon="edit" type="primary" class="mb10" @click="$router.push({name:'发文章'})">发布新文章</el-button>
         </div>
 
@@ -23,7 +28,7 @@
             </el-pagination>
         </div>
         <div v-else class="flex row-center col-center flex-1 f20 f-color-grey">
-            你还没有发布任何文章
+            没有找到任何文章
         </div>
 
         <ui-router></ui-router>
@@ -41,7 +46,8 @@ export default {
                 keyword:'',
                 timeRange:[],
                 begin_date:'',
-                end_date:''
+                end_date:'',
+                post_status:''
             },
             currentPage:1,
             listData:null,
@@ -92,17 +98,6 @@ export default {
 
         // 初始查询所有文章
         this.doSearch()
-    },
-    computed: {
-        searchDisabled(){
-            if (this.search.keyword) {
-                return false
-            }
-            if (this.search.timeRange.length>0) {
-                return false
-            }
-            return true
-        }  
     },
 }
 </script>   

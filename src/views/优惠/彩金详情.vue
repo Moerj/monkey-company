@@ -51,7 +51,7 @@
                 <span v-else>{{data.day_num}}</span>
             </el-form-item>
             <el-form-item label="领取要求">
-                <el-select v-if="isEdit" v-model="form.coupon_request" multiple style="width:500px">
+                <el-select v-if="isEdit" v-model="form.coupon_request_arry" multiple style="width:500px">
                     <el-option v-for="item in couponRequestOpt" :key="item.id" :value="item.id" :label="item.name"></el-option>
                 </el-select>
                 <div v-else>
@@ -59,8 +59,12 @@
                 </div>
             </el-form-item>
             <el-form-item label="领取方式">
-                <el-input v-if="isEdit"></el-input>
-                <span v-else>无字段</span>
+                <el-select v-if="isEdit" v-model="form.draw_type">
+                    <el-option v-for="item in drawTypeOpt" :key="item.id" :value="item.id" :label="item.name"></el-option>
+                </el-select>
+                <div v-else>
+                    <el-tag type="primary" class="mr5">{{data.drawType.name}}</el-tag>
+                </div>
             </el-form-item>
             <el-form-item label="详细列表">
                 <el-button type="text" @click="$router.push({path:'/youhui',query:{tab:'2'}})">查看</el-button>
@@ -96,9 +100,12 @@
                     multiple:'',
                     user_day_num:'',
                     day_num:'',
-                    coupon_request:[]
+                    coupon_request_arry:[],
+                    coupon_request:'',
+                    draw_type:''
                 },//编辑的数据
                 couponRequestOpt:[],
+                drawTypeOpt:[]
             }
         },
         created () {
@@ -121,9 +128,22 @@
                 }
             })
             .then(({data})=>{
-                console.log('coupon_request',data)
+                // console.log('领取要求',data)
                 if (data.code==1) {
                     this.couponRequestOpt = data.data
+                }
+            })
+
+            // 领取方式
+            this.$http.get('index.php?g=home&m=DictItem&a=get_items', {
+                params:{
+                    nid:'draw_type'
+                }
+            })
+            .then(({data})=>{
+                console.log('领取方式',data)
+                if (data.code==1) {
+                    this.drawTypeOpt = data.data
                 }
             })
         },
@@ -137,6 +157,16 @@
                     return '最低存款'
                 }
                 return '金额'
+            }
+        },
+        watch: {
+            // 转换coupon_request为字符串 | 分割
+            'form.coupon_request_arry'(v){
+                this.form.coupon_request = ''
+                v.forEach((item)=>{
+                    this.form.coupon_request += item +'|'
+                })
+                this.form.coupon_request = this.form.coupon_request.replace(/\|$/,'')
             }
         }
     }
