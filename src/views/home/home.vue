@@ -52,7 +52,7 @@
 
 
         <ui-title class="mt50 ui-border-bottom">动态</ui-title>
-        <list-item v-for="(item,index) in 4" :key="'list-item'+index"></list-item>
+        <list-item v-for="item in articleData" :key="item.id" v-if="item" :data="item"></list-item>
 
     </div>
 </template>
@@ -73,7 +73,8 @@ export default {
         return {
             youhuiTab: 1,
             data:null,
-            coupon: {}
+            coupon: {},
+            articleData:[]
         }
     },
     created () {
@@ -84,6 +85,20 @@ export default {
             if (data.code==1) {
                 this.data = data.data
                 this.coupon = data.data.coupon
+            }
+        })
+
+        // 5条文章动态
+        this.$http.get('index.php?g=home&m=content&a=post_list', {
+            params: {
+                page_size:5,
+                author_id: this.$store.state.user.user_id
+            }
+        })
+        .then(({data})=>{
+            console.log('5条文章动态',data)
+            if (data.code==1) {
+                this.articleData = data.data
             }
         })
     }

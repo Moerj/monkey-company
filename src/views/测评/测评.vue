@@ -1,14 +1,9 @@
 <template>
     <div>
         <el-tabs v-model="tab">
-            <el-tab-pane label="产品" name="1">
-                <list></list>
-                <list></list>
-                <list></list>
-            </el-tab-pane>
-            <el-tab-pane label="运营" name="2">配置管理</el-tab-pane>
-            <el-tab-pane label="硬件" name="3">角色管理</el-tab-pane>
-            <el-tab-pane label="客服" name="4">定时任务补偿</el-tab-pane>
+            <el-tab-pane v-for="item in tabData" :key="item.id" :label="item.name" :name="item.name">
+                <list :node-id="item.id"></list>
+            </el-tab-pane>  
         </el-tabs>
     </div> 
 </template>
@@ -20,27 +15,27 @@
         },
         data () {
             return {
-                tab:'1'
+                tab:'产品',
+                tabData:[],
             }
         },
         mounted () {
+             // 获取一级节点id
             this.$http.get('index.php?g=home&m=PaperRecord&a=company_detail', {
                 params:{
-                    company_id: this.$store.state.user.company_id
+                    company_id: this.$store.state.user.company_id,
+                    paper_id: 13
                 }
             })
             .then(({data})=>{
                 console.log('公司评测详情',data)
-            })
+                if (data.code===1) {
+                    this.tabData = data.data.first_nodes
 
-            this.$http.get('index.php?g=home&m=PaperRecord&a=first_node_detail', {
-                params:{
-                    company_id: this.$store.state.user.company_id
+                    console.log(this.tabData);
                 }
-            })
-            .then(({data})=>{
-                console.log('一级节点评测详情',data)
-            })
+            }) 
+
         }
     }
 </script>

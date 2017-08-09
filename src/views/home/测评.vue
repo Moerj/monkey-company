@@ -140,7 +140,8 @@ export default {
         // 读取行业排名
         this.$http.get('index.php?g=home&m=PaperRecord&a=company_detail', {
             params:{
-                company_id: this.$store.state.user.company_id
+                company_id: this.$store.state.user.company_id,
+                paper_id: 13
             }
         })
         .then(({data})=>{

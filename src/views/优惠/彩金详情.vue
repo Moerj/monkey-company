@@ -11,9 +11,14 @@
                 <i v-if="data.type==2">固定存送</i>
                 <i v-if="data.type==3">比例存送</i>
             </el-form-item>
-            <el-form-item :label="amountName">
-                <span v-if="data.type==2">{{data.min}}</span>
-                <span v-else>{{data.amount}}</span>
+            <el-form-item label="金额" v-if="data.type==1">
+                {{data.amount}}
+            </el-form-item>
+            <el-form-item label="存款金额" v-if="data.type==2">
+                {{data.min}}
+            </el-form-item>
+            <el-form-item label="最低存款" v-if="data.type==3">
+                {{data.min}}
             </el-form-item>
             <el-form-item label="赠送金额" v-if="data.type!=1 && data.type!=3">
                 <span>{{data.max}}</span>
@@ -100,18 +105,6 @@
                     this.drawTypeOpt = data.data
                 }
             })
-        },
-        computed: {
-            amountName(){
-                if (this.data.type==1) {
-                    return '金额'
-                }else if(this.data.type==2){
-                    return '存款金额'
-                }else if(this.data.type==3){
-                    return '最低存款'
-                }
-                return '金额'
-            }
         },
     }
 </script>

@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
     @import '~@/scss/public.scss';
     .card{
-        width:250px;
+        width:280px;
         margin-right: 25px;
         margin-bottom: 25px;
         .show-details{
@@ -33,60 +33,81 @@
             background-color: rgba(orange,.06);
         }
     }
+
+    .progress-width{
+        width: 200px;
+    }
 </style>
 <template>
-    <div class="p5 flex mb15">
-        <ui-img url="http://s3a.pstatp.com/toutiao/resource/ntoutiao_web/static/image/other/report_logo_15cc24e.png" size="50px" class="mr25"></ui-img>
-        <div class="flex-1 ui-border-bottom">
-            <div class="flex row-between col-center p15 pl0 cursor-pointer hover-color" @click="fold = !fold">
-                <span class="f16">视觉传达</span>
-                <div class="f20 f-color-orange">
-                    <transition name="fade" mode="out-in">
-                        <i v-if="fold" class="el-icon-arrow-down" key="fold"></i>
-                        <i v-if="!fold" class="el-icon-arrow-up" key="unfold"></i>
-                    </transition>
+    <div>
+        <!-- 2级节点  -->
+        <div v-for="list in node2" class="flex mb15 pt5">
+            <ui-img :url="list.pic" size="50px" class="mr25" style="background-size:90%"></ui-img>
+            <div class="flex-1 ui-border-bottom">
+                <div class="flex row-between col-center p15 pl0 cursor-pointer hover-color" @click="list.isFold = !list.isFold">
+                    <div class="flex">
+                        <span class="f16 mr15">{{list.name}}</span>
+                        <!-- 折叠时,显示总体数据  -->
+                        <transition name="slide-row">
+                            <div v-if="list.isFold" class="flex col-center">
+                                <el-progress :percentage="getProgress(list.score)" :show-text="false" class="progress-width mr15"></el-progress> 
+                                {{list.score_txt}}
+                            </div>
+                        </transition>
+                    </div>
+                    <div v-if="list.children" class="f20 f-color-orange">
+                        <transition name="fade" mode="out-in">
+                            <i v-if="list.isFold" class="el-icon-arrow-down" key="fold"></i>
+                            <i v-if="!list.isFold" class="el-icon-arrow-up" key="unfold"></i>
+                        </transition>
+                    </div>
                 </div>
-            </div>
 
-            <!--list  -->
-            <transition name="slide-row"> 
-            <div v-show="!fold" class="flex flex-wrap pb15">
-                <el-card class="card relative" v-for="(item,i) in 5" :key="i">
-                    <ui-title class="f12">
-                        <div class="flex row-between col-center">
-                            <span class="mr20">色彩搭配</span>
-                            <span class="f10">高于同行<i class="f-color-orange">93.1%</i></span>
+                <!--list  -->
+                <transition-group name="slide-row"> 
+                    <!-- 展开式详细卡片数据  -->
+                    <div v-if="!list.isFold" key="unfold" class="flex flex-wrap pb15">
+                        <el-card v-for="card in list.children" :key="card.id" @click.native="showDetails(list,card)"  class="card relative cursor-pointer">
+                            <ui-title class="f12">
+                                <div class="flex row-between col-center">
+                                    <span>{{card.name}}</span>
+                                    <span class="f10">高于同行 <i class="f-color-orange">{{card.score_percent*100}}%</i></span>
+                                </div>
+                            </ui-title>
+                            <div class="flex row-between col-center">
+                                <el-progress :percentage="getProgress(card.score)" :show-text="false" class="flex-1 mr15"></el-progress>
+                                {{card.score_txt}}
+                            </div>
+                            <div class="show-details">
+                                <el-button>查看详情</el-button>
+                            </div>
+                        </el-card>
+                        <div v-if="!list.children">
+                            <span class="f-color-grey">没有3级节点数据</span>
                         </div>
-                    </ui-title>
-                    <div class="flex row-between col-center">
-                        <el-progress :percentage="70" :show-text="false" class="flex-1 mr15"></el-progress>
-                        一般
                     </div>
-                    <div class="show-details">
-                        <el-button @click="showDetails">查看详情</el-button>
-                    </div>
-                </el-card>
-            </div>
-            </transition> 
+                </transition-group>  
 
+            </div>
         </div>
 
-        <el-dialog title="视觉传达" :visible.sync="dialogVisible">
+        <!-- 弹出层详情  -->
+        <el-dialog v-if="dialogData" :title="dialogData.list.name" :visible.sync="dialogVisible">
             <div class="flex">
-                <ui-img url="http://s3a.pstatp.com/toutiao/resource/ntoutiao_web/static/image/other/report_logo_15cc24e.png" size="50px" class="mr25"></ui-img>
+                <!--logo  -->
+                <ui-img :url="dialogData.list.pic" size="50px" class="mr25"></ui-img>
+                
                 <div class="flex row-between col-center">
-                    <span class="mr20">色彩搭配</span>
+                    <span class="mr20">{{dialogData.card.name}}</span>
                     <div class="flex row-between col-center" style="width:200px">
-                        <el-progress :percentage="70" :show-text="false" class="flex-1 mr15"></el-progress>
-                        一般
+                         <el-progress :percentage="getProgress(dialogData.card.score)" :show-text="false" class="flex-1 mr15"></el-progress> 
+                        {{dialogData.card.score_txt}}
                     </div>
                 </div>
             </div>
-            <div class="pt25 pb25">
-                这里是主要内容介绍,巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉拉巴拉巴拉巴
-            </div>
-            <div class="flex row-between">
-                <ui-img v-for="img in 2" :key="img" url="http://p9.pstatp.com/list/190x124/30f600000e4cbd77711c" style="width:48%;height:200px"></ui-img>
+            <div class="pt25 pb25" v-html="dialogData.card.desc"></div>
+            <div v-if="dialogData.card.pic" class="flex row-between">
+                  <ui-img v-for="(img,i) in dialogData.card.imgs" :key="i" :url="img.url" style="width:48%;height:200px"></ui-img> 
             </div>
         </el-dialog>
     </div>
@@ -94,17 +115,55 @@
 
 <script>
     export default {
-        props: ['imgUrl'],
+        props: ['nodeId'],
         data () {
             return {
-                fold: false,
-                dialogVisible:false
+                node1:{},
+                node2:[],
+                dialogVisible:false,
+                dialogData:null
             }
         },
         methods: {
-            showDetails(){
+            showDetails(list,card){
                 this.dialogVisible=true
+                this.dialogData = {
+                    list,
+                    card
+                }
+                console.log('dialogData:', this.dialogData);
+            },
+            getProgress(v){
+                if (v) {
+                    let r = parseInt(v)*20
+                    if (r>100) {
+                        r = 100
+                    }
+                    return r
+                }
+                return 0
             }
-        }
+        },
+        mounted () {
+            this.$http.get('index.php?g=home&m=PaperRecord&a=first_node_detail', {
+                params: {
+                    node_id: this.nodeId,
+                    company_id: this.$store.state.user.company_id
+                }
+            })
+            .then(({ data }) => {
+                // console.log('一级节点评测详情', data)
+                if (data.code===1) {
+                    this.node1 = data.data
+                    let node2Data = data.data.children
+                    if (node2Data) {
+                        for (let i = 0; i < node2Data.length; i++) {
+                            this.$set(node2Data[i],'isFold', false)
+                        }
+                    }
+                    this.node2 = node2Data
+                }
+            })
+        },
     }
 </script>

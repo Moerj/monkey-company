@@ -36,9 +36,12 @@
                         data: data.data,//要保存的数据
                         modules: 'user' //保存到哪个模块
                     })
-                }else{
+                }else{//获取失败代表未登录
                     this.$router.push('/login')
                 }
+            }).catch(() => {
+                loading.close()
+                console.error('网络异常,基础数据获取失败');
             })
         },
     }

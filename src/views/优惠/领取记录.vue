@@ -4,13 +4,15 @@
             <el-input v-model="search.user_name" placeholder="用户名" class="ui-input"></el-input>
             <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
             <el-select v-model="search.status" placeholder="状态">
-                <el-option value="1" label="正常">
+                <el-option :value="-1" label="全部">
                 </el-option>
-                <el-option value="2" label="待审核">
+                <el-option :value="1" label="正常">
                 </el-option>
-                <el-option value="3" label="新建">
+                <el-option :value="2" label="待审核">
                 </el-option>
-                <el-option value="4" label="审核驳回">
+                <el-option :value="3" label="新建">
+                </el-option>
+                <el-option :value="4" label="审核驳回">
                 </el-option>
             </el-select>
             <el-date-picker v-model="dateRange" type="datetimerange" placeholder="选择时间范围" @change="syncDate">
@@ -62,7 +64,7 @@ export default {
             search:{
                 user_name:'',
                 keyword:'',
-                status:'',
+                status:-1,
                 begin_date:'',
                 end_date:''
             }
