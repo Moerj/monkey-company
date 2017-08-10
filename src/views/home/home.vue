@@ -36,12 +36,14 @@
     <div class="flex">
 
         <div style="width:350px;" class="flex column">
+            <!--测评图表  -->
             <div class="ui-border p15 mb15">
                 <ui-title class="ui-border-bottom">测评</ui-title>
                 <page-cepin :data="data" ></page-cepin>
             </div>
 
-            <div class="ui-border p15 flex-1 flex column">
+            <!--优惠  -->
+            <div class="ui-border p15 flex-1 flex column" style="min-height:300px">
                 <ui-title class="ui-border-bottom">优惠
                     <div slot="right" class="flex">
                         <el-button type="text" class="p0" :class="{'f-color-grey': youhuiTab!==1}" @click="youhuiTab=1">今天</el-button>
@@ -74,13 +76,14 @@
             </div>
         </div>
         <div class="flex-1 ml15 flex column">
-
+            <!--趋势图  -->
             <div class="ui-border p15 mb15">
                 <ui-title class="ui-border-bottom">趋势</ui-title>
                 <page-qushi></page-qushi>
             </div>
         
-            <div class="ui-border p15 flex-1">
+            <!--动态  -->
+            <div class="ui-border p15 flex-1" style="min-height:400px">
                 <ui-title class="ui-border-bottom">动态</ui-title>
                 <list-item v-for="item in articleData" :key="item.id" v-if="item" :data="item"></list-item> 
             </div>
