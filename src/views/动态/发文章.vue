@@ -5,9 +5,8 @@
                 <el-input v-model="form.title"></el-input>
             </el-form-item>
             <el-form-item label="所属栏目">
-                <el-select v-model="form.region" placeholder="请选择活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="form.group" placeholder="请选择活动区域">
+                    <el-option v-for="item in groupOpt" :key="item.term_id" :label="item.name" :value="item.term_id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item >
@@ -29,9 +28,10 @@ export default {
         return {
             form: {
                 title: '',
-                region: '',
+                group: '',
                 content: ''
-            }
+            },
+            groupOpt:[]
         }
     },
     created () {
@@ -51,13 +51,12 @@ export default {
         })
 
         // 所属栏目
-        this.$http.get('index.php?g=home&m=content&a=get_breadcrumb', {
-            params:{
-                term_id: this.$route.query.id
-            }
-        })
+        this.$http.get('index.php?g=home&m=content&a=post_term_list')
         .then(({data})=>{
             console.log('所属栏目',data)
+            if (data.code===1) {
+                this.groupOpt = data.msg
+            }
         })
     }
 }

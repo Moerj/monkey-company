@@ -37,8 +37,8 @@
         </div>
 
         <div class="flex row-around">
-            <el-button style="width:150px">完整测评报告</el-button>
-            <el-button style="width:150px">更新测评</el-button>
+            <el-button style="width:150px" @click="$router.push({name:'测评'})">完整测评报告</el-button>
+            <el-button style="width:150px" @click="$alert('敬请期待')">更新测评</el-button>
         </div>
 
     </div>

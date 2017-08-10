@@ -46,5 +46,10 @@
                 active: this.$route.path
             }
         },
+        watch: {
+            $route(){
+                this.active = this.$route.path
+            }
+        }
     }
 </script>

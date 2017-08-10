@@ -2,13 +2,13 @@
     <div>
         <el-form label-width="100px">
             <el-form-item label="公司名称">
-                孙小猴娱乐传媒
+                {{$store.state.user.company_name}}
             </el-form-item>
             <el-form-item label="公司账号">
-                SUnxiaohou
+                {{$store.state.user.account}}
             </el-form-item>
             <el-form-item label="入驻时间">
-                2018-18-33
+                接口在哪里?
             </el-form-item>
             <el-form-item label="持有牌照">
                 <el-upload
@@ -103,11 +103,7 @@ export default {
               url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
               status: 'finished'
             }],
-            fileListPaizhao:[{
-                name: 'xxx',
-                url:'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg',
-
-            }],
+            fileListPaizhao:[],
 
             // 备用网址
             altUrl:['www.aaa.com','www.bbb.com'],
@@ -156,6 +152,34 @@ export default {
             this.altInputVisible = false;
             this.altInputVal = '';
         },
+    },
+    created () {
+        // this.$http.get('index.php?g=home&m=PaperRecord&a=company_info', {
+        //     params:{
+        //         company_id: this.$store.state.user.company_id
+        //     }
+        // })
+        // .then(({data})=>{
+        //     console.log('公司详细数据',data)
+        // })
+
+        this.$http.get('index.php?g=home&m=GameLicense&a=license_list', {
+            params:{
+                company_id: this.$store.state.user.company_id
+            }
+        })
+        .then(({data})=>{
+            console.log('牌照列表',data)
+            if (data.code===1) {
+                data.data.forEach((item)=>{
+                    this.fileListPaizhao.push({
+                        name:item.name,
+                        url:item.logo,
+                        id:item.id
+                    })
+                })
+            }
+        })
     }
 }
 </script>
