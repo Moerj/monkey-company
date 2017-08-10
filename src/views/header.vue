@@ -34,7 +34,7 @@
                             </div> -->
                         </div>
                         <div class="f-color-grey">
-                            <span class="mr20">上次登录: {{user.last_login_time}} <span v-if="user.last_login_area">( {{user.last_login_area.replace(/\|/g,' ')}})</span></span>
+                            <span class="mr20">上次登录: {{user.last_login_time}} <span v-if="user.last_login_area"> {{user.last_login_area.replace(/\|/g,' ')}}</span></span>
                             <el-button type="text" @click="logout">退出</el-button>
                         </div>
                     </div>

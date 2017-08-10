@@ -76,3 +76,16 @@ $ui-border-radius: 4px;
         }
     }
 }
+
+@mixin color-gradient($beginColor:#ff7005,$endColor:#ff8932,$color:white,$direction:right){
+    background: -ms-linear-gradient($direction, $beginColor 0%,$endColor 100%);// ie
+    background: -o-linear-gradient($direction, $beginColor, $endColor);
+    background: -moz-linear-gradient($direction, $beginColor, $endColor);
+    background: -webkit-linear-gradient($direction, $beginColor, $endColor);
+    @if $direction==right {
+        background: linear-gradient(to left, $beginColor, $endColor);
+    }@else{
+        background: linear-gradient(to right, $beginColor, $endColor);
+    }
+    color: $color;
+}

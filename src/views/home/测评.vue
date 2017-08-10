@@ -1,50 +1,47 @@
 <style lang="scss" scoped>
-.center-label {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.pie{
+    $size:100px;
+    width: $size;
+    height: $size;
 }
 </style>
 <template>
-    <el-row v-if="data" style="height:250px;">
+    <div v-if="data">
 
-        <el-col :span="8" class="h-100">
-            <!--环形饼图  -->
-            <div class="relative flex row-center">
-                <div class="center-label">
-                    <div class="f-color-grey f12">菠菜指数</div>
-                    <div class="f-color-orange f24">{{pieValue}}</div>
+        <!--环形饼图  -->
+        <div class="relative flex row-center">
+            <ui-echarts v-if="pieValue" :option="echartPie" class="pie"></ui-echarts>
+            <div class="flex column column-col-around">
+                <div class="flex col-center row-center">
+                    <span class="f12 mr5">菠菜指数</span>
+                    <span class="f-color-orange f24">{{pieValue}}</span>
                 </div>
-                <ui-echarts v-if="pieValue" :option="echartPie"  style="width:200px;height:200px"></ui-echarts>
+                <div class="flex">
+                    <div class="flex column column-row-center mr15">
+                        <span class="f-color-grey f10">行业排名</span>
+                        <span class="f14">第{{score_rank}}位</span>
+                    </div>
+                    <div class="flex column column-row-center">
+                        <span class="f-color-grey f10">高于同行</span>
+                        <span class="f14">{{good_percent}}%</span>
+                    </div>
+                </div>
             </div>
-            <!--标签  -->
-            <div class="flex row-around">
-                <div class="flex column column-row-center">
-                    <span class="f-color-grey f10">行业排名</span>
-                    <span class="f14">第{{score_rank}}位</span>
-                </div>
-                <div class="flex column column-row-center">
-                    <span class="f-color-grey f10">高于同行</span>
-                    <span class="f14">{{good_percent}}%</span>
-                </div>
-            </div>
-        </el-col>
+        </div>
 
-        <el-col :span="8" class="h-100 flex row-center col-center">
+        <hr>
+
+        <div class="flex row-center col-center">
             <!--雷达图  -->
-            <ui-echarts v-if="redarValue.length>0" :option="echartRadar" class="mt20" style="width:300px;height:220px"></ui-echarts>
-        </el-col>
+            <ui-echarts v-if="redarValue.length>0" :option="echartRadar" style="width:300px;height:220px"></ui-echarts>
+        </div>
 
-        <el-col :span="8" class="h-100 flex column column-row-center column-col-center">
+        <div class="flex row-around">
             <el-button style="width:150px">完整测评报告</el-button>
-            <el-button style="width:150px" class="mt15 ml0">更新测评</el-button>
-        </el-col>
+            <el-button style="width:150px">更新测评</el-button>
+        </div>
 
-    </el-row>
+    </div>
 </template>
 
 <script>

@@ -3,6 +3,8 @@
     .ui-title{
         padding-bottom:15px;
         margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
     }
     .ui-title-span{
         padding-left:15px;
@@ -15,6 +17,7 @@
         <div class="ui-title-span">
             <slot></slot>
         </div>
+        <slot name="right"></slot>
     </div>
 </template>
 <script>

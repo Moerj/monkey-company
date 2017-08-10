@@ -1,5 +1,6 @@
 <template>
     <div>
+        
         <div class="flex row-between col-center">
             <div>
                 <el-button type="text" :class="{'f-color-grey': tab!=='day'}" @click="tab='day'" >日趋势</el-button>
@@ -7,7 +8,7 @@
                 <el-button type="text" :class="{'f-color-grey': tab!=='mon'}" @click="tab='mon'" >月趋势</el-button>
             </div>
         </div>
-        <ui-echarts :option="echartOpt" width="100%" height="300px"></ui-echarts>
+        <ui-echarts :option="echartOpt" width="100%" height="270px"></ui-echarts>
     </div>
 </template>
 <script>
