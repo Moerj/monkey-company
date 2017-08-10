@@ -55,7 +55,7 @@
             // 彩金名称
             this.$http.get('index.php?g=home&m=GameCoupon&a=coupon_list')
             .then(({data})=>{
-                console.log('推送彩金-彩金名称',data)
+                // console.log('推送彩金-彩金名称',data)
                 if (data.code===1) {
                     this.couponIdOpt = data.data
                 }

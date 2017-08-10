@@ -77,7 +77,7 @@ export default {
                 params:this.search
             })
             .then(({data})=>{
-                console.log('查询领取记录:',data)
+                console.log('领取记录:',data)
                 this.loading = false
                 if (data.code===1) {
                     this.listData = data.data.exchange

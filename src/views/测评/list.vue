@@ -44,12 +44,12 @@
         <div v-for="list in node2" class="flex mb15 pt5">
             <ui-img :url="list.pic" size="50px" class="mr25" style="background-size:90%"></ui-img>
             <div class="flex-1 ui-border-bottom">
-                <div class="flex row-between col-center p15 pl0 cursor-pointer hover-color" @click="list.isFold = !list.isFold">
+                <div class="flex row-between col-center p15 pl0" :class="{'hover-color':list.children,'cursor-pointer':list.children}" @click="toggleNode(list)">
                     <div class="flex">
                         <span class="f16 mr15">{{list.name}}</span>
                         <!-- 折叠时,显示总体数据  -->
                         <transition name="slide-row">
-                            <div v-if="list.isFold" class="flex col-center">
+                            <div v-if="list.isFold || !list.children" class="flex col-center">
                                 <el-progress :percentage="getProgress(list.score)" :show-text="false" class="progress-width mr15"></el-progress> 
                                 {{list.score_txt}}
                             </div>
@@ -82,9 +82,6 @@
                                 <el-button>查看详情</el-button>
                             </div>
                         </el-card>
-                        <div v-if="!list.children">
-                            <span class="f-color-grey">没有3级节点数据</span>
-                        </div>
                     </div>
                 </transition-group>  
 
@@ -142,6 +139,11 @@
                     return r
                 }
                 return 0
+            },
+            toggleNode(list){
+                if (list.children) {
+                    list.isFold = !list.isFold
+                }
             }
         },
         mounted () {

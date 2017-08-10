@@ -138,7 +138,6 @@ export default {
             this.$http.post('index.php?g=home&m=CompanyUser&a=create_coupon',this.form)
             .then(({data})=>{
                 loading.close()
-                console.log(data)
                 data.msg && this.$message(data.msg)
             })
         }
