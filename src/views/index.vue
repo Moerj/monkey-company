@@ -1,10 +1,16 @@
+<style lang="scss" scoped>
+    .ui-router-main{
+        position: relative;
+        padding: 30px 20px 5px;
+    }
+</style>
 <template>
     <div class="flex column" v-if="ready">
         <page-header></page-header>
 
         <div class="flex-1 flex">
             <sidebar class="ui-scrollbar"></sidebar>
-            <router-view class="flex-1 scroll relative p20 pt30 pb5" id="main"></router-view>
+            <router-view class="ui-router-main flex-1 scroll"></router-view>
         </div>
     </div>
 </template>

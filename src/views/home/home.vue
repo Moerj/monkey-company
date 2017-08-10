@@ -1,37 +1,36 @@
 <style lang="scss" scoped>
-@import '~@/scss/public.scss';
-.tabBtn {
-    width: 50px;
-    height: 25px;
-}
-.bg-blue{
-    @include color-gradient(#0c72e0,#2c95f0,white,left);
-}
-.gap{
-    position: relative;
-    @mixin gap{
-        content: '';
-        position: absolute;
-        top: 50%;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background-color: white;
-        z-index: 1;
+    @import '~@/scss/public.scss';
+    .tabBtn {
+        width: 50px;
+        height: 25px;
     }
-    &::after{
-        @include gap;
-        left: 0;
-        transform: translate3d(-50%,-50%,0);
+    .bg-blue{
+        @include color-gradient(#0c72e0,#2c95f0,white,left);
     }
-    &::before{
-        @include gap;
-        right: 0;
-        transform: translate3d(50%,-50%,0);
+    .gap{
+        position: relative;
+        @mixin gap{
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            z-index: 1;
+        }
+        &::after{
+            @include gap;
+            left: 0;
+            transform: translate3d(-50%,-50%,0);
+        }
+        &::before{
+            @include gap;
+            right: 0;
+            transform: translate3d(50%,-50%,0);
+        }
     }
-}
 </style>
-
 <template>
     <div class="flex">
 

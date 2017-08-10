@@ -68,7 +68,14 @@ export default {
                 title: {
                     text: '雷达图'
                 },
-                tooltip: {},
+                tooltip: {
+                    position: function (pos, params, dom, rect, size) {
+                        // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
+                        var obj = {top: pos[1]-130};
+                        obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
+                        return obj;
+                    }
+                },
                 radar: {
                     startAngle: 45,
                     shape: 'circle',
@@ -112,7 +119,7 @@ export default {
                         ],
                         // name: '菠菜指数',
                         type: 'pie',
-                        radius: ['50%', '70%'],
+                        radius: ['30%', '70%'],
                         avoidLabelOverlap: false,
                         hoverAnimation: false,
                         itemStyle: {
