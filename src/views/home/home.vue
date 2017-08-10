@@ -45,10 +45,10 @@
             <!--优惠  -->
             <div class="ui-border p15 flex-1 flex column" style="min-height:300px">
                 <ui-title class="ui-border-bottom">优惠
-                    <div slot="right" class="flex">
-                        <el-button type="text" class="p0" :class="{'f-color-grey': youhuiTab!==1}" @click="youhuiTab=1">今天</el-button>
-                        <i class="pl15 pr15 f-color-grey">|</i>
-                        <el-button type="text" class="p0" :class="{'f-color-grey': youhuiTab!==2}" @click="youhuiTab=2">全部</el-button>
+                    <div slot="right">
+                        <el-button type="text" class="p5" :class="{'f-color-grey': youhuiTab!==1}" @click="youhuiTab=1">今天</el-button>
+                        <i class="f-color-grey">|</i>
+                        <el-button type="text" class="p5" :class="{'f-color-grey': youhuiTab!==2}" @click="youhuiTab=2">全部</el-button>
                     </div>
                 </ui-title>
                 <div class="flex-1 flex column column-col-around column-row-stretch p15">
@@ -78,7 +78,6 @@
         <div class="flex-1 ml15 flex column">
             <!--趋势图  -->
             <div class="ui-border p15 mb15">
-                <ui-title class="ui-border-bottom">趋势</ui-title>
                 <page-qushi></page-qushi>
             </div>
         

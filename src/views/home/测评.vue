@@ -10,20 +10,20 @@
 
         <!--环形饼图  -->
         <div class="relative flex row-center">
-            <ui-echarts v-if="pieValue" :option="echartPie" class="pie"></ui-echarts>
+            <ui-echarts v-if="pieValue" :option="echartPie" class="pie mr20"></ui-echarts>
             <div class="flex column column-col-around">
                 <div class="flex col-center row-center">
-                    <span class="f12 mr5">菠菜指数</span>
+                    <span class="f16 mr5">菠菜指数</span>
                     <span class="f-color-orange f24">{{pieValue}}</span>
                 </div>
-                <div class="flex">
-                    <div class="flex column column-row-center mr15">
-                        <span class="f-color-grey f10">行业排名</span>
-                        <span class="f14">第{{score_rank}}位</span>
+                <div class="flex f14">
+                    <div class="flex column column-row-center mr25">
+                        <span class="f-color-grey">行业排名</span>
+                        <span>第{{score_rank}}位</span>
                     </div>
                     <div class="flex column column-row-center">
-                        <span class="f-color-grey f10">高于同行</span>
-                        <span class="f14">{{good_percent}}%</span>
+                        <span class="f-color-grey">高于同行</span>
+                        <span class="f16">{{good_percent}}%</span>
                     </div>
                 </div>
             </div>

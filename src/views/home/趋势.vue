@@ -1,14 +1,16 @@
 <template>
     <div>
-        
-        <div class="flex row-between col-center">
-            <div>
-                <el-button type="text" :class="{'f-color-grey': tab!=='day'}" @click="tab='day'" >日趋势</el-button>
-                <i class="p15 f-color-grey">|</i>
-                <el-button type="text" :class="{'f-color-grey': tab!=='mon'}" @click="tab='mon'" >月趋势</el-button>
+        <ui-title class="ui-border-bottom">趋势
+            <div slot="right">
+                <el-button type="text" class="p5" :class="{'f-color-grey': tab!=='day'}" @click="tab='day'" >日趋势</el-button>
+                <i class="f-color-grey">|</i>
+                <el-button type="text" class="p5" :class="{'f-color-grey': tab!=='mon'}" @click="tab='mon'" >月趋势</el-button>
             </div>
+        </ui-title>
+        <div class="flex row-between col-center">
+            
         </div>
-        <ui-echarts :option="echartOpt" width="100%" height="270px"></ui-echarts>
+        <ui-echarts :option="echartOpt" width="100%" height="300px"></ui-echarts>
     </div>
 </template>
 <script>
@@ -84,14 +86,22 @@ export default {
         }
     },
     mounted () {
+        // 获取最近七天日期作为参数
+        let today = new Date()
+        let sevenDayAgo = new Date(today.getTime() - (6 * 24 * 60 * 60 * 1000));
+        let todayFormat = this.$date('yyyy-MM-dd',today)
+        let sevenFormat = this.$date('yyyy-MM-dd',sevenDayAgo)
+
         // 日趋势
         this.$http.get('index.php?g=home&m=CompanyUser&a=trend', {
             params:{
-                group_by:'day'
+                group_by:'day',
+                begin_date: sevenFormat,
+                end_date: todayFormat,
             }
         })
         .then(({data})=>{
-            console.log('日趋势数据', data)
+            // console.log('日趋势数据', data)
             if (data.code===1) {
                 let d = data.data
 
@@ -109,14 +119,26 @@ export default {
                 this.refshEchart()
             }
         })
+
+        // 获取今年所有月份作为参数
+        let year = today.getFullYear()
+        let beginMonth = `${year}-01`
+        let endMonth = today.getMonth()+1
+        if (endMonth<10) {
+            endMonth = '0' + endMonth
+        }
+        let currentMonth = `${year}-${endMonth}`
+
         // 月趋势
         this.$http.get('index.php?g=home&m=CompanyUser&a=trend', {
             params:{
-                group_by:'month'
+                group_by:'month',
+                begin_date:beginMonth,
+                end_date:currentMonth
             }
         })
         .then(({data})=>{
-            console.log('月趋势数据', data)
+            // console.log('月趋势数据', data)
             if (data.code===1) {
                 let d = data.data
 
@@ -143,7 +165,7 @@ export default {
             // 跟新配置
             this.echartOpt.xAxis.data = this.xData[this.tab]
             this.echartOpt.series[0].data = this.seriesData[this.tab]
-        }
+        },
     }
 }
 </script>
