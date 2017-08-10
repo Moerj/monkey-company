@@ -1,12 +1,14 @@
 <template>
-    <div>
-        <span v-if="!inputVisible" class="mr15">{{val}}</span>
+    <span>
+        <el-tag type="success" v-if="val && !inputVisible" > 
+            {{val}} 
+        </el-tag>
         <el-input v-if="inputVisible" v-model="val" :type="type" @blur="save" @keyup.enter.native="save" size="small" style="width:200px"></el-input>
         <el-button v-else size="small" @click="inputVisible=true" type="text">
             <span v-if="val">修改</span>
             <span v-else>新增</span>
         </el-button>
-    </div>
+    </span>
 </template>
 <script>
     export default {

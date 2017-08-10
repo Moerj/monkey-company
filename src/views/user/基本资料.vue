@@ -8,7 +8,7 @@
                 {{$store.state.user.account}}
             </el-form-item>
             <el-form-item label="入驻时间">
-                接口在哪里?
+                {{companyDetails.setup_time}}
             </el-form-item>
             <el-form-item label="持有牌照">
                 <el-upload
@@ -25,9 +25,7 @@
                 </el-upload>
             </el-form-item>
             <el-form-item label="运营游戏">
-                <el-tag type="primary">标签三</el-tag>
-                <el-tag type="primary">标签三</el-tag>
-                <el-tag type="primary">标签三</el-tag>
+                <el-tag type="primary" v-for="item in gamesOpt" :key="item.id" class="mr10">{{item.short_name || item.name}}</el-tag>
             </el-form-item>
             <el-form-item label="公司LOGO">
                 <el-upload
@@ -44,41 +42,28 @@
                 </el-upload>
             </el-form-item>
             <el-form-item label="备用网址">
-                <el-tag :key="tag" v-for="tag in altUrl" :closable="true" :close-transition="false" @close="handleClose(tag)" type="success" class="mr5"> 
-                    {{tag}} 
-                </el-tag>
-                <el-input
-                  style="width:81px;"
-                  v-if="altInputVisible"
-                  v-model="altInputVal"
-                  ref="saveTagInput"
-                  size="small"
-                  @keyup.enter.native="addUrlTag"
-                  @blur="addUrlTag"
-                >
-                </el-input>
-                <el-button v-else-if="altUrl.length<3" size="small" @click="showInput">新增</el-button>
+                <edit-input v-model="companyDetails.bus_url"></edit-input>
             </el-form-item>
             <el-form-item label="官网网址">
-                <edit-input v-model="officialUrl"></edit-input>
+                <edit-input v-model="companyDetails.url"></edit-input>
             </el-form-item>
             <el-form-item label="SKYPE">
-                <edit-input v-model="skype"></edit-input>
+                <edit-input v-model="companyDetails.bus_skype"></edit-input>
             </el-form-item>
             <el-form-item label="qq">
-                <edit-input v-model="qq"></edit-input>
+                <edit-input v-model="companyDetails.bus_qq"></edit-input>
             </el-form-item>
             <el-form-item label="weixin">
-                <edit-input v-model="weixin"></edit-input>
+                <edit-input v-model="companyDetails.bus_weixin"></edit-input>
             </el-form-item>
             <el-form-item label="email">
-                <edit-input v-model="email"></edit-input>
+                <edit-input v-model="companyDetails.bus_email"></edit-input>
             </el-form-item>
             <el-form-item label="mobile">
-                <edit-input v-model="mobile"></edit-input>
+                <edit-input v-model="companyDetails.bus_mobile"></edit-input>
             </el-form-item>
             <el-form-item label="公司简介">
-                <edit-input v-model="desc" type="textarea"></edit-input>
+                <edit-input v-model="companyDetails.desc" type="textarea"></edit-input>
             </el-form-item>
         </el-form>
 
@@ -96,14 +81,14 @@ export default {
     },
     data() {
         return {
+            company_id: this.$store.state.user.company_id,
             dialogImageUrl: '',
             dialogVisible: false,
-            fileListLogo: [{
-              name: 'logo.png',
-              url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-              status: 'finished'
-            }],
+            fileListLogo: [],
             fileListPaizhao:[],
+            companyDetails:'',
+
+            gamesOpt:[],
 
             // 备用网址
             altUrl:['www.aaa.com','www.bbb.com'],
@@ -117,7 +102,8 @@ export default {
             weixin:'',
             email:'',
             mobile:'',
-            desc:''
+            desc:'',
+
 
         };
     },
@@ -135,9 +121,6 @@ export default {
         },
 
         // 修改标签
-        handleClose(tag) {
-            this.altUrl.splice(this.altUrl.indexOf(tag), 1);
-        },
         showInput() {
             this.altInputVisible = true;
             this.$nextTick(() => {
@@ -156,16 +139,24 @@ export default {
     created () {
         // this.$http.get('index.php?g=home&m=PaperRecord&a=company_info', {
         //     params:{
-        //         company_id: this.$store.state.user.company_id
+        //         company_id: this.company_id
         //     }
         // })
         // .then(({data})=>{
         //     console.log('公司详细数据',data)
+        //     if (data.code===1) {
+        //         let d = data.data
+        //         this.fileListLogo.push({
+        //             name: d.company_name,
+        //             url:d.company_logo
+        //         })
+        //         this.companyDetails = d
+        //     }
         // })
 
         this.$http.get('index.php?g=home&m=GameLicense&a=license_list', {
             params:{
-                company_id: this.$store.state.user.company_id
+                company_id: this.company_id
             }
         })
         .then(({data})=>{
@@ -178,6 +169,35 @@ export default {
                         id:item.id
                     })
                 })
+            }
+        })
+
+        this.$http.get('index.php?g=home&m=GameFactory&a=factory_list',{
+            params:{
+                company_id: this.company_id
+            }
+        })
+        .then(({data})=>{
+            console.log('厂商列表:', data);
+            if (data.code===1) {
+                this.gamesOpt = data.data
+            }
+        })
+
+        this.$http.get('index.php?g=home&m=GameCompany&a=company_list', {
+            params:{
+                id: this.company_id
+            }
+        })
+        .then(({data})=>{
+            console.log('获取游戏公司列表',data)
+            if (data.code===1) {
+                let d = data.data[0]
+                this.fileListLogo.push({
+                    name: d.company_name,
+                    url:d.logo
+                })
+                this.companyDetails = d
             }
         })
     }

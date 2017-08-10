@@ -1,7 +1,6 @@
 @import './public.scss';
-// vue-awesome
-// .fa-icon{
-//     &.text{ // 解决与文本混合
-//         margin-right:5px;
-//     }
-// }
+
+// tag 标签颜色
+.el-tag--primary{
+    color: dodgerblue;
+}

@@ -284,22 +284,40 @@ export default {
                 console.log('查询公司:',data)
                 if (data.code===1 && data.data[0]) {
                     this.form.company_id = data.data[0].id
+                }else{
+                    // 没有查询到公司, 清空id
+                    this.form.company_id = ''
                 }
                 this.loadSelectList()
             })
         },
         loadSelectList(){//读取厂商列表和牌照列表
             // 厂商列表
+            console.log('正在获取厂商列表, 参数 company_id:', this.form.company_id);
             this.$http.get('index.php?g=home&m=GameFactory&a=factory_list',{
                 params:{
                     company_id: this.form.company_id
                 }
             })
             .then(({data})=>{
+                console.log('厂商列表:', data);
                 if (data.code===1) {
                     this.gameOption = data.data
                 }
             })
+            // 游戏公司列表
+            // console.log('正在获取游戏公司列表, 参数 id:', this.form.company_id);
+            // this.$http.get('index.php?g=home&m=GameCompany&a=company_list',{
+            //     params:{
+            //         id: this.form.company_id
+            //     }
+            // })
+            // .then(({data})=>{
+            //     console.log('游戏公司列表:', data);
+            //     if (data.code===1) {
+            //         this.gameOption = data.data
+            //     }
+            // })
 
             // 牌照列表
             this.$http.get('index.php?g=home&m=GameLicense&a=license_list',{

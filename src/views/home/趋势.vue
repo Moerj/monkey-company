@@ -123,11 +123,11 @@ export default {
         // 获取今年所有月份作为参数
         let year = today.getFullYear()
         let beginMonth = `${year}-01`
-        let endMonth = today.getMonth()+1
+        let endMonth = today.getMonth()+2
         if (endMonth<10) {
             endMonth = '0' + endMonth
         }
-        let currentMonth = `${year}-${endMonth}`
+        let currentMonth = `${year}-${endMonth}-01`
 
         // 月趋势
         this.$http.get('index.php?g=home&m=CompanyUser&a=trend', {
