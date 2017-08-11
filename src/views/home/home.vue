@@ -130,7 +130,7 @@ export default {
         this.$http.get('index.php?g=home&m=content&a=post_list', {
             params: {
                 page_size:5,
-                author_id: this.$store.state.commonuser_id
+                author_id: this.$store.state.user_id
             }
         })
         .then(({data})=>{

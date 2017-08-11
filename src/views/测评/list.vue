@@ -150,7 +150,7 @@
             this.$http.get('index.php?g=home&m=PaperRecord&a=first_node_detail', {
                 params: {
                     node_id: this.nodeId,
-                    company_id: this.$store.state.commoncompany_id
+                    company_id: this.$store.state.company_id
                 }
             })
             .then(({ data }) => {

@@ -1,8 +1,12 @@
 <template>
     <span>
-        <el-tag type="success" v-if="val && !inputVisible" > 
-            {{val}} 
-        </el-tag>
+        <span v-if="val && !inputVisible">
+            <div type="success" v-if="type==='textarea'" v-html="val"> 
+            </div>
+            <el-tag type="success" v-else > 
+                {{val}} 
+            </el-tag>
+        </span>
         <el-input v-if="inputVisible" v-model="val" :type="type" @blur="save" @keyup.enter.native="save" size="small" style="width:200px"></el-input>
         <el-button v-else size="small" @click="inputVisible=true" type="text">
             <span v-if="val">修改</span>

@@ -2,10 +2,10 @@
     <div>
         <el-form label-width="100px">
             <el-form-item label="公司名称">
-                {{$store.state.commoncompany_name}}
+                {{$store.state.common.company_name}}
             </el-form-item>
             <el-form-item label="公司账号">
-                {{$store.state.commonaccount}}
+                {{$store.state.common.account}}
             </el-form-item>
             <el-form-item label="入驻时间">
                 {{companyDetails.setup_time}}
@@ -81,7 +81,7 @@ export default {
     },
     data() {
         return {
-            company_id: this.$store.state.commoncompany_id,
+            company_id: this.$store.state.company_id,
             dialogImageUrl: '',
             dialogVisible: false,
             fileListLogo: [],
