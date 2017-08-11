@@ -64,9 +64,10 @@ export default {
         },
         submit(){
             this.isLoading = true
+
+            // 登录
             this.$http.post('index.php?g=home&m=login&a=doCompanyUserLogin', this.form)
             .then(({data})=>{
-                console.log(data)
                 this.isLoading = false
                 let msgType = data.code===1?'success':'error'
 

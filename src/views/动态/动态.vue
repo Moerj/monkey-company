@@ -93,7 +93,7 @@ export default {
             page_no:this.currentPage,
 
             // 文章作者id
-            author_id: this.$store.state.user.user_id
+            author_id: this.$store.state.commonuser_id
         })
 
         // 初始查询所有文章

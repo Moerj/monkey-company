@@ -23,7 +23,7 @@
              // 获取一级节点id
             this.$http.get('index.php?g=home&m=PaperRecord&a=company_detail', {
                 params:{
-                    company_id: this.$store.state.user.company_id,
+                    company_id: this.$store.state.commoncompany_id,
                     paper_id: 13
                 }
             })

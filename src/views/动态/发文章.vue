@@ -55,7 +55,7 @@ export default {
         .then(({data})=>{
             console.log('所属栏目',data)
             if (data.code===1) {
-                this.groupOpt = data.msg
+                this.groupOpt = data.data
             }
         })
     }

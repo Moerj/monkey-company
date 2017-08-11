@@ -81,9 +81,13 @@
             </div>
         
             <!--动态  -->
-            <div class="ui-border p15 flex-1" style="min-height:400px">
-                <ui-title class="ui-border-bottom">动态</ui-title>
-                <list-item v-for="item in articleData" :key="item.id" v-if="item" :data="item"></list-item> 
+            <div class="ui-border p15 flex-1 flex column" style="min-height:440px">
+                <div>
+                    <ui-title class="ui-border-bottom">动态</ui-title>
+                </div>
+                <div class="flex-1 scroll">
+                    <list-item v-for="(item,i) in articleData" :key="item.id" v-if="item" :data="item" :style="{'border-bottom':isLastItem(i), 'padding-bottom':isLastItem(i)}"></list-item> 
+                </div>
             </div>
         </div>
 
@@ -126,7 +130,7 @@ export default {
         this.$http.get('index.php?g=home&m=content&a=post_list', {
             params: {
                 page_size:5,
-                author_id: this.$store.state.user.user_id
+                author_id: this.$store.state.commonuser_id
             }
         })
         .then(({data})=>{
@@ -135,6 +139,11 @@ export default {
                 this.articleData = data.data
             }
         })
+    },
+    methods: {
+        isLastItem(index){
+            return index===this.articleData.length-1 ? '0 !important' :''
+        }
     }
 }
 </script>

@@ -28,7 +28,7 @@
         data () {
             return {
                 loading:false,
-                userId: this.$store.state.user.user_id,
+                userId: this.$store.state.commonuser_id,
                 deleted:false
             }
         },

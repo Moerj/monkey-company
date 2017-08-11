@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ui-title class="ui-border-bottom">趋势
+        <ui-title class="ui-border-bottom mb0">趋势
             <div slot="right">
                 <el-button type="text" class="p5" :class="{'f-color-grey': tab!=='day'}" @click="tab='day'" >日趋势</el-button>
                 <i class="f-color-grey">|</i>
@@ -10,7 +10,7 @@
         <div class="flex row-between col-center">
             
         </div>
-        <ui-echarts :option="echartOpt" width="100%" height="300px"></ui-echarts>
+        <ui-echarts :option="echartOpt" width="100%" height="250px"></ui-echarts>
     </div>
 </template>
 <script>
@@ -122,19 +122,17 @@ export default {
 
         // 获取今年所有月份作为参数
         let year = today.getFullYear()
-        let beginMonth = `${year}-01`
         let endMonth = today.getMonth()+2
         if (endMonth<10) {
             endMonth = '0' + endMonth
         }
-        let currentMonth = `${year}-${endMonth}-01`
 
         // 月趋势
         this.$http.get('index.php?g=home&m=CompanyUser&a=trend', {
             params:{
                 group_by:'month',
-                begin_date:beginMonth,
-                end_date:currentMonth
+                begin_date: `${year}-01-01`,
+                end_date: `${year}-${endMonth}-01`
             }
         })
         .then(({data})=>{

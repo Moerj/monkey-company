@@ -24,17 +24,17 @@
                     小猴说事
                 </div>
                 <div class="flex pl15 pt15 pb15">
-                    <ui-img :url="user.avatar" size="3" class="ui-circle mr15"></ui-img>
+                    <ui-img :url="common.avatar" size="3" class="ui-circle mr15"></ui-img>
                     <div>
                         <div class="flex row-between">
-                            <span class="mr20">欢迎,{{user.company_name}}</span>
+                            <span class="mr20">欢迎,{{common.company_name}}</span>
                             <!-- <div>
                                 <img src="~@/icons/mail.png" style="width:20px;"> 站内信(
                                 <i class="f-color-orange">6</i> )
                             </div> -->
                         </div>
                         <div class="f-color-grey">
-                            <span class="mr20">上次登录: {{user.last_login_time}} <span v-if="user.last_login_area"> {{user.last_login_area.replace(/\|/g,' ')}}</span></span>
+                            <span class="mr20">上次登录: {{common.last_login_time}} <span v-if="common.last_login_area"> {{common.last_login_area.replace(/\|/g,' ')}}</span></span>
                             <el-button type="text" @click="logout">退出</el-button>
                         </div>
                     </div>
@@ -43,13 +43,13 @@
             <div class="flex mr10">
                 <div class="ui-border-right pl15 pr15 flex col-center">
                     <span>
-                        <i class="f30 f-color-orange">{{user.favorite_num}}</i>
+                        <i class="f30 f-color-orange">{{common.favorite_num}}</i>
                         人关注
                     </span>
                 </div>
                 <div class="pl15 pr15 flex col-center">
                     <span>
-                        <i class="f30 f-color-orange">{{user.coupon_comment_num}}</i>
+                        <i class="f30 f-color-orange">{{common.coupon_comment_num}}</i>
                         条评论
                     </span>
                 </div>
@@ -84,8 +84,8 @@
             }
         },
         computed: {
-            user(){
-                return this.$store.state.user
+            common(){
+                return this.$store.state.common
             },
         },
     }

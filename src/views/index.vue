@@ -40,7 +40,7 @@
                     this.$store.commit({
                         type: 'update', //mutaitions 操作数据类型
                         data: data.data,//要保存的数据
-                        modules: 'user' //保存到哪个模块
+                        modules: 'common' //保存到哪个模块
                     })
                 }else{//获取失败代表未登录
                     this.$router.push('/login')
@@ -48,6 +48,11 @@
             }).catch(() => {
                 loading.close()
                 console.error('网络异常,基础数据获取失败');
+            })
+
+            this.$http.get('index.php?g=home&m=Users&a=user_info')
+            .then(({data})=>{
+                console.log('获取用户数据',data)
             })
         },
     }
