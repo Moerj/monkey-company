@@ -5,15 +5,15 @@
                 <el-input v-model="form.title"></el-input>
             </el-form-item>
             <el-form-item label="所属栏目">
-                <el-select v-model="form.group" placeholder="请选择活动区域">
-                    <el-option v-for="item in groupOpt" :key="item.term_id" :label="item.name" :value="item.term_id"></el-option>
+                <el-select v-model="form.termID" placeholder="请选择活动区域">
+                    <el-option v-for="item in termIDOpt" :key="item.term_id" :label="item.name" :value="item.term_id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item >
                 <vue-editor v-model="form.content" style="line-height: normal;"></vue-editor>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary">发表文章</el-button>
+                <el-button type="primary" @click="submit">发表文章</el-button>
             </el-form-item>
         </el-form>
     </ui-main>
@@ -28,10 +28,10 @@ export default {
         return {
             form: {
                 title: '',
-                group: '',
+                termID: '',
                 content: ''
             },
-            groupOpt:[]
+            termIDOpt:[]
         }
     },
     created () {
@@ -51,13 +51,34 @@ export default {
         })
 
         // 所属栏目
-        this.$http.get('index.php?g=home&m=content&a=post_term_list')
+        this.$http.get('index.php?g=home&m=content&a=post_term_list',{
+            params:{
+                parent_id:8
+            }
+        })
         .then(({data})=>{
             console.log('所属栏目',data)
             if (data.code===1) {
-                this.groupOpt = data.data
+                this.termIDOpt = data.data
             }
         })
+    },
+    methods: {
+        submit(){
+            this.$http.post('index.php?g=home&m=content&a=add_post',{
+                post_content: this.form.content,	//文章的html文本	string	
+                post_title: this.form.title,	//文章标题	string	
+                term_id: this.form.termID,	//文章分类id	number	
+                user_type: 3,	//用户类型	number	1普通 3公司 默认1
+            })
+            .then(({data})=>{
+                console.log('发文章', data)
+                this.$message(data.msg)
+                if (data.code===1) {
+                    this.$router.push('/dongtai')
+                }
+            })
+        }
     }
 }
 </script>

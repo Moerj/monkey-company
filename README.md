@@ -20,3 +20,13 @@ npm run build --report
 
 ##兼容性
 不兼容ie9及以下版本
+
+
+## Vuex
+```js
+this.$store.commit({
+    type: 'update', //mutaitions 操作数据类型
+    data: data.data,//要保存的数据
+    modules: 'modulesName' //保存到哪个模块
+})
+```

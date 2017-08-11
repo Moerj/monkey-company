@@ -50,9 +50,20 @@
                 console.error('网络异常,基础数据获取失败');
             })
 
-            this.$http.get('index.php?g=home&m=Users&a=user_info')
+            this.$http.get('index.php?g=home&m=Users&a=user_info',{
+                params:{
+                    user_type:3
+                }
+            })
             .then(({data})=>{
                 console.log('获取用户数据',data)
+                if (data.code===1) {
+                    this.$store.commit({
+                        type: 'update', //mutaitions 操作数据类型
+                        data: data.data,//要保存的数据
+                        modules: 'user_info' //保存到哪个模块
+                    })
+                }
             })
         },
     }

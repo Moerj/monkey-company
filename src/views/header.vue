@@ -2,7 +2,6 @@
 .header {
     width: 100%;
     box-shadow: 1px 0 3px rgba(black,.2);
-    z-index: 2;
     overflow: hidden;
 }
 .fold{
@@ -11,12 +10,12 @@
     left: 50%;
     transform: translate3d(-50%,100%,0);
     width: 80px;
-    z-index: 2;
+    z-index: 1;
     background-color: rgb(246, 244, 238);
 }
 </style>
 <template>
-    <div class="relative">
+    <div class="relative" style="z-index:2">
         <div class="header flex row-between" :style="{ height: isFold?'0px':'' }">
             <div class="flex">
                 <div class="flex row-center col-center ui-bg-gradient" style="width:150px">

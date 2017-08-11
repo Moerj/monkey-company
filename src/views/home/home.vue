@@ -112,7 +112,7 @@ export default {
             youhuiTab: 1,
             data:null,
             coupon: {},
-            articleData:[]
+            articleData: this.$store.state.post_list
         }
     },
     created () {
@@ -130,18 +130,23 @@ export default {
         this.$http.get('index.php?g=home&m=content&a=post_list', {
             params: {
                 page_size:5,
-                author_id: this.$store.state.user_id
+                author_id: this.$store.state.common.user_id
             }
         })
         .then(({data})=>{
             console.log('5条文章动态',data)
             if (data.code==1) {
-                this.articleData = data.data
+                // this.articleData = data.data
+                this.$store.commit({
+                    type: 'update',
+                    data: data.data,
+                    modules: 'post_list' //文章列表
+                })
             }
         })
     },
     methods: {
-        isLastItem(index){
+        isLastItem(index){//判断是否为最后一条动态,改变样式
             return index===this.articleData.length-1 ? '0 !important' :''
         }
     }

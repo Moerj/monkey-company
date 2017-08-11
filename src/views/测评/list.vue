@@ -68,10 +68,10 @@
                     <!-- 展开式详细卡片数据  -->
                     <div v-if="!list.isFold" key="unfold" class="flex flex-wrap pb15">
                         <el-card v-for="card in list.children" :key="card.id" @click.native="showDetails(list,card)"  class="card relative cursor-pointer">
-                            <ui-title class="f12">
+                            <ui-title class="f12 block">
                                 <div class="flex row-between col-center">
                                     <span>{{card.name}}</span>
-                                    <span class="f10">高于同行 <i class="f-color-orange">{{card.score_percent*100}}%</i></span>
+                                    <span class="f10">高于同行 <i class="f-color-orange">{{parseFloat(card.score_percent*100).toFixed(2)}}%</i></span>
                                 </div>
                             </ui-title>
                             <div class="flex row-between col-center">
@@ -150,7 +150,7 @@
             this.$http.get('index.php?g=home&m=PaperRecord&a=first_node_detail', {
                 params: {
                     node_id: this.nodeId,
-                    company_id: this.$store.state.company_id
+                    company_id: this.$store.state.common.company_id
                 }
             })
             .then(({ data }) => {

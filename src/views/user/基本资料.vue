@@ -81,7 +81,7 @@ export default {
     },
     data() {
         return {
-            company_id: this.$store.state.company_id,
+            company_id: this.$store.state.common.company_id,
             dialogImageUrl: '',
             dialogVisible: false,
             fileListLogo: [],
@@ -101,7 +101,7 @@ export default {
             qq:'',
             weixin:'',
             email:'',
-            mobile:'',
+            mobile:this.$store.state.user_info.mobile,
             desc:'',
 
 
@@ -137,23 +137,6 @@ export default {
         },
     },
     created () {
-        // this.$http.get('index.php?g=home&m=PaperRecord&a=company_info', {
-        //     params:{
-        //         company_id: this.company_id
-        //     }
-        // })
-        // .then(({data})=>{
-        //     console.log('公司详细数据',data)
-        //     if (data.code===1) {
-        //         let d = data.data
-        //         this.fileListLogo.push({
-        //             name: d.company_name,
-        //             url:d.company_logo
-        //         })
-        //         this.companyDetails = d
-        //     }
-        // })
-
         this.$http.get('index.php?g=home&m=GameLicense&a=license_list', {
             params:{
                 company_id: this.company_id
