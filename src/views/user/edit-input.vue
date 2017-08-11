@@ -7,8 +7,8 @@
                 {{val}} 
             </el-tag>
         </span>
-        <el-input v-if="inputVisible" v-model="val" :type="type" @blur="save" @keyup.enter.native="save" size="small" style="width:200px"></el-input>
-        <el-button v-else size="small" @click="inputVisible=true" type="text">
+        <el-input v-if="inputVisible" ref="input" v-model="val" :type="type" @blur="save" @keyup.enter.native="save" size="small" style="width:200px"></el-input>
+        <el-button v-else size="small" @click="openEdit" type="text">
             <span v-if="val">修改</span>
             <span v-else>新增</span>
         </el-button>
@@ -34,6 +34,14 @@
             save(){
                 this.inputVisible = false
                 this.$emit('input', this.val) 
+            },
+            openEdit(){
+                this.inputVisible=true
+                this.$nextTick(() => {
+                    let input = this.$refs['input'].$el.querySelector('input')
+                    input.focus()
+                    input.select()
+                })
             }
         },
         watch: {
