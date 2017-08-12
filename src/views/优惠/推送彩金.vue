@@ -53,7 +53,12 @@
 
 
             // 彩金名称
-            this.$http.get('index.php?g=home&m=GameCoupon&a=coupon_list')
+            this.$http.get('index.php?g=home&m=GameCoupon&a=coupon_list',{
+                params:{
+                    search_field: 'company',
+                    search_value: this.$store.state.common.company_id
+                }
+            })
             .then(({data})=>{
                 // console.log('推送彩金-彩金名称',data)
                 if (data.code===1) {

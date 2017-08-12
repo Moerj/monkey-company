@@ -8,13 +8,12 @@
     }
     .el-textarea{
         width: 100% !important;
-        margin-bottom: 34px;
     }
 </style>
 <template>
     <span>
             <span v-if="val && !inputVisible">
-                <div v-html="val" type="success" v-if="type==='textarea'" class="textarea"> 
+                <div v-html="val" @click="edit" v-if="type==='textarea'" class="textarea"> 
                 </div>
                 <el-tag type="success" v-else @click.native="edit"> 
                     {{val}} 
