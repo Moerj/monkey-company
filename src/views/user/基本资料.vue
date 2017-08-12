@@ -113,26 +113,6 @@ export default {
         }
     },
     created () {
-        // 牌照列表
-        this.$http.get('index.php?g=home&m=GameLicense&a=license_list', {
-                params:{
-                    company_id: this.$store.state.common.company_id
-                }
-            })
-            .then(({data})=>{
-                // console.log('牌照列表',data)
-                if (data.code===1) {
-                    data.data.forEach((item)=>{
-                        this.fileListPaizhao.push({
-                            name:item.name,
-                            url:item.logo,
-                            id:item.id
-                        })
-                    })
-                }
-            })
-
-
         // 获取公司数据
         this.$http.get('index.php?g=home&m=companyUser&a=company_detail')
         .then(({data})=>{
@@ -140,13 +120,24 @@ export default {
             if (data.code===1) {
                 this.companyData = data.data
 
-                // logo
+                // 公司logo
                 this.fileListLogo.push({
                     name: 'logo',
                     url:data.data.logo
                 })
 
-                // 备用网址
+                // 牌照图片列表
+                data.data.license &&
+                data.data.license.forEach((item)=>{
+                    this.fileListPaizhao.push({
+                        id:item.id,
+                        name:item.name,
+                        url:item.logo
+                    })
+                })
+
+                // 备用网址列表
+                data.data.backup_urls &&
                 data.data.backup_urls.forEach((item,i)=>{
                     if (item.url) {
                         this.bakUrl[i] = item.url

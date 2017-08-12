@@ -3,9 +3,10 @@
         <div class="mb15 ui-form">
             <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
             <el-select v-model="search.post_status" placeholder="文章状态">
-                <el-option label="全部" :value="0"></el-option>
-                <el-option label="已审核" :value="1"></el-option>
-                <el-option label="待审核" :value="2"></el-option>
+                <el-option label="全部" value="2"></el-option>
+                <el-option label="已审核" value="1"></el-option>
+                <el-option label="未审核" value="0"></el-option>
+                <el-option label="删除" value="3"></el-option>
             </el-select>
             <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围" @change="timeDataChange">
             </el-date-picker>
@@ -69,7 +70,8 @@ export default {
                 data:null,
                 visible:false
             },
-            postList:[]
+            postList:[],
+            currentRoutePath:this.$route.path
         }
     },
     methods: {
@@ -108,6 +110,13 @@ export default {
     mounted () {
         // 初始查询所有文章
         this.doSearch()
+    },
+    watch:{
+        $route(route){//从子页面发布完文章, 返回后刷新文章列表
+            if (route.path === this.currentRoutePath) {
+                this.doSearch()
+            }
+        }
     },
 }
 </script>   
