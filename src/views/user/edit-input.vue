@@ -20,7 +20,9 @@
                 {{val}} 
             </el-tag>
         </span>
-        <el-input v-if="inputVisible" ref="input" :autosize="{ minRows: 4}" v-model="val" :type="type" @blur="save" @keyup.enter.native="save" size="small" style="width:200px"></el-input>
+        <el-input v-if="inputVisible" ref="input" :autosize="{ minRows: 4}" v-model="tempVal" :type="type" 
+        @blur="save" @keyup.enter.native="save"
+        size="small" style="width:200px"></el-input>
         <el-button v-else size="small" @click="openEdit" type="text">
             <span v-if="val">修改</span>
             <span v-else>新增</span>
@@ -30,23 +32,42 @@
 <script>
     export default {
         props: {
-            value:{
-                type:String
+            val:{
+                type: String
             },
             type:{
+                type:String
+            },
+            change:{
+                // 回调
+                type:Function
+            },
+            postUrl: {
+                // 后台接口的名称
+                type:String
+            },
+            field:{
+                // 修改的字段名
                 type:String
             }
         },
         data () {
             return {
                 inputVisible: false,
-                val:''
+                tempVal:''
             }
         },
         methods: {
             save(){
                 this.inputVisible = false
-                this.$emit('input', this.val) 
+                this.$emit('update:val', this.tempVal) 
+                console.log(this);
+
+                this.change && this.change({
+                    value: this.tempVal,
+                    field: this.field,
+                    postUrl:this.postUrl
+                })
             },
             openEdit(){
                 this.inputVisible=true
@@ -55,14 +76,7 @@
                     input.focus()
                     input.select()
                 })
-            }
+            },
         },
-        watch: {
-            value(v){
-                if (v) {
-                    this.val = v
-                }
-            }
-        }
     }
 </script>

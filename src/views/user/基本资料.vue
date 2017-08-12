@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form label-width="100px">
+        <el-form v-if="user_info" label-width="100px">
             <el-form-item label="公司名称">
                 {{$store.state.common.company_name}}
             </el-form-item>
@@ -42,28 +42,28 @@
                 </el-upload>
             </el-form-item>
             <el-form-item label="备用网址">
-                <edit-input v-model="companyDetails.bus_url"></edit-input>
+                <edit-input :val.sync="companyDetails.bus_url"></edit-input>
             </el-form-item>
             <el-form-item label="官网网址">
-                <edit-input v-model="companyDetails.url"></edit-input>
+                <edit-input :val.sync="companyDetails.url"></edit-input>
             </el-form-item>
             <el-form-item label="SKYPE">
-                <edit-input v-model="companyDetails.bus_skype"></edit-input>
+                <edit-input :val.sync="companyDetails.bus_skype"></edit-input>
             </el-form-item>
             <el-form-item label="qq">
-                <edit-input v-model="companyDetails.bus_qq"></edit-input>
+                <edit-input :val.sync="user_info.qq" :change="edit" field="qq" post-url="change_user_ext"></edit-input>
             </el-form-item>
             <el-form-item label="weixin">
-                <edit-input v-model="companyDetails.bus_weixin"></edit-input>
+                <edit-input :val.sync="user_info.weixin" :change="edit" field="weixin" post-url="change_user_ext"></edit-input>
             </el-form-item>
             <el-form-item label="email">
-                <edit-input v-model="companyDetails.bus_email"></edit-input>
+                <edit-input :val.sync="user_info.user_email" :change="edit" field="assist_email" post-url="change_user_info"></edit-input>
             </el-form-item>
             <el-form-item label="mobile">
-                <edit-input v-model="companyDetails.bus_mobile"></edit-input>
+                <edit-input :val.sync="user_info.mobile" :change="edit" field="assist_mobile" post-url="change_user_info"></edit-input>
             </el-form-item>
             <el-form-item label="公司简介">
-                <edit-input v-model="companyDetails.desc" type="textarea"></edit-input>
+                <edit-input :val.sync="companyDetails.desc" type="textarea"></edit-input>
             </el-form-item>
         </el-form>
 
@@ -86,8 +86,7 @@ export default {
             dialogVisible: false,
             fileListLogo: [],
             fileListPaizhao:[],
-            companyDetails:'',
-
+            companyDetails:{},
             gamesOpt:[],
 
             // 备用网址
@@ -95,17 +94,8 @@ export default {
             altInputVisible:false,
             altInputVal:'',
 
-            // edit-input-data
-            officialUrl:'',// 官网网址
-            skype:'',
-            qq:'',
-            weixin:'',
-            email:'',
-            mobile:this.$store.state.user_info.mobile,
-            desc:'',
-
-
-        };
+            user_info: null,
+        }
     },
     methods: {
         // 图片上传
@@ -135,54 +125,82 @@ export default {
             this.altInputVisible = false;
             this.altInputVal = '';
         },
+
+        // 修改一项信息
+        edit({value,field,postUrl}){
+            this.$http.post(`index.php?g=home&m=Users&a=${postUrl}`,{
+                field: field,
+                value: value,
+                user_type: 3
+            })
+            .then(({data})=>{
+                console.log(`修改 ${field} `,data)
+            })
+        }
     },
     created () {
+        // 牌照列表
         this.$http.get('index.php?g=home&m=GameLicense&a=license_list', {
-            params:{
-                company_id: this.company_id
-            }
-        })
-        .then(({data})=>{
-            console.log('牌照列表',data)
-            if (data.code===1) {
-                data.data.forEach((item)=>{
-                    this.fileListPaizhao.push({
-                        name:item.name,
-                        url:item.logo,
-                        id:item.id
+                params:{
+                    company_id: this.company_id
+                }
+            })
+            .then(({data})=>{
+                // console.log('牌照列表',data)
+                if (data.code===1) {
+                    data.data.forEach((item)=>{
+                        this.fileListPaizhao.push({
+                            name:item.name,
+                            url:item.logo,
+                            id:item.id
+                        })
                     })
-                })
-            }
-        })
+                }
+            })
 
+        // 厂商列表
         this.$http.get('index.php?g=home&m=GameFactory&a=factory_list',{
-            params:{
-                company_id: this.company_id
-            }
-        })
-        .then(({data})=>{
-            console.log('厂商列表:', data);
-            if (data.code===1) {
-                this.gamesOpt = data.data
-            }
-        })
+                params:{
+                    company_id: this.company_id
+                }
+            })
+            .then(({data})=>{
+                // console.log('厂商列表:', data);
+                if (data.code===1) {
+                    this.gamesOpt = data.data
+                }
+            })
 
+        // 游戏公司列表
         this.$http.get('index.php?g=home&m=GameCompany&a=company_list', {
+                params:{
+                    id: this.company_id
+                }
+            })
+            .then(({data})=>{
+                console.log('游戏公司列表',data)
+                if (data.code===1) {
+                    let d = data.data[0]
+                    this.fileListLogo.push({
+                        name: d.company_name,
+                        url:d.logo
+                    })
+                    this.companyDetails = d
+                }
+            })
+
+        // 用户信息
+        this.$http.get('index.php?g=home&m=Users&a=user_info',{
             params:{
-                id: this.company_id
+                user_type:3
             }
         })
         .then(({data})=>{
-            console.log('获取游戏公司列表',data)
+            console.log('获取用户数据',data)
             if (data.code===1) {
-                let d = data.data[0]
-                this.fileListLogo.push({
-                    name: d.company_name,
-                    url:d.logo
-                })
-                this.companyDetails = d
+                this.user_info = data.data
             }
         })
-    }
+    },
 }
 </script>
