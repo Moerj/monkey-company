@@ -41,20 +41,24 @@
 <template>
     <div>
         <!-- 2级节点  -->
-        <div v-for="list in node2" class="flex mb15 pt5">
-            <ui-img :url="list.pic" size="50px" class="mr25" style="background-size:90%"></ui-img>
-            <div class="flex-1 ui-border-bottom">
-                <div class="flex row-between col-center p15 pl0" :class="{'hover-color':list.children,'cursor-pointer':list.children}" @click="toggleNode(list)">
-                    <div class="flex">
-                        <span class="f16 mr15">{{list.name}}</span>
-                        <!-- 折叠时,显示总体数据  -->
-                        <transition name="slide-row">
-                            <div v-if="list.isFold || !list.children" class="flex col-center">
-                                <el-progress :percentage="getProgress(list.score)" :show-text="false" class="progress-width mr15"></el-progress> 
-                                {{list.score_txt}}
-                            </div>
-                        </transition>
+        <div v-for="list in node2" class="flex mb15 pt5 inline-block">
+            <div v-if="list.children" class="flex-1 ui-border-bottom">
+                <div class="flex-1 flex row-between col-center p15 pl0" :class="{'hover-color':list.children,'cursor-pointer':list.children}" @click="toggleNode(list)">
+                    <div class="flex col-center">
+                        <ui-img :url="list.pic" size="50px" class="mr15" style="background-size:90%"></ui-img>
+                        <div class="flex">
+                            <span class="f16 mr15">{{list.name}}</span>
+                            <!-- 折叠时,显示总体数据  -->
+                            <transition name="slide-row">
+                                <div v-if="list.isFold || !list.children" class="flex col-center">
+                                    <el-progress :percentage="getProgress(list.score)" :show-text="false" class="progress-width mr15"></el-progress> 
+                                    {{list.score_txt}}
+                                </div>
+                            </transition>
+                        </div>
                     </div>
+
+                    <!-- 折叠箭头 -->
                     <div v-if="list.children" class="f20 f-color-orange">
                         <transition name="fade" mode="out-in">
                             <i v-if="list.isFold" class="el-icon-arrow-down" key="fold"></i>
@@ -86,13 +90,31 @@
                 </transition-group>  
 
             </div>
+            <!-- 2级为末节点,显示卡片布局 -->
+            <div v-else>
+                <el-card :key="list.id" @click.native="showDetails(node2,list)"  class="card relative cursor-pointer">
+                    <ui-title class="f12 block">
+                        <div class="flex row-between col-center">
+                            <span>{{list.name}}</span>
+                            <span class="f10">高于同行 <i class="f-color-orange">{{parseFloat(list.score_percent*100).toFixed(2)}}%</i></span>
+                        </div>
+                    </ui-title>
+                    <div class="flex row-between col-center">
+                        <el-progress :percentage="getProgress(list.score)" :show-text="false" class="flex-1 mr15"></el-progress>
+                        {{list.score_txt}}
+                    </div>
+                    <div class="show-details">
+                        <el-button>查看详情</el-button>
+                    </div>
+                </el-card>
+            </div>
         </div>
 
         <!-- 弹出层详情  -->
         <el-dialog v-if="dialogData" :title="dialogData.list.name" :visible.sync="dialogVisible">
             <div class="flex">
                 <!--logo  -->
-                <ui-img :url="dialogData.list.pic" size="50px" class="mr25"></ui-img>
+                <ui-img :url="dialogData.list.pic || dialogData.card.pic" size="50px" class="mr25"></ui-img>
                 
                 <div class="flex row-between col-center">
                     <span class="mr20">{{dialogData.card.name}}</span>
@@ -154,7 +176,7 @@
                 }
             })
             .then(({ data }) => {
-                // console.log('一级节点评测详情', data)
+                console.log('一级节点评测详情', data)
                 if (data.code===1) {
                     this.node1 = data.data
                     let node2Data = data.data.children
