@@ -77,6 +77,10 @@
                 console.log('优惠券详情',data)
                 if (data.code===1) {
                     this.data  = data.data
+                }else{
+                    this.$alert(data.msg).then(() => {
+                        this.$router.go(-1)
+                    })
                 }
             })
 

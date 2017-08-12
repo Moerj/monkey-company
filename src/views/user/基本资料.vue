@@ -41,29 +41,32 @@
                   <i class="el-icon-upload2"></i>
                 </el-upload>
             </el-form-item>
-            <el-form-item label="备用网址">
-                <edit-input :val.sync="companyDetails.bus_url"></edit-input>
-            </el-form-item>
             <el-form-item label="官网网址">
-                <edit-input :val.sync="companyDetails.url"></edit-input>
+                <el-tag type="primary">{{companyDetails.url}}</el-tag>
+            </el-form-item>
+            <el-form-item label="备用网址">
+                <div v-for="(item,i) in 5">
+                    <span class="f-color-grey f06">站点{{i+1}} </span>
+                    <edit-input v-model="bakUrl[i]"></edit-input>
+                </div>
             </el-form-item>
             <el-form-item label="SKYPE">
-                <edit-input :val.sync="companyDetails.bus_skype"></edit-input>
+                <edit-input v-model="companyDetails.bus_skype"></edit-input>
             </el-form-item>
             <el-form-item label="qq">
-                <edit-input :val.sync="user_info.qq" :change="edit" field="qq" post-url="change_user_ext"></edit-input>
+                <edit-input v-model="user_info.qq" :change="edit" field="qq" post-url="change_user_ext"></edit-input>
             </el-form-item>
             <el-form-item label="weixin">
-                <edit-input :val.sync="user_info.weixin" :change="edit" field="weixin" post-url="change_user_ext"></edit-input>
+                <edit-input v-model="user_info.weixin" :change="edit" field="weixin" post-url="change_user_ext"></edit-input>
             </el-form-item>
             <el-form-item label="email">
-                <edit-input :val.sync="user_info.user_email" :change="edit" field="assist_email" post-url="change_user_info"></edit-input>
+                <edit-input v-model="user_info.user_email" :change="edit" field="assist_email" post-url="change_user_info"></edit-input>
             </el-form-item>
             <el-form-item label="mobile">
-                <edit-input :val.sync="user_info.mobile" :change="edit" field="assist_mobile" post-url="change_user_info"></edit-input>
+                <edit-input v-model="user_info.mobile" :change="edit" field="assist_mobile" post-url="change_user_info"></edit-input>
             </el-form-item>
             <el-form-item label="公司简介">
-                <edit-input :val.sync="companyDetails.desc" type="textarea"></edit-input>
+                <edit-input v-model="companyDetails.desc" type="textarea"></edit-input>
             </el-form-item>
         </el-form>
 
@@ -88,13 +91,8 @@ export default {
             fileListPaizhao:[],
             companyDetails:{},
             gamesOpt:[],
-
-            // 备用网址
-            altUrl:['www.aaa.com','www.bbb.com'],
-            altInputVisible:false,
-            altInputVal:'',
-
             user_info: null,
+            bakUrl:[]
         }
     },
     methods: {
@@ -108,22 +106,6 @@ export default {
         },
         logoChange(file, fileList) {
             this.fileListLogo = fileList.slice(-1);
-        },
-
-        // 修改标签
-        showInput() {
-            this.altInputVisible = true;
-            this.$nextTick(() => {
-                this.$refs.saveTagInput.$refs.input.focus();
-            });
-        },
-        addUrlTag() {
-            let altInputVal = this.altInputVal;
-            if (altInputVal) {
-                this.altUrl.push(altInputVal);
-            }
-            this.altInputVisible = false;
-            this.altInputVal = '';
         },
 
         // 修改一项信息

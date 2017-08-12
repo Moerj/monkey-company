@@ -13,27 +13,26 @@
 </style>
 <template>
     <span>
-        <span v-if="val && !inputVisible">
-            <div v-html="val" type="success" v-if="type==='textarea'" class="textarea"> 
-            </div>
-            <el-tag type="success" v-else > 
-                {{val}} 
-            </el-tag>
-        </span>
-        <el-input v-if="inputVisible" ref="input" :autosize="{ minRows: 4}" v-model="tempVal" :type="type" 
-        @blur="save" @keyup.enter.native="save"
-        size="small" style="width:200px"></el-input>
-        <el-button v-else size="small" @click="openEdit" type="text">
-            <span v-if="val">修改</span>
-            <span v-else>新增</span>
-        </el-button>
+            <span v-if="val && !inputVisible">
+                <div v-html="val" type="success" v-if="type==='textarea'" class="textarea"> 
+                </div>
+                <el-tag type="success" v-else @click.native="edit"> 
+                    {{val}} 
+                </el-tag>
+            </span>
+            <el-input v-if="inputVisible" ref="input" :autosize="{ minRows: 4}" v-model="val" :type="type" 
+                @blur="save" @keyup.enter.native="save"
+                size="small" style="width:200px"></el-input>
+            <el-button v-else-if="!val" size="small" @click="edit" type="text">
+                <span>新增</span>
+            </el-button>
+
     </span>
 </template>
 <script>
     export default {
         props: {
-            val:{
-                type: String
+            value:{
             },
             type:{
                 type:String
@@ -49,27 +48,26 @@
             field:{
                 // 修改的字段名
                 type:String
-            }
+            },
         },
         data () {
             return {
                 inputVisible: false,
-                tempVal:''
+                val:this.value
             }
         },
         methods: {
             save(){
                 this.inputVisible = false
-                this.$emit('update:val', this.tempVal) 
-                console.log(this);
+                this.$emit('input', this.val) 
 
                 this.change && this.change({
-                    value: this.tempVal,
-                    field: this.field,
+                    value: this.val,
+                    field: this.field || this.getField(),
                     postUrl:this.postUrl
                 })
             },
-            openEdit(){
+            edit(){
                 this.inputVisible=true
                 this.$nextTick(() => {
                     let input = this.$refs['input'].$el.children[0]
@@ -77,6 +75,17 @@
                     input.select()
                 })
             },
+            getField(){//在没有指定field的情况下,去v-model的最后一个字段
+                let s = this.$vnode.data.model.expression.split('.')
+                return s[s.length-1]
+            }
+        },
+        watch: {
+            value(v){
+                if (v) {
+                    this.val = v
+                }
+            }
         },
     }
 </script>

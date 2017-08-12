@@ -32,7 +32,7 @@
 </style>
 <template>
     <el-tabs v-model="tab">
-        <el-tab-pane label="评价服务" name="1">
+        <el-tab-pane label="评测服务" name="1">
             <div class="flex row-around">
                 <div class="flex-1 ui-border-right flex column column-row-center f14 one">
                     <img src="~./icons/ico1.png" style="height:80px;">
@@ -46,8 +46,8 @@
                     </div>
                     <span class="mt15">将给您带来价值</span>
                     <span class="ui-rmb f24 f-color-orange mb30">2000万</span>
-                    <el-button class="large-btn mb15">服务详情</el-button>
-                    <el-button class="large-btn ml0">商务专员</el-button>
+                    <el-button @click="link" class="large-btn mb15">服务详情</el-button>
+                    <el-button @click="link" class="large-btn ml0">商务专员</el-button>
                 </div>
                 <div class="flex-1 ui-border-right flex column column-row-center f14 one">
                     <img src="~./icons/ico2.png" style="height:80px;">
@@ -61,8 +61,8 @@
                     </div>
                     <span class="mt15">将给您带来价值</span>
                     <span class="ui-rmb f24 f-color-orange mb30">7000万</span>
-                    <el-button class="large-btn mb15">服务详情</el-button>
-                    <el-button class="large-btn ml0">商务专员</el-button>
+                    <el-button @click="link" class="large-btn mb15">服务详情</el-button>
+                    <el-button @click="link" class="large-btn ml0">商务专员</el-button>
                 </div>
                 <div class="flex-1 flex column column-row-center f14 one">
                     <img src="~./icons/ico3.png" style="height:80px;">
@@ -75,8 +75,8 @@
                     </div>
                     <span class="mt15">将给您带来价值</span>
                     <span class="ui-rmb f24 f-color-orange mb30">500万/期</span>
-                    <el-button class="large-btn mb15">服务详情</el-button>
-                    <el-button class="large-btn ml0">商务专员</el-button>
+                    <el-button @click="link" class="large-btn mb15">服务详情</el-button>
+                    <el-button @click="link" class="large-btn ml0">商务专员</el-button>
                 </div>
             </div>
         </el-tab-pane>
@@ -95,8 +95,8 @@
                     </div>
                     <span class="mt15">将给您带来价值</span>
                     <span class="ui-rmb f24 f-color-orange mb30">2000万</span>
-                    <el-button class="large-btn mb15">服务详情</el-button>
-                    <el-button class="large-btn ml0">商务专员</el-button>
+                    <el-button @click="link" class="large-btn mb15">服务详情</el-button>
+                    <el-button @click="link" class="large-btn ml0">商务专员</el-button>
                 </div>
                 <div class="flex-1 ui-border-right flex column column-row-center f14 one">
                     <img src="~./icons/ico2.png" style="height:80px;">
@@ -109,8 +109,8 @@
                     </div>
                     <span class="mt15">将给您带来价值</span>
                     <span class="ui-rmb f24 f-color-orange mb30">7000万</span>
-                    <el-button class="large-btn mb15">服务详情</el-button>
-                    <el-button class="large-btn ml0">商务专员</el-button>
+                    <el-button @click="link" class="large-btn mb15">服务详情</el-button>
+                    <el-button @click="link" class="large-btn ml0">商务专员</el-button>
                 </div>
                 <div class="flex-1 flex column column-row-center f14 one">
                     <img src="~./icons/ico3.png" style="height:80px;">
@@ -124,13 +124,13 @@
                     </div>
                     <span class="mt15">将给您带来价值</span>
                     <span class="ui-rmb f24 f-color-orange mb30">500万/期</span>
-                    <el-button class="large-btn mb15">服务详情</el-button>
-                    <el-button class="large-btn ml0">商务专员</el-button>
+                    <el-button @click="link" class="large-btn mb15">服务详情</el-button>
+                    <el-button @click="link" class="large-btn ml0">商务专员</el-button>
                 </div>
             </div>
             
         </el-tab-pane>
-        <el-tab-pane label="广告合作" name="3">
+        <!-- <el-tab-pane label="广告合作" name="3">
             <div class="flex flex-wrap">
                 <el-card v-for="(item,index) in 5" :key="index" class="m10">
                     <div class="flex column column-col-center column-row-center">
@@ -146,7 +146,7 @@
                 <div class="f28 mb20">像糖溶解在水里，像雨落进河流</div>
                 <div>溶解式广告使您的广告与我们的产品无缝相容，完美结合。 <el-button type="text">联系商务专员</el-button></div>
             </div>
-        </el-tab-pane>
+        </el-tab-pane> -->
     </el-tabs>
 </template>
 
@@ -155,6 +155,11 @@
         data () {
             return {
                 tab:'1'
+            }
+        },
+        methods:{
+            link(){
+                this.$alert('尽情期待')
             }
         },
     }

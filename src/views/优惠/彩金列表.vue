@@ -61,8 +61,8 @@ export default {
             params = Object.assign({},{
                 page_no:this.currentPage,
                 page_size:this.pageSize,
-                search_field:'name',
-                search_value:this.search.keyword
+                search_field:'name|company',
+                search_value:`${this.search.keyword}|${this.$store.state.common.company_id}`
             },this.search)
 
             this.$http.get('index.php?g=home&m=GameCoupon&a=coupon_list', {
@@ -82,10 +82,8 @@ export default {
             this.search.coupon_end_time = timeRangeString[1]
         }
     },
-    created () {
+    mounted () {
         this.doSearch()
     },
-    watch: {
-    }
 }
 </script>
