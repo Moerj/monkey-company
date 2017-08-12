@@ -1,14 +1,14 @@
 <template>
     <div>
-        <el-form v-if="user_info" label-width="100px">
+        <el-form v-if="companyData" label-width="100px">
             <el-form-item label="公司名称">
-                {{$store.state.common.company_name}}
+                {{companyData.name}}
             </el-form-item>
             <el-form-item label="公司账号">
-                {{$store.state.common.account}}
+                {{companyData.user_login}}
             </el-form-item>
             <el-form-item label="入驻时间">
-                {{companyDetails.setup_time}}
+                {{companyData.setup_time}}
             </el-form-item>
             <el-form-item label="持有牌照">
                 <el-upload
@@ -25,7 +25,7 @@
                 </el-upload>
             </el-form-item>
             <el-form-item label="运营游戏">
-                <el-tag type="primary" v-for="item in gamesOpt" :key="item.id" class="mr10">{{item.short_name || item.name}}</el-tag>
+                <el-tag type="primary" v-for="item in companyData.factory" :key="item.id" class="mr10">{{item.short_name || item.name}}</el-tag>
             </el-form-item>
             <el-form-item label="公司LOGO">
                 <el-upload
@@ -42,7 +42,7 @@
                 </el-upload>
             </el-form-item>
             <el-form-item label="官网网址">
-                <el-tag type="primary">{{companyDetails.url}}</el-tag>
+                <el-tag type="primary">{{companyData.url}}</el-tag>
             </el-form-item>
             <el-form-item label="备用网址">
                 <div v-for="(item,i) in 5">
@@ -51,22 +51,22 @@
                 </div>
             </el-form-item>
             <el-form-item label="SKYPE">
-                <edit-input v-model="companyDetails.bus_skype"></edit-input>
+                <edit-input v-model="companyData.bus_skype" :change="edit" ></edit-input>
             </el-form-item>
             <el-form-item label="qq">
-                <edit-input v-model="user_info.qq" :change="edit" field="qq" post-url="change_user_ext"></edit-input>
+                <edit-input v-model="companyData.bus_qq" :change="edit"  ></edit-input>
             </el-form-item>
             <el-form-item label="weixin">
-                <edit-input v-model="user_info.weixin" :change="edit" field="weixin" post-url="change_user_ext"></edit-input>
+                <edit-input v-model="companyData.bus_weixin" :change="edit"  ></edit-input>
             </el-form-item>
             <el-form-item label="email">
-                <edit-input v-model="user_info.user_email" :change="edit" field="assist_email" post-url="change_user_info"></edit-input>
+                <edit-input v-model="companyData.bus_email" :change="edit"  ></edit-input>
             </el-form-item>
             <el-form-item label="mobile">
-                <edit-input v-model="user_info.mobile" :change="edit" field="assist_mobile" post-url="change_user_info"></edit-input>
+                <edit-input v-model="companyData.mobile" :change="edit"  ></edit-input>
             </el-form-item>
             <el-form-item label="公司简介">
-                <edit-input v-model="companyDetails.desc" type="textarea"></edit-input>
+                <edit-input v-model="companyData.desc" type="textarea" :change="edit"></edit-input>
             </el-form-item>
         </el-form>
 
@@ -84,15 +84,12 @@ export default {
     },
     data() {
         return {
-            company_id: this.$store.state.common.company_id,
             dialogImageUrl: '',
             dialogVisible: false,
-            fileListLogo: [],
-            fileListPaizhao:[],
-            companyDetails:{},
-            gamesOpt:[],
-            user_info: null,
-            bakUrl:[]
+            fileListLogo: [],//公司logo
+            fileListPaizhao:[],//牌照
+            bakUrl:[],
+            companyData:{}//公司数据
         }
     },
     methods: {
@@ -109,22 +106,17 @@ export default {
         },
 
         // 修改一项信息
-        edit({value,field,postUrl}){
-            this.$http.post(`index.php?g=home&m=Users&a=${postUrl}`,{
-                field: field,
-                value: value,
-                user_type: 3
-            })
-            .then(({data})=>{
-                console.log(`修改 ${field} `,data)
-            })
+        edit(newVal){
+            this.$http.post('index.php?g=home&m=CompanyUser&a=update_company_detail',
+                this.companyData
+            )
         }
     },
     created () {
         // 牌照列表
         this.$http.get('index.php?g=home&m=GameLicense&a=license_list', {
                 params:{
-                    company_id: this.company_id
+                    company_id: this.$store.state.common.company_id
                 }
             })
             .then(({data})=>{
@@ -140,49 +132,46 @@ export default {
                 }
             })
 
-        // 厂商列表
-        this.$http.get('index.php?g=home&m=GameFactory&a=factory_list',{
-                params:{
-                    company_id: this.company_id
-                }
-            })
-            .then(({data})=>{
-                // console.log('厂商列表:', data);
-                if (data.code===1) {
-                    this.gamesOpt = data.data
-                }
-            })
 
-        // 游戏公司列表
-        this.$http.get('index.php?g=home&m=GameCompany&a=company_list', {
-                params:{
-                    id: this.company_id
-                }
-            })
-            .then(({data})=>{
-                console.log('游戏公司列表',data)
-                if (data.code===1) {
-                    let d = data.data[0]
-                    this.fileListLogo.push({
-                        name: d.company_name,
-                        url:d.logo
-                    })
-                    this.companyDetails = d
-                }
-            })
-
-        // 用户信息
-        this.$http.get('index.php?g=home&m=Users&a=user_info',{
-            params:{
-                user_type:3
-            }
-        })
+        // 获取公司数据
+        this.$http.get('index.php?g=home&m=companyUser&a=company_detail')
         .then(({data})=>{
-            console.log('获取用户数据',data)
+            console.log('获取公司数据:', data)
             if (data.code===1) {
-                this.user_info = data.data
+                this.companyData = data.data
+
+                // logo
+                this.fileListLogo.push({
+                    name: 'logo',
+                    url:data.data.logo
+                })
+
+                // 备用网址
+                data.data.backup_urls.forEach((item,i)=>{
+                    if (item.url) {
+                        this.bakUrl[i] = item.url
+                    }else{
+                        this.bakUrl[i] = ''
+                    }
+                })
             }
         })
+    },
+    watch:{
+        bakUrl:{
+            handler(v){
+                if (!v) return;
+                let str = ''
+                v.forEach((item)=>{
+                    str += item +','
+                })
+                str = str.replace(/,$/,'')
+                this.companyData.backup_urls = str
+
+                this.edit()
+            },
+            deep:true
+        }
     },
 }
 </script>

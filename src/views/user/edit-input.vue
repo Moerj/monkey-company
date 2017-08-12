@@ -31,22 +31,13 @@
 <script>
     export default {
         props: {
-            value:{
-            },
+            value:{},
             type:{
                 type:String
             },
             change:{
                 // 回调
                 type:Function
-            },
-            postUrl: {
-                // 后台接口的名称
-                type:String
-            },
-            field:{
-                // 修改的字段名
-                type:String
             },
         },
         data () {
@@ -62,8 +53,6 @@
 
                 this.change && this.change({
                     value: this.val,
-                    field: this.field || this.getField(),
-                    postUrl:this.postUrl
                 })
             },
             edit(){
@@ -74,10 +63,6 @@
                     input.select()
                 })
             },
-            getField(){//在没有指定field的情况下,去v-model的最后一个字段
-                let s = this.$vnode.data.model.expression.split('.')
-                return s[s.length-1]
-            }
         },
         watch: {
             value(v){
