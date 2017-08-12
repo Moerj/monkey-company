@@ -35,20 +35,11 @@ export default {
         }
     },
     created () {
-        // 获取需要修改的文章
-        this.$http.get('index.php?g=home&m=content&a=get_post', {
-            params:{
-                id: this.$route.query.id
-            }
-        })
-        .then(({data})=>{
-            console.log('修改的文章',data)
-            if (data.code===1 && data.data) {
-                let d = data.data
-                this.form.title = d.post_title
-                this.form.content = d.post_content
-            }
-        })
+        // 如果是修改文章,读取当前文章数据
+        let history = this.$store.state.editArticle
+        this.form.title = history.post_title
+        this.form.content = history.post_content
+        this.form.termID = history.term_id
 
         // 所属栏目
         this.$http.get('index.php?g=home&m=content&a=post_term_list',{

@@ -49,6 +49,13 @@
                     return
                 }
 
+                //暂存当前编辑的文章数据
+                this.$store.commit({
+                    type: 'update', //mutaitions 操作数据类型
+                    data: this.data,//要保存的数据
+                    modules: 'editArticle' //保存到哪个模块
+                })
+
                 this.$router.push({
                     name:'发文章',
                     query:{
