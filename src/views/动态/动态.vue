@@ -23,7 +23,7 @@
             @size-change=""
             @current-change="doSearch"
             :current-page.sync="search.page_no"
-            :page-size="search.pageSize"
+            :page-size="search.page_size"
             layout="prev, pager, next, jumper"
             :total="total">
             </el-pagination>
