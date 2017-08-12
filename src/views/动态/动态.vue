@@ -3,9 +3,9 @@
         <div class="mb15 ui-form">
             <el-input v-model="search.keyword" placeholder="关键词" class="ui-input"></el-input>
             <el-select v-model="search.post_status" placeholder="文章状态">
-                <el-option label="全部" value="0"></el-option>
-                <el-option label="已审核" value="1"></el-option>
-                <el-option label="待审核" value="2"></el-option>
+                <el-option label="全部" :value="0"></el-option>
+                <el-option label="已审核" :value="1"></el-option>
+                <el-option label="待审核" :value="2"></el-option>
             </el-select>
             <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围" @change="timeDataChange">
             </el-date-picker>
@@ -14,7 +14,7 @@
         </div>
 
         <!--文章列表  -->
-        <list-item v-for="item in $store.state.post_list" :data="item" :key="item.id" :preview="openDetails"></list-item>
+        <list-item v-for="item in postList" :data="item" :key="item.id" :preview="openDetails"></list-item>
 
         <!--分页  -->
         <div v-if="total>0" class="text-center mt15">
@@ -61,6 +61,7 @@ export default {
                 // 分页
                 page_size:8,
                 page_no:1,
+                author_id: this.$store.state.common.user_id
             },
             total:0,
             loading: false,
@@ -68,11 +69,12 @@ export default {
                 data:null,
                 visible:false
             },
+            postList:[]
         }
     },
     methods: {
         doSearch(){
-            console.log('搜索参数:', this.search);
+            // console.log('搜索参数:', this.search);
 
             this.loading = true
 
@@ -83,12 +85,7 @@ export default {
                 console.log('查询文章列表',data)
                 this.loading = false
                 if (data.code===1) {
-                    this.$store.commit({
-                        type: 'update',
-                        data: data.data,
-                        modules: 'post_list' //文章列表
-                    })
-
+                    this.postList = data.data
                     this.total = Number(data.total)
                 }
             }).catch(() => {
@@ -103,19 +100,12 @@ export default {
             }
         },
         openDetails(data){
-            console.log(data);
+            // console.log(data);
             this.details.data = data
             this.details.visible = true
         }
     },
     mounted () {
-        // 设置查询的初始参数
-        // 合并必须参数
-        this.search = Object.assign({},this.search,{
-            // 文章作者id
-            author_id: this.$store.state.common.user_id
-        })
-
         // 初始查询所有文章
         this.doSearch()
     },

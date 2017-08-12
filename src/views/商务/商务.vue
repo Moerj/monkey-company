@@ -159,7 +159,7 @@
         },
         methods:{
             link(){
-                this.$alert('尽情期待')
+                this.$alert('敬请期待')
             }
         },
     }
