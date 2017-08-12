@@ -86,7 +86,7 @@
                     <ui-title class="ui-border-bottom">动态</ui-title>
                 </div>
                 <div class="flex-1 scroll">
-                    <list-item v-for="(item,i) in articleData" :key="item.id" v-if="item" :data="item" :style="{'border-bottom':isLastItem(i), 'padding-bottom':isLastItem(i)}"></list-item> 
+                    <list-item v-for="(item,i) in $store.state.post_list" :key="item.id" v-if="item" :data="item" :style="{'border-bottom':isLastItem(i), 'padding-bottom':isLastItem(i)}"></list-item> 
                 </div>
             </div>
         </div>
@@ -112,7 +112,6 @@ export default {
             youhuiTab: 1,
             data:null,
             coupon: {},
-            articleData: this.$store.state.post_list
         }
     },
     created () {
@@ -136,7 +135,6 @@ export default {
         .then(({data})=>{
             console.log('5条文章动态',data)
             if (data.code==1) {
-                // this.articleData = data.data
                 this.$store.commit({
                     type: 'update',
                     data: data.data,
@@ -147,7 +145,7 @@ export default {
     },
     methods: {
         isLastItem(index){//判断是否为最后一条动态,改变样式
-            return index===this.articleData.length-1 ? '0 !important' :''
+            return index===this.$store.state.post_list.length-1 ? '0 !important' :''
         }
     }
 }
