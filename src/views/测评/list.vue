@@ -37,6 +37,11 @@
     .progress-width{
         width: 200px;
     }
+
+    .ui-img{
+        background-size: 90%;
+        margin-right: 25px;
+    }
 </style>
 <template>
     <div>
@@ -44,7 +49,7 @@
         <div v-for="list in node2" v-if="list.children" class="mb15 pt5">
             <div class="flex-1 flex row-between col-center p15 pl0" :class="{'hover-color':list.children,'cursor-pointer':list.children}" @click="toggleNode(list)">
                 <div class="flex col-center">
-                    <img :src="list.pic" height="50" class="mr15">
+                    <ui-img :url="list.pic" size="50px"></ui-img>
                     <div class="flex">
                         <span class="f16 mr15">{{list.name}}</span>
                         <!-- 折叠时,显示总体数据  -->
@@ -111,7 +116,7 @@
         <el-dialog v-if="dialogData" :title="dialogData.list.name" :visible.sync="dialogVisible">
             <div class="flex">
                 <!--logo  -->
-                <img :src="dialogData.list.pic || dialogData.card.pic" height="50" class="mr25">
+                <ui-img :url="dialogData.list.pic || dialogData.card.pic" size="50px"></ui-img>
                 
                 <div class="flex row-between col-center">
                     <span class="mr20">{{dialogData.card.name}}</span>

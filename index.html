@@ -5,19 +5,17 @@
     <meta charset="utf-8">
     <title>monkey-pc</title>
     <!--[if lte IE 9]>
-      <script>
-        alert('您使用的ie浏览器版本太低无法浏览本网站，请升级到ie11或更换其他浏览器。')
-      </script>
+        <script>
+            var node=document.createElement("p");
+            var nodeText=document.createTextNode("抱歉，您使用的ie浏览器版本太低无法浏览本网站，请升级到ie11或更换其他浏览器。");
+            node.appendChild(nodeText);
+            document.getElementById('app').appendChild(node)
+            node.style.textAlign = 'center'
+            node.style.fontSize = '20px'
+            node.style.color = '#fff'
+            node.style.marginTop = '100px'
+        </script>
     <![endif]-->
-    <script>
-        (function () {
-            // var isIE = !!window.ActiveXObject;
-            var userAgent = navigator.userAgent
-            if (userAgent.indexOf('MSIE 10.0')>0) {
-                alert('您使用的ie浏览器版本太低，无法正常浏览本网站，请升级到ie11或更换其他浏览器。')
-            }
-        })()
-    </script>
 </head>
 
 <body>

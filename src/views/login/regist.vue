@@ -413,7 +413,7 @@ export default {
 
             return vaild
         },
-        uploadSuccess(res, file, fileList){
+        uploadSuccess(res, file){
             console.log('图片上传完成:', res);
             if (res.code===1) {
                 this.form.imgs += res.data.filepath + ','
@@ -422,7 +422,7 @@ export default {
                 this.preViewURL = URL.createObjectURL(file.raw)
             }
         },
-        uploadChange(file, fileList){
+        uploadChange(){
             this.uploading = false//关闭上传冷却
         },
 

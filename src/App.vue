@@ -23,6 +23,19 @@
 <script>
 export default {
     name: 'app',
+    mounted(){
+        let ie8 = navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.match(/8./i)=="8."
+        let ie9 = navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.match(/9./i)=="9." 
+        let ie10 = navigator.userAgent.indexOf('MSIE 10.0')>0
+        if (ie10 || ie9 || ie8) {
+            this.$notify({
+                title: '您的ie浏览器版本太低',
+                message: '无法正常浏览本网站！请升级更换最新的现代浏览器如：Chrome（谷歌）浏览器以获得最佳体验。',
+                type: 'warning',
+                duration: 0
+            });
+        }
+    },
 }
 </script>
 
