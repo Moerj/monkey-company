@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 // promise 低版本浏览器适配
 import Promise from 'promise-polyfill'
 if (!window.Promise) {

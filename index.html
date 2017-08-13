@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>monkey-pc</title>
-    <!--[if lte IE 10]>
+    <!--[if lte IE 9]>
       <script>
-         alert('抱歉，您使用的ie浏览器版本太低无法浏览本网站，请升级到ie11或更换其他新版本的浏览器。')
+        alert('您使用的ie浏览器版本太低无法浏览本网站，请升级到ie11或更换其他浏览器。')
       </script>
-    <![endif]--> 
-  </head>
-  <body>
+    <![endif]-->
+    <script>
+        (function () {
+            // var isIE = !!window.ActiveXObject;
+            var userAgent = navigator.userAgent
+            if (userAgent.indexOf('MSIE 10.0')>0) {
+                alert('您使用的ie浏览器版本太低，无法正常浏览本网站，请升级到ie11或更换其他浏览器。')
+            }
+        })()
+    </script>
+</head>
+
+<body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-  </body>
+</body>
+
 </html>
