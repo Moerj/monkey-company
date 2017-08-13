@@ -6,7 +6,6 @@
                 <el-option label="全部" value="2"></el-option>
                 <el-option label="已审核" value="1"></el-option>
                 <el-option label="未审核" value="0"></el-option>
-                <el-option label="删除" value="3"></el-option>
             </el-select>
             <el-date-picker v-model="search.timeRange" type="datetimerange" placeholder="选择时间范围" @change="timeDataChange">
             </el-date-picker>
