@@ -1,3 +1,12 @@
+<style lang="scss" scoped>
+    .img-item{
+        height: 40px;
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: 5px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+</style>
 <template>
     <div>
         <el-form v-if="companyData" label-width="100px">
@@ -11,35 +20,13 @@
                 {{companyData.setup_time}}
             </el-form-item>
             <el-form-item label="持有牌照">
-                <el-upload
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  list-type="picture-card"
-                  :on-preview="picturePreview"
-                  :on-remove="pictureRemove"
-                  :multiple="true"
-                  :file-list="fileListPaizhao"
-                  :disabled="true"
-                  class="ui-no-upload"
-                  >
-                  <i class="el-icon-plus"></i>
-                </el-upload>
+                <img @click="picturePreview" v-for="img in companyData.license" :src="img.logo" class="img-item">
             </el-form-item>
             <el-form-item label="运营游戏">
                 <el-tag type="primary" v-for="item in companyData.factory" :key="item.id" class="mr10">{{item.short_name || item.name}}</el-tag>
             </el-form-item>
             <el-form-item label="公司LOGO">
-                <el-upload
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  list-type="picture-card"
-                  :on-preview="picturePreview"
-                  :on-change="logoChange"
-                  :multiple="false"
-                  :file-list="fileListLogo"
-                  :disabled="true"
-                  class="ui-no-upload"
-                  >
-                  <i class="el-icon-upload2"></i>
-                </el-upload>
+                <img @click="picturePreview" :src="companyData.logo" class="img-item">
             </el-form-item>
             <el-form-item label="官网网址">
                 <el-tag type="primary">{{companyData.url}}</el-tag>
@@ -86,7 +73,6 @@ export default {
         return {
             dialogImageUrl: '',
             dialogVisible: false,
-            fileListLogo: [],//公司logo
             fileListPaizhao:[],//牌照
             bakUrl:[],
             companyData:{}//公司数据
@@ -97,8 +83,9 @@ export default {
         pictureRemove(file, fileList) {
             console.log(file, fileList);
         },
-        picturePreview(file) {
-            this.dialogImageUrl = file.url;
+        picturePreview(e) {
+            let url =  e.target.src
+            this.dialogImageUrl = url;
             this.dialogVisible = true;
         },
         logoChange(file, fileList) {
@@ -119,12 +106,6 @@ export default {
             console.log('获取公司数据:', data)
             if (data.code===1) {
                 this.companyData = data.data
-
-                // 公司logo
-                this.fileListLogo.push({
-                    name: 'logo',
-                    url:data.data.logo
-                })
 
                 // 牌照图片列表
                 data.data.license &&
