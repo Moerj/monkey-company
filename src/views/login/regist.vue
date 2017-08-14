@@ -2,6 +2,9 @@
     .inputW{
         width: 360px;
     }
+    .ipnutW250{
+        width: 250px;
+    }
 </style>
 <template>
     <div class="h-100 p15 flex column">
@@ -32,19 +35,19 @@
                 <el-form :model="form" ref="step1" label-width="80px" v-show="step===1" class="mt30">
                     <el-form-item label="公司账号" prop="user_name" 
                     :rules="[required,{validator:rulesUserName, trigger: 'blur'},{ min: 3, max: 16, message: '长度在 3 到 16 个字符',trigger:'blur' }]">
-                        <el-input v-model.trim="form.user_name" size="large"></el-input>
+                        <el-input v-model.trim="form.user_name" size="large" class="ipnutW250"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password"
                     :rules="[required,{ min: 6, max: 16, message: '长度在 6 到 16 个字符',trigger:'blur' }]">
-                        <el-input v-model.trim="form.password" type="password" size="large"></el-input>
+                        <el-input v-model.trim="form.password" type="password" size="large" class="ipnutW250"></el-input>
                     </el-form-item>
                     <el-form-item label="确认密码" prop="repass"
                     :rules="[required,{ validator: resPassVaild,trigger:'blur'}]">
-                        <el-input v-model="form.repass" type="password" size="large"></el-input>
+                        <el-input v-model="form.repass" type="password" size="large" class="ipnutW250"></el-input>
                     </el-form-item>
                     <el-form-item class="flex row-between">
-                        <el-button @click="$router.push('/login')">返回登陆</el-button>
-                        <el-button type="primary" @click="nextStep(1)">下一步</el-button>
+                        <el-button type="primary" @click="nextStep(1)" size="large" class="block ui-button-large">下一步</el-button>
+                        <el-button type="text" class="f-color-blue" @click="$router.push('/login')">已有账号, 登录 ></el-button>
                     </el-form-item>
                 </el-form>
 
@@ -102,7 +105,7 @@
                     </el-form-item>
                     <el-form-item class="flex row-between">
                         <el-button type="default" @click="preStep">上一步</el-button>
-                        <el-button type="primary" @click="nextStep(2)">下一步</el-button>
+                        <el-button type="primary" @click="nextStep(2)" class="ui-button-large">下一步</el-button>
                     </el-form-item>
                 </el-form>
 
@@ -123,7 +126,7 @@
                     </el-form-item>
                     <el-form-item>
                         <el-button type="default" @click="preStep">上一步</el-button>
-                        <el-button type="primary" @click="nextStep(3)">提交入驻申请</el-button>
+                        <el-button type="primary" @click="nextStep(3)" class="ui-button-large">提交入驻申请</el-button>
                     </el-form-item>
                 </el-form>
             </div>

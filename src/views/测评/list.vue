@@ -131,6 +131,7 @@
                   <ui-img v-for="(img,i) in dialogData.card.imgs" :key="i" :url="img.url" style="width:48%;height:200px"></ui-img> 
             </div>
 
+            <!-- <el-button v-if="dialogData.card.children" @click="dialogBack(dialogData.list,dialogData.card)">返回上一级</el-button>    -->
             <!-- 4级节点 -->
             <el-card v-for="card in dialogData.card.children" :key="card.id" @click.native="showDetails(dialogData.card.children,card)"  class="card relative cursor-pointer mr10 mb10 inline-block">
                 <ui-title class="f12 block">
@@ -184,6 +185,12 @@
             toggleNode(list){
                 if (list.children) {
                     list.isFold = !list.isFold
+                }
+            },
+            dialogBack(pData,data){//叠加的弹窗返回
+                this.dialogData = {
+                    pData,
+                    data
                 }
             }
         },
