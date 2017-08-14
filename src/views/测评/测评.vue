@@ -1,5 +1,13 @@
+<style lang="scss">
+.scope-cepin{
+
+    .el-tabs__item{
+        padding: 0 50px;
+    }
+}
+</style>
 <template>
-    <div>
+    <div class="scope-cepin">
         <el-tabs v-model="tab">
             <el-tab-pane v-for="item in tabData" :key="item.id" :label="item.name" :name="item.name">
                 <list :node-id="item.id"></list>

@@ -51,7 +51,7 @@
                 <div class="flex col-center">
                     <ui-img :url="list.pic" size="50px"></ui-img>
                     <div class="flex">
-                        <span class="f16 mr15">{{list.name}}</span>
+                        <span class="f16 mr15 inline-block" style="width:70px;">{{list.name}}</span>
                         <!-- 折叠时,显示总体数据  -->
                         <transition name="slide-row">
                             <div v-if="list.isFold || !list.children" class="flex col-center">
@@ -130,6 +130,23 @@
             <div v-if="dialogData.card.pic" class="flex row-between">
                   <ui-img v-for="(img,i) in dialogData.card.imgs" :key="i" :url="img.url" style="width:48%;height:200px"></ui-img> 
             </div>
+
+            <!-- 4级节点 -->
+            <el-card v-for="card in dialogData.card.children" :key="card.id" @click.native="showDetails(dialogData.card.children,card)"  class="card relative cursor-pointer mr10 mb10 inline-block">
+                <ui-title class="f12 block">
+                    <div class="flex row-between col-center">
+                        <span>{{card.name}}</span>
+                        <span class="f10">高于同行 <i class="f-color-orange">{{parseFloat(card.score_percent*100).toFixed(2)}}%</i></span>
+                    </div>
+                </ui-title>
+                <div class="flex row-between col-center">
+                    <el-progress :percentage="getProgress(card.score)" :show-text="false" status="success" class="flex-1 mr15"></el-progress>
+                    {{card.score_txt}}
+                </div>
+                <div class="show-details">
+                    <el-button>查看详情</el-button>
+                </div>
+            </el-card>
         </el-dialog>
     </div>
 </template>
