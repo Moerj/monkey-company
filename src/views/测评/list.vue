@@ -130,6 +130,8 @@
             <div v-if="dialogData.card.pic" class="flex row-between">
                   <ui-img v-for="(img,i) in dialogData.card.imgs" :key="i" :url="img.url" style="width:48%;height:200px"></ui-img> 
             </div>
+            <hr>
+            <p v-for="text in dialogData.card.texts">{{text}}</p>
 
             <!-- <el-button v-if="dialogData.card.children" @click="dialogBack(dialogData.list,dialogData.card)">返回上一级</el-button>    -->
             <!-- 4级节点 -->
