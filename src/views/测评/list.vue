@@ -126,14 +126,15 @@
                     </div>
                 </div>
             </div>
-            <div class="pt25 pb25" v-html="dialogData.card.desc"></div>
-            <div v-if="dialogData.card.pic" class="flex row-between">
-                  <ui-img v-for="(img,i) in dialogData.card.imgs" :key="i" :url="img.url" style="width:48%;height:200px"></ui-img> 
-            </div>
-            <hr>
             <p v-for="text in dialogData.card.texts">{{text}}</p>
+            <div v-html="dialogData.card.desc"></div>
+            <hr>
+            <div v-if="dialogData.card.pic" class="flex row-between">
+                    <!-- 内容图标列表 -->
+                  <ui-img v-for="(img,i) in dialogData.card.imgs" :key="i" :url="img.url" @click.native="imgPreview(img)" class="cursor-pointer" style="width:200px;height:100px"></ui-img> 
+            </div>
+            
 
-            <!-- <el-button v-if="dialogData.card.children" @click="dialogBack(dialogData.list,dialogData.card)">返回上一级</el-button>    -->
             <!-- 4级节点 -->
             <el-card v-for="card in dialogData.card.children" :key="card.id" @click.native="showDetails(dialogData.card.children,card)"  class="card relative cursor-pointer mr10 mb10 inline-block">
                 <ui-title class="f12 block">
@@ -151,6 +152,11 @@
                 </div>
             </el-card>
         </el-dialog>
+
+        <!-- imgPreview -->
+        <el-dialog :visible.sync="dialogImgPreview" :title="imgPreviewTitle">
+            <img v-if="dialogImgPreview" :src="imgPreviewSrc" class="auto-center" style="max-width:600px;max-height:600px">
+        </el-dialog>
     </div>
 </template>
 
@@ -162,10 +168,18 @@
                 node1:{},
                 node2:[],
                 dialogVisible:false,
-                dialogData:null
+                dialogData:null,
+                dialogImgPreview:false,
+                imgPreviewSrc:'#',
+                imgPreviewTitle:''
             }
         },
         methods: {
+            imgPreview(img){
+                this.dialogImgPreview = true
+                this.imgPreviewSrc = img.url
+                this.imgPreviewTitle = img.alt
+            },
             showDetails(list,card){
                 this.dialogVisible=true
                 this.dialogData = {
