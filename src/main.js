@@ -19,8 +19,8 @@ import router from './config/router';
 // http 模块
 import axios from './config/axios';
 Vue.use(axios,{
-    // baseURL: "http://api.cjb789.com",
-    baseURL: "http://back.7178861.com",
+    baseURL: "https://www.caijinbao.net/api",
+    // baseURL: "http://back.7178861.com",
     timeout: 10000,
     withCredentials: true,
 });

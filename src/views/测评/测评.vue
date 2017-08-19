@@ -11,7 +11,7 @@
         <el-tabs v-model="tab">
             <el-tab-pane v-for="item in tabData" :key="item.id" :label="item.name" :name="item.name">
                 <list :node-id="item.id"></list>
-            </el-tab-pane>  
+            </el-tab-pane>
         </el-tabs>
     </div> 
 </template>

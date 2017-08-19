@@ -91,18 +91,18 @@
             getCodeByEmail(){
                 this.$http.post('index.php?g=home&m=users&a=get_email_check_code',{
                     email:this.userInfo.user_email,
-                    type:2
+                    type:3
                 })
                 .then(({data})=>{
                     console.log('getCodeByEmail',data)
                 })
             },
-            checkCode(){
+            checkCode(){//校验验证码
                 this.$http.get('index.php?g=home&m=Users&a=check_code', {
                     params:{
                         code:this.code,
                         style: this.style==='mobile'?1:2,
-                        type:2
+                        type: this.style==='mobile'?2:3
                     }
                 })
                 .then(({data})=>{

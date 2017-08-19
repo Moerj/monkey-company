@@ -11,7 +11,7 @@
         <!--环形饼图  -->
         <div class="relative flex row-center">
             <ui-echarts v-if="pieValue" :option="echartPie" class="pie mr20"></ui-echarts>
-            <div class="flex column column-col-around">
+            <div v-if="good_percent" class="flex column column-col-around">
                 <div class="flex col-center row-center">
                     <span class="f16 mr5">菠菜指数</span>
                     <span class="f-color-orange f24">{{pieValue}}</span>
@@ -27,6 +27,7 @@
                     </div>
                 </div>
             </div>
+            <div class="f18 f-color-grey">暂无数据</div>
         </div>
 
         <hr>
@@ -149,7 +150,7 @@ export default {
             }
         })
         .then(({data})=>{
-            // console.log('公司测评详情',data)
+            console.log('公司测评详情',data)
             if (data.code==1) {
                 this.good_percent = parseFloat(data.data.good_percent).toFixed(2)
                 this.score_rank = data.data.score_rank
