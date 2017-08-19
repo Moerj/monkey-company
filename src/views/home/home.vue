@@ -36,7 +36,7 @@
 
         <div style="width:350px;" class="flex column">
             <!--测评图表  -->
-            <div class="ui-border p15 mb15">
+            <div class="ui-border p15 mb15" style="height:456px">
                 <ui-title class="ui-border-bottom">测评</ui-title>
                 <page-cepin :data="data" ></page-cepin>
             </div>
@@ -86,6 +86,7 @@
                     <ui-title class="ui-border-bottom">动态</ui-title>
                 </div>
                 <div class="flex-1 scroll">
+                    <div v-if="postList.length==0" class="f-color-grey f18">暂无数据</div>
                     <list-item v-for="(item,i) in postList" :key="item.id" :data="item" :style="{'border-bottom':isLastItem(i), 'padding-bottom':isLastItem(i)}"></list-item> 
                 </div>
             </div>
