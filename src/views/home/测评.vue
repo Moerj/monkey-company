@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            <div class="f18 f-color-grey">暂无数据</div>
+            <div v-else class="f18 f-color-grey">暂无数据</div>
         </div>
 
         <hr>
