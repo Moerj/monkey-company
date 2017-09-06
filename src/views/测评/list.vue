@@ -127,7 +127,7 @@
                 </div>
             </div>
             <p v-for="text in dialogData.card.texts">{{text}}</p>
-            <div v-html="dialogData.card.desc"></div>
+            <!-- <div v-html="dialogData.card.desc"></div> -->
             <hr>
             <div v-if="dialogData.card.pic" class="flex row-between">
                     <!-- 内容图标列表 -->

@@ -39,8 +39,6 @@
                 console.log('公司评测详情',data)
                 if (data.code===1) {
                     this.tabData = data.data.first_nodes
-
-                    console.log(this.tabData);
                 }
             }) 
 
